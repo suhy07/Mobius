@@ -8,6 +8,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.navigation.ComposeNavigation
 import edu.fzu.mobius.ui.theme.MobiusTheme
 
@@ -33,4 +35,11 @@ fun DefaultPreview() {
     MobiusTheme {
         Greeting("Android")
     }
+}
+
+@Preview
+@Composable
+fun PreviewHome() {
+    val navController = rememberNavController()
+    MailBoxScreen(navController = navController)
 }
