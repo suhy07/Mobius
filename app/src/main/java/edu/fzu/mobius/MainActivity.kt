@@ -4,20 +4,20 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import edu.fzu.mobius.ui.navigation.ComposeNavigation
 import edu.fzu.mobius.ui.theme.MobiusTheme
 import android.view.WindowManager
 
 import android.os.Build
 import android.view.View
 import android.view.Window
+import edu.fzu.mobius.ui.navigation.NavigationScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MobiusTheme {
-               ComposeNavigation()
+               NavigationScreen()
             }
         }
 //        setTransparent(window = window)

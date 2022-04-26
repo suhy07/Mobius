@@ -159,7 +159,7 @@ fun MailBoxScreen(navController: NavController){
 
 @Preview
 @Composable
-fun PreviewHome() {
+fun PreviewMailBox() {
     val navController = rememberNavController()
     MailBoxScreen(navController = navController)
 }
