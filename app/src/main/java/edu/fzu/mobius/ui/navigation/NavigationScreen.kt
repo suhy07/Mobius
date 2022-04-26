@@ -1,5 +1,6 @@
 package edu.fzu.mobius.ui.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -13,6 +14,7 @@ import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
 
+@ExperimentalAnimationApi
 @Composable
 fun NavigationScreen() {
     val navController = rememberNavController()
@@ -45,6 +47,7 @@ fun NavigationScreen() {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewNavigation() {

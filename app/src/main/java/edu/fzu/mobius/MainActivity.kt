@@ -10,9 +10,11 @@ import android.view.WindowManager
 import android.os.Build
 import android.view.View
 import android.view.Window
+import androidx.compose.animation.ExperimentalAnimationApi
 import edu.fzu.mobius.ui.navigation.NavigationScreen
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

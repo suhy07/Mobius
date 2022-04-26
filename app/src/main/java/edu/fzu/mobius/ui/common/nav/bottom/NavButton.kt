@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -37,11 +38,16 @@ fun NavButton(navController:NavController, router:String, icon: Int, name:String
                 tint = Color.Unspecified,
                 modifier = Modifier
                     .height(30.dp)
+                    .width(30.dp)
                     .padding(0.dp)
             )
             Text(
                 text = name,
-                color = Color.Black
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(30.dp)
+                    .padding(0.dp)
             )
         }
     }
