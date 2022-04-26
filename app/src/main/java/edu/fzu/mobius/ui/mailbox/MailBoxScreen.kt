@@ -3,6 +3,7 @@ package edu.fzu.mobius.ui.mailbox
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -19,6 +20,7 @@ import androidx.constraintlayout.solver.LinearSystem.DEBUG
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.common.nav.bottom.NavButton
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
@@ -31,18 +33,20 @@ fun MailBoxScreen(navController: NavController){
         topBar = {
             TopAppBar(
                 backgroundColor = Color.Unspecified,
-                modifier = Modifier.shadow(0.dp)
+                modifier = Modifier.shadow(0.dp),
+                elevation = 0.dp
             ) {
                 ConstraintLayout() {
-                    val (more,sign,envelope) = createRefs()
-                    Button(
+                    val (more,sign,envelope,red) = createRefs()
+                    NoShadowButton(
                         onClick = { /*TODO*/ },
+                        contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
                             .defaultMinSize(1.dp, 1.dp)
                             .shadow(0.dp)
                             .constrainAs(more) {
-                                top.linkTo(parent.top, margin = 0.dp)
-                                start.linkTo(parent.start, margin = 0.dp)
+                                top.linkTo(parent.top, margin = 20.dp)
+                                start.linkTo(parent.start, margin = 20.dp)
                             }
                     ) {
                         Image(
@@ -53,41 +57,56 @@ fun MailBoxScreen(navController: NavController){
                                 .width(20.dp)
                         )
                     }
-                    Button(
+                    NoShadowButton(
                             onClick = { /*TODO*/ },
+                            contentPadding = PaddingValues(0.dp),
                             modifier = Modifier
                                 .defaultMinSize(1.dp, 1.dp)
                                 .constrainAs(sign) {
-                                    top.linkTo(parent.top, margin = 0.dp)
-                                    start.linkTo(parent.start, margin = 250.dp)
+                                    top.linkTo(parent.top, margin = 20.dp)
+                                    start.linkTo(parent.start, margin = 280.dp)
                                 }
                             ) {
                         Image(
                             painter = painterResource(id = R.mipmap.sign_icon),
                             null,
                             modifier = Modifier
-                                .height(20.dp)
-                                .width(20.dp)
+                                .height(25.dp)
+                                .width(25.dp)
                         )
 
                     }
-                    Button(
+                    NoShadowButton(
                         onClick = { /*TODO*/ },
+                        contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
                             .defaultMinSize(1.dp, 1.dp)
                             .constrainAs(envelope) {
-                                top.linkTo(parent.top, margin = 0.dp)
-                                start.linkTo(parent.start, margin = 320.dp)
+                                top.linkTo(parent.top, margin = 20.dp)
+                                start.linkTo(parent.start, margin = 350.dp)
                             }
                     ) {
                         Image(
                             painter = painterResource(id = R.mipmap.envelope_icon),
                             null,
                             modifier = Modifier
-                                .height(20.dp)
-                                .width(20.dp)
+                                .height(25.dp)
+                                .width(25.dp)
                         )
                     }
+                    Icon(
+                        painter = painterResource(id = R.mipmap.red),
+                        null,
+                        tint = Color.Unspecified,
+                        modifier = Modifier
+                            .background(Color.Unspecified)
+                            .height(10.dp)
+                            .width(10.dp)
+                            .constrainAs(red) {
+                                top.linkTo(envelope.top, margin = 0.dp)
+                                start.linkTo(envelope.start, margin = 20.dp)
+                            }
+                    )
                 }
             }
         },

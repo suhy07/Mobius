@@ -21,8 +21,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 //        setTransparent(window = window)
-        window.setStatusBarColor(0xFFF2F1F6.toInt())
-        adaptAndroidP(window = window)
+        window.statusBarColor = 0xFFF2F1F6.toInt()
+//        adaptAndroidP(window = window)
     }
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)

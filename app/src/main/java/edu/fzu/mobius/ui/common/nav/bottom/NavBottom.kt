@@ -49,7 +49,7 @@ fun NavBottom(navController: NavController, act:Int){
                 NavButton(
                     navController =navController ,
                     router = "mailbox_screen" ,
-                    icon = userIcon,
+                    icon = mailboxIcon,
                     name = "信箱",
                     modifier = Modifier.weight(1f)
                 )
