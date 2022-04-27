@@ -22,14 +22,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
+import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 @Composable
 fun MailBoxTop(navController: NavController,router: String,title: String = "") {
-    TopAppBar(
-        backgroundColor = Color.Unspecified,
-        modifier = Modifier.shadow(0.dp),
-        elevation = 0.dp
+    NoShadowTopAppBar(
     ) {
         ConstraintLayout() {
             val (back,title_) = createRefs()
