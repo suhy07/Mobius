@@ -7,6 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.theme.BlueBackground
 
@@ -16,7 +17,7 @@ fun CapsuleScreen(navController: NavController){
         //    #
         backgroundColor = BlueBackground,
         topBar = {
-            TopAppBar(
+            NoShadowTopAppBar(
             ) {
                 /*Top Context*/
             }
