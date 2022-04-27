@@ -110,17 +110,15 @@ fun MailBoxScreen(navController: NavController){
                                 .width(25.dp)
                         )
                     }
-                    Icon(
+                    UnspecifiedIcon(
                         painter = painterResource(id = R.mipmap.red_icon),
-                        null,
-                        tint = Color.Unspecified,
                         modifier = Modifier
                             .background(Color.Unspecified)
-                            .height(10.dp)
-                            .width(10.dp)
+                            .height(8.dp)
+                            .width(8.dp)
                             .constrainAs(red) {
-                                top.linkTo(envelope.top, margin = 0.dp)
-                                start.linkTo(envelope.start, margin = 20.dp)
+                                top.linkTo(envelope.top, margin = 10.dp)
+                                start.linkTo(envelope.start, margin = 32.dp)
                             }
                     )
                 }

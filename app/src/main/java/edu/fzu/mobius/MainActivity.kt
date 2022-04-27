@@ -11,10 +11,12 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import edu.fzu.mobius.ui.navigation.NavigationScreen
 
+@ExperimentalFoundationApi
+@ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
