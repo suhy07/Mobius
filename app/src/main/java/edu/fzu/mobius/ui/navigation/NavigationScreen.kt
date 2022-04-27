@@ -6,11 +6,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import edu.fzu.mobius.ui.FirstScreen
-import edu.fzu.mobius.ui.SecondScreen
-import edu.fzu.mobius.ui.ThirdScreen
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
+import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
 
@@ -25,6 +23,9 @@ fun NavigationScreen() {
         composable("mailbox_screen"){
             MailBoxScreen(navController = navController)
         }
+        composable("my_mailbox_screen"){
+            MyMailBoxScreen(navController = navController)
+        }
         composable("pen_pal_screen"){
             PenPalScreen(navController = navController)
         }
@@ -34,16 +35,6 @@ fun NavigationScreen() {
         composable("mine_screen"){
             MineScreen(navController = navController)
         }
-        composable("first_screen") {
-            FirstScreen(navController = navController)
-        }
-        composable("second_screen") {
-            SecondScreen(navController = navController)
-        }
-        composable("third_screen") {
-            ThirdScreen(navController = navController)
-        }
-
     }
 }
 

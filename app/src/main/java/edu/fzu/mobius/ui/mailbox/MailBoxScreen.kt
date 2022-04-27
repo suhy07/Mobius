@@ -1,30 +1,24 @@
 package edu.fzu.mobius.ui.mailbox
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
@@ -43,7 +37,7 @@ import edu.fzu.mobius.ui.theme.BlueBackground
 fun MailBoxScreen(navController: NavController){
     var cardVisible by remember { mutableStateOf(false) }
     var floatingVisible by remember { mutableStateOf(true) }
-    var expanded by remember { mutableStateOf(true) }
+    var expanded by remember { mutableStateOf(false) }
     var time by remember { mutableStateOf("21:00") }
     val items = listOf("00:00","01:00","21:00","00:00","01:00","21:00","00:00","01:00","21:00")
     Scaffold(
@@ -80,7 +74,7 @@ fun MailBoxScreen(navController: NavController){
                         )
                     }
                     NoShadowButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { /*TODO 签到*/ },
                             contentPadding = PaddingValues(0.dp),
                             modifier = Modifier
                                 .defaultMinSize(1.dp, 1.dp)
@@ -99,7 +93,7 @@ fun MailBoxScreen(navController: NavController){
 
                     }
                     NoShadowButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate("my_mailbox_screen") },
                         contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
                             .defaultMinSize(1.dp, 1.dp)
@@ -266,12 +260,12 @@ fun MailBoxScreen(navController: NavController){
                                     .height(50.dp)
                             ) {
 
-                                items.forEachIndexed { index, s ->
+                                items.forEachIndexed { _, s ->
                                     DropdownMenuItem(onClick = {
                                         expanded = false
                                         time = s
                                     }) {
-                                        Text(text = s+"        -")
+                                        Text(text = "$s        -")
                                     }
                                 }
 

@@ -35,7 +35,7 @@ fun NavBottom(navController: NavController, act:Int){
                 .height(70.dp)
                 .padding(0.dp),
         ) {
-            Row(Modifier.fillMaxWidth().padding(0.dp),) {
+            Row(Modifier.fillMaxWidth().padding(0.dp)) {
                 var mailboxIcon = R.mipmap.mailbox_icon
                 var penPalIcon = R.mipmap.penpal_icon
                 var capsuleIcon = R.mipmap.capsule_icon
