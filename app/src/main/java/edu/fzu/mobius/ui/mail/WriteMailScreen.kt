@@ -38,11 +38,7 @@ import java.util.*
 fun WriteMailScreen(
     navController: NavController,
     items:List<lineItem>,
-    onAddItem: (lineItem) -> Unit,
-    onRemoveItem: (lineItem) -> Unit,
-    changeOnlyRead: (Int,Boolean) -> Unit,
     onEditItemChange: (lineItem) -> Unit,
-    onItemClicked: (lineItem) -> Unit
 ) {
     var count by remember { mutableStateOf(0) }
     Scaffold(
@@ -84,49 +80,14 @@ fun WriteMailScreen(
             , state = listState
             ){
                 items(items = items){
-//                    var str by remember{ mutableStateOf(value)}
                     val focusRequester = remember {
                         FocusRequester()
                     }
-//                    TextField(
-//                        value = value,
-//                        placeholder = null,
-////                        enabled = ,
-//                        readOnly = items[index].readonly,
-//                        onValueChange = onEditItemChange,
-//                        colors = TextFieldDefaults.textFieldColors(
-//                            backgroundColor = Color.Unspecified,
-//                            focusedIndicatorColor = PrimaryVariant,
-//                            unfocusedIndicatorColor = Color(0xFFBDBDBD),
-//                            cursorColor = Color.Blue
-//                        ),
-//                        textStyle = TextStyle(
-//                            fontSize = 18.sp,
-//                            textDecoration = TextDecoration.None,
-//                            lineHeight = 20.sp,
-//                            textAlign = TextAlign.Left
-//                        ),
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(50.dp)
-//                            .focusRequester(focusRequester)
-//                            .onFocusChanged {
-//                                Log.d("TAGTAG", index.toString() + it.hasFocus.toString())
-//                                Log.d("TAGTAG", index.toString() + it.isFocused.toString())
-//                                when {
-//                                    !it.hasFocus -> items[index].readonly = false
-//                                }
-//                            }
-////                        label = { Text("To:陌生人") },
-////                        modifier = Modifier
-////                            .paint(painter = painterResource(id = R.drawable.letter_line),sizeToIntrinsics = true, contentScale = ContentScale.FillWidth)
-//                    )
+
                     val item = it
                     LineInput(
-                        line = it,
                         text = it.value,
                         onTextChange = { onEditItemChange(item.copy(it)) },
-                        onItemClicked = onItemClicked,
                     )
                 }
             }
@@ -145,14 +106,13 @@ fun PreviewWriteMail(){
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LineInput(
-    line: lineItem,
     text:String,
     onTextChange: (String) -> Unit,
-    onItemClicked: (lineItem) -> Unit,
 ){
     TextField(
         value = text,
         onValueChange = onTextChange,
+        singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.Unspecified,
             focusedIndicatorColor = PrimaryVariant,
@@ -168,6 +128,5 @@ fun LineInput(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
-            .clickable{ onItemClicked(line) }
      )
 }

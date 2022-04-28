@@ -10,3 +10,5 @@ rootProject.name = "Mobius"
 include ':app'
 include ':statue'
 include ':state'
+include ':statue'
+include ':state'

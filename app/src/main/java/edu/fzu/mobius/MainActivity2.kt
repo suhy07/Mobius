@@ -35,11 +35,7 @@ class MainActivity2 : ComponentActivity() {
 fun MainActivity2Screen(viewModel: WriteMailViewModel){
     WriteMailScreen(navController = rememberNavController()
         , items = viewModel.lineItems
-        , onAddItem = viewModel::addItem
-        , onRemoveItem = viewModel::removeItem
-        , changeOnlyRead = viewModel::changeOnlyRead
         , onEditItemChange = viewModel::onEditItemChange
-        , onItemClicked = viewModel::onEditItemSelected
     )
 }
 @Preview(showBackground = true)

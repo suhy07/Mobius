@@ -12,8 +12,10 @@ import android.view.View
 import android.view.Window
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import edu.fzu.mobius.ui.navigation.NavigationScreen
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
