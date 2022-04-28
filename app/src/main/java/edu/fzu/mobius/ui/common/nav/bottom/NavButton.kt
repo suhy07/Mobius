@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
 
+
 @Composable
 fun NavButton(navController:NavController, router:String, icon: Int, name:String, modifier: Modifier){
     NoShadowButton(
