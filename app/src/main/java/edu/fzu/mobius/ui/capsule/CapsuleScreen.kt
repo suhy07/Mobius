@@ -69,7 +69,7 @@ fun CapsuleScreen(navController: NavController){
                 modifier = Modifier
                     .constrainAs(text1) {
                         start.linkTo(parent.start, margin = 80.dp)
-                        bottom.linkTo(parent.bottom, margin = 190.dp)
+                        bottom.linkTo(parent.bottom, margin = 150.dp)
                     },
             )
             Text(
@@ -77,7 +77,7 @@ fun CapsuleScreen(navController: NavController){
                 modifier = Modifier
                     .constrainAs(text2) {
                         start.linkTo(parent.start, margin = 80.dp)
-                        bottom.linkTo(parent.bottom, margin = 160.dp)
+                        bottom.linkTo(parent.bottom, margin = 120.dp)
                     }
             )
 

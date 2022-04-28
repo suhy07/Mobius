@@ -2,6 +2,7 @@ package edu.fzu.mobius.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -13,6 +14,7 @@ import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -40,6 +42,7 @@ fun NavigationScreen() {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Preview
