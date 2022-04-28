@@ -51,7 +51,6 @@ fun MailBoxScreen(navController: NavController){
                         onClick = {
                             cardVisible = !cardVisible
                             floatingVisible = !floatingVisible
-                            Log.d("TAGTAG","ok")
                                   },
                         contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
@@ -135,7 +134,7 @@ fun MailBoxScreen(navController: NavController){
         // Screen content
         ConstraintLayout {
             // Create references for the composables to constrain
-            val (image,text1,text2,card) = createRefs()
+            val (image,text1,text2,card,button) = createRefs()
             Image(
                 modifier = Modifier
                     .fillMaxSize()
@@ -164,6 +163,20 @@ fun MailBoxScreen(navController: NavController){
                         bottom.linkTo(parent.bottom, margin = 180.dp)
                     }
             )
+            NoShadowButton(
+                onClick = { navController.navigate("anon_mailbox_screen") },
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(90.dp)
+                    .constrainAs(button) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        end.linkTo(parent.end, margin = 60.dp)
+                        bottom.linkTo(parent.bottom, margin = 320.dp)
+                        top.linkTo(parent.top, margin = 0.dp)
+                    },
+            ){
+
+            }
             AnimatedVisibility(
                 visible = cardVisible,
                 modifier= Modifier

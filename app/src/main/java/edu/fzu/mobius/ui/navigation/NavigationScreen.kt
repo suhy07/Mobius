@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
+import edu.fzu.mobius.ui.mail.WriteMailScreen
+import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
@@ -20,13 +22,19 @@ fun NavigationScreen() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = "mailbox_screen"
+        startDestination = "write_mail_screen"
     ) {
         composable("mailbox_screen"){
             MailBoxScreen(navController = navController)
         }
         composable("my_mailbox_screen"){
             MyMailBoxScreen(navController = navController)
+        }
+        composable("write_mail_screen"){
+//            WriteMailScreen(navController = navController)
+        }
+        composable("anon_mailbox_screen"){
+            AnonMailBoxScreen(navController = navController)
         }
         composable("pen_pal_screen"){
             PenPalScreen(navController = navController)

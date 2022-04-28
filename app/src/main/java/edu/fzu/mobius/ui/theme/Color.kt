@@ -17,6 +17,7 @@ val Secondary = Color(0xFFFFFFFF)
 val BlueBackground = Color(0xFFF2F1F6)
 
 val BlueText = Color(0xFF17418B)
+val BlueButton = Color(0xFF34599F)
 val AnonEnvelope = Color(0xFF9DB7DA)
 val InviteEnvelope = Color(0xFF6F93CD)
 val CapsuleEnvelope = Color(0xFF6C85BE)
