@@ -16,7 +16,6 @@ class WriteMailViewModel : ViewModel() {
 
     private val maxLen = 180
 
-
     var lineItems = mutableStateListOf<lineItem>()
         private set
 
