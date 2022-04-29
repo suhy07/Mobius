@@ -32,7 +32,11 @@ fun MailBoxTop(navController: NavController,router: String,title: String = "") {
         ConstraintLayout() {
             val (back,title_) = createRefs()
             NoShadowButton(
-                onClick = { navController.navigate(route = router) },
+                onClick = {
+                    navController.navigate(route = router) {
+                        popUpTo(router) { inclusive = true }
+                    }
+                },
                 modifier = Modifier
                     .constrainAs(back) {
                         top.linkTo(parent.top, margin = 0.dp)

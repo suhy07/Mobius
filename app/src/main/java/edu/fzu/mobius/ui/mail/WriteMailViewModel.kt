@@ -12,9 +12,15 @@ class WriteMailViewModel : ViewModel() {
 
     private var currentEditPosition by mutableStateOf(0)
 
+    var letterValue by mutableStateOf("")
+
+    var otherNickName by mutableStateOf("陌生人")
+        private set
+
     private val defaultLen = 10
 
-    private val maxLen = 180
+    private val maxLen = 280
+
 
     var lineItems = mutableStateListOf<lineItem>()
         private set
@@ -32,10 +38,8 @@ class WriteMailViewModel : ViewModel() {
         }
     }
 
-    fun onEditItemChange(item: lineItem) {
-        setCurrentIndex(item)
-        lineItems.set(currentEditPosition, item)
-        val letterValue = getLetterValue()
+
+    private fun cutLine(){
         lineItems.clear()
         var t = ""
         for (i in letterValue) {
@@ -57,13 +61,23 @@ class WriteMailViewModel : ViewModel() {
         }
     }
 
-    private fun getLetterValue():String{
+    private fun setLetterValueFromRemember() {
         var t = ""
         for(i in lineItems){
             t+=i.value
         }
-        return t
+        letterValue = t
     }
+
+    fun onEditItemChange(item: lineItem) {
+        setCurrentIndex(item)
+        lineItems[currentEditPosition] = item
+        setLetterValueFromRemember()
+        cutLine()
+    }
+
+
+
 
     //    fun onEditItemChange(item: lineItem) {
 //

@@ -22,7 +22,9 @@ import edu.fzu.mobius.base.NoShadowButton
 fun NavButton(navController:NavController, router:String, icon: Int, name:String, modifier: Modifier){
     NoShadowButton(
         onClick = {
-            navController.navigate(router)
+            navController.navigate(router){
+                popUpTo(router){ inclusive = true }
+            }
         },
         modifier = modifier
             .background(Color.Unspecified)

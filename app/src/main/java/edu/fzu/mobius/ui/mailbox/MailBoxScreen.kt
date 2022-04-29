@@ -124,9 +124,19 @@ fun MailBoxScreen(navController: NavController){
             NavBottom(navController = navController, act = 0)
         } ,
         floatingActionButton = {
-            AnimatedVisibility(visible =floatingVisible ) {
+            AnimatedVisibility(
+                visible = floatingVisible,
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight*2 },
+                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { fullHeight -> fullHeight*2 },
+                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                ),
+            ) {
                 NavFloatButton {
-                    /* onClick */
+                    navController.navigate("write_mail_screen")
                 }
             }
         }

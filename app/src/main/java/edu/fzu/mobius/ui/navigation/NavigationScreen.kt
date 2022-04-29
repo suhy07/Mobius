@@ -5,11 +5,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
 import edu.fzu.mobius.ui.mail.WriteMailScreen
+import edu.fzu.mobius.ui.mail.WriteMailViewModel
 import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
@@ -22,9 +24,10 @@ import edu.fzu.mobius.ui.penpal.PenPalScreen
 @Composable
 fun NavigationScreen() {
     val navController = rememberNavController()
+    val writeMailViewModel : WriteMailViewModel= viewModel()
     NavHost(
         navController = navController,
-        startDestination = "write_mail_screen"
+        startDestination = "mailbox_screen"
     ) {
         composable("mailbox_screen"){
             MailBoxScreen(navController = navController)
@@ -33,7 +36,12 @@ fun NavigationScreen() {
             MyMailBoxScreen(navController = navController)
         }
         composable("write_mail_screen"){
-//            WriteMailScreen(navController = navController)
+            WriteMailScreen(
+                navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "陌生人"
+            )
         }
         composable("anon_mailbox_screen"){
             AnonMailBoxScreen(navController = navController)
