@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.mail
+package edu.fzu.mobius.ui.write
 
 import android.graphics.Paint
 import android.graphics.Rect
@@ -12,7 +12,7 @@ class WriteMailViewModel : ViewModel() {
 
     private var currentEditPosition by mutableStateOf(0)
 
-    var letterValue by mutableStateOf("")
+    var letterValue by mutableStateOf("          这里是我自己写的信,收取邮票发出去")
 
     var otherNickName by mutableStateOf("陌生人")
         private set

@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.common.mailbox.top
+package edu.fzu.mobius.compose.mailbox.top
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

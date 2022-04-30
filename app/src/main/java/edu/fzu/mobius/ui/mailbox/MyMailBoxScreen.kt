@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import edu.fzu.mobius.ui.common.mailbox.item.Envelope
-import edu.fzu.mobius.ui.common.mailbox.top.MailBoxTop
-import edu.fzu.mobius.ui.theme.BlueBackground
+import edu.fzu.mobius.compose.mailbox.item.Envelope
+import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
+import edu.fzu.mobius.theme.BlueBackground
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi

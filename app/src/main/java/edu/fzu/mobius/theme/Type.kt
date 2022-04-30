@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.theme
+package edu.fzu.mobius.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

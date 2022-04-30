@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import edu.fzu.mobius.ui.theme.MobiusTheme
+import edu.fzu.mobius.theme.MobiusTheme
 import android.view.WindowManager
 
 import android.os.Build
@@ -13,7 +13,7 @@ import android.view.Window
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import edu.fzu.mobius.ui.navigation.NavigationScreen
+import edu.fzu.mobius.navigation.NavigationScreen
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi

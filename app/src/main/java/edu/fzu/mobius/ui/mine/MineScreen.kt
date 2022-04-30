@@ -10,9 +10,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import edu.fzu.mobius.R
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
-import edu.fzu.mobius.ui.theme.BlueBackground
+import edu.fzu.mobius.theme.BlueBackground
 
 @Composable
 fun MineScreen(navController: NavController){

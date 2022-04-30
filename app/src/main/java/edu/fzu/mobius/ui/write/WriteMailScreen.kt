@@ -1,7 +1,6 @@
-package edu.fzu.mobius.ui.mail
+package edu.fzu.mobius.ui.write
 
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,11 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,12 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import edu.fzu.mobius.R
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
-import edu.fzu.mobius.ui.common.mailbox.top.MailBoxTop
-import edu.fzu.mobius.ui.theme.BlueBackground
-import edu.fzu.mobius.ui.theme.BlueButton
-import edu.fzu.mobius.ui.theme.PrimaryVariant
-import java.util.*
+import edu.fzu.mobius.ui.common.UnspecifiedIcon
+import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
+import edu.fzu.mobius.theme.BlueButton
+import edu.fzu.mobius.theme.PrimaryVariant
 
 @Composable
 fun WriteMailScreen(
@@ -45,7 +41,6 @@ fun WriteMailScreen(
                 navController = navController,
                 router = "mailbox_screen"
             ) },
-        backgroundColor = BlueBackground,
         bottomBar = {
             NoShadowBottomAppBar(
                 modifier = Modifier
@@ -72,11 +67,27 @@ fun WriteMailScreen(
             }
         }
     ) {
-        MailEditor(
-            otherNickname = otherNickname,
-            items = items,
-            onEditItemChange = onEditItemChange,
-        )
+        ConstraintLayout() {
+            val (icon,edit) = createRefs()
+            UnspecifiedIcon(
+                painter = painterResource(id = R.drawable.letter1),
+                modifier = Modifier
+                    .height(60.dp)
+                    .constrainAs(icon){
+                        end.linkTo(parent.end, margin = 20.dp)
+                        top.linkTo(edit.top, margin = 0.dp)
+                    }
+            )
+            MailEditor(
+                otherNickname = otherNickname,
+                items = items,
+                onEditItemChange = onEditItemChange,
+                modifier = Modifier
+                    .constrainAs(edit){
+
+                    }
+            )
+        }
     }
 }
 
@@ -93,7 +104,6 @@ fun MailEditor(
     ) {
         LazyColumn(
             modifier = Modifier
-
                 .fillMaxWidth()
         ){
             item(){
@@ -102,7 +112,7 @@ fun MailEditor(
                     onTextChange = {},
                     readOnly = true,
                     modifier = Modifier
-                        .width(150.dp),
+                        .width(120.dp),
                     fontWeight = FontWeight.Bold
                 )
             }

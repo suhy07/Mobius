@@ -1,6 +1,5 @@
 package edu.fzu.mobius.ui.penpal
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -13,22 +12,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,9 +34,7 @@ import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
-import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
-import edu.fzu.mobius.ui.theme.BlueBackground
-import edu.fzu.mobius.ui.theme.Secondary
+import edu.fzu.mobius.theme.BlueBackground
 
 @ExperimentalMaterialApi
 @Composable

@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.common.mailbox.item
+package edu.fzu.mobius.compose.mailbox.item
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import edu.fzu.mobius.R
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.ui.theme.AnonEnvelope
-import edu.fzu.mobius.ui.theme.BlueText
-import edu.fzu.mobius.ui.theme.CapsuleEnvelope
-import edu.fzu.mobius.ui.theme.InviteEnvelope
+import edu.fzu.mobius.theme.AnonEnvelope
+import edu.fzu.mobius.theme.BlueText
+import edu.fzu.mobius.theme.CapsuleEnvelope
+import edu.fzu.mobius.theme.InviteEnvelope
 
 @ExperimentalAnimationApi
 @Composable

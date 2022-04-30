@@ -1,6 +1,5 @@
 package edu.fzu.mobius.ui.mailbox
 
-import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -31,7 +30,7 @@ import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
-import edu.fzu.mobius.ui.theme.BlueBackground
+import edu.fzu.mobius.theme.BlueBackground
 
 @ExperimentalAnimationApi
 @Composable
@@ -76,7 +75,7 @@ fun MailBoxScreen(navController: NavController){
                                 .defaultMinSize(1.dp, 1.dp)
                                 .constrainAs(sign) {
                                     top.linkTo(parent.top, margin = 20.dp)
-                                    start.linkTo(parent.start, margin = 280.dp)
+                                    start.linkTo(parent.start, margin = 260.dp)
                                 }
                             ) {
                         Image(
@@ -95,7 +94,7 @@ fun MailBoxScreen(navController: NavController){
                             .defaultMinSize(1.dp, 1.dp)
                             .constrainAs(envelope) {
                                 top.linkTo(parent.top, margin = 20.dp)
-                                start.linkTo(parent.start, margin = 350.dp)
+                                start.linkTo(parent.start, margin = 330.dp)
                             }
                     ) {
                         Image(
@@ -159,6 +158,7 @@ fun MailBoxScreen(navController: NavController){
             )
             Text(
                 text = "每寄出一封信,",
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .constrainAs(text1) {
                         start.linkTo(parent.start, margin = 45.dp)
@@ -167,6 +167,7 @@ fun MailBoxScreen(navController: NavController){
             )
             Text(
                 text = "你都将收获一份慰藉...",
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .constrainAs(text2) {
                         start.linkTo(parent.start, margin = 45.dp)
@@ -203,9 +204,7 @@ fun MailBoxScreen(navController: NavController){
                     targetOffsetY = { fullHeight -> fullHeight*2 },
                     animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                 ),
-            ) { // this: AnimatedVisibilityScope
-                // Use AnimatedVisibilityScope#transition to add a custom animation
-                // to the AnimatedVisibility.
+            ) {
                 Card(
                     shape = RoundedCornerShape(topStart = 20.dp,topEnd = 20.dp),
                     modifier = Modifier
@@ -213,9 +212,9 @@ fun MailBoxScreen(navController: NavController){
                         .padding(12.dp)
                         .height(200.dp)
                         .background(Color.Unspecified)
-                ){
+                ) {
                     ConstraintLayout() {
-                        val (close,clock,text, dropButton) = createRefs()
+                        val (close, clock, text, dropButton) = createRefs()
                         NoShadowButton(
                             onClick = {
                                 cardVisible = false
@@ -262,17 +261,17 @@ fun MailBoxScreen(navController: NavController){
                                 .constrainAs(dropButton) {
                                     start.linkTo(parent.start, margin = 0.dp)
                                     bottom.linkTo(parent.bottom, margin = 0.dp)
-                                    top.linkTo(parent.top,margin = 120.dp)
-                                    end.linkTo(parent.end,margin = 0.dp)
+                                    top.linkTo(parent.top, margin = 120.dp)
+                                    end.linkTo(parent.end, margin = 0.dp)
                                 }
                         ) {
                             Text(
-                                text = "    每晚"+time+"  ∨",
+                                text = "    每晚" + time + "  ∨",
                                 textAlign = TextAlign.Center
                             )
                             DropdownMenu(
-                                expanded = expanded ,
-                                onDismissRequest = { expanded = false},
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false },
                                 properties = PopupProperties(focusable = false),
                                 modifier = Modifier
                                     .height(50.dp)
@@ -289,12 +288,19 @@ fun MailBoxScreen(navController: NavController){
 
                             }
                         }
-
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun SetTimePop(
+    cardVisible : Boolean,
+    floatingVisible : Boolean
+){
+
 }
 
 @ExperimentalAnimationApi
@@ -304,3 +310,4 @@ fun PreviewMailBox() {
     val navController = rememberNavController()
     MailBoxScreen(navController = navController)
 }
+

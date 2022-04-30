@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.navigation
+package edu.fzu.mobius.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -10,8 +10,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
-import edu.fzu.mobius.ui.mail.WriteMailScreen
-import edu.fzu.mobius.ui.mail.WriteMailViewModel
+import edu.fzu.mobius.ui.write.WriteMailScreen
+import edu.fzu.mobius.ui.write.WriteMailViewModel
 import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen

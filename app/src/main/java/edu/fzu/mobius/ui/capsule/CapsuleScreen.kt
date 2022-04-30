@@ -3,15 +3,12 @@ package edu.fzu.mobius.ui.capsule
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,12 +16,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
-import edu.fzu.mobius.base.NoShadowButton
-import edu.fzu.mobius.ui.common.NoShadowTopAppBar
-import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
-import edu.fzu.mobius.ui.theme.BlueBackground
+import edu.fzu.mobius.theme.BlueBackground
 
 @Composable
 fun CapsuleScreen(navController: NavController){

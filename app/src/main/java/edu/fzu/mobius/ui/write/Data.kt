@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.mail
+package edu.fzu.mobius.ui.write
 
 import java.util.*
 
