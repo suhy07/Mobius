@@ -75,7 +75,7 @@ fun WriteMailScreen(
                     .height(60.dp)
                     .constrainAs(icon){
                         end.linkTo(parent.end, margin = 20.dp)
-                        top.linkTo(edit.top, margin = 0.dp)
+                        top.linkTo(parent.top, margin = 0.dp)
                     }
             )
             MailEditor(
