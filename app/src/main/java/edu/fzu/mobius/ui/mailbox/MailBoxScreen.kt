@@ -114,10 +114,10 @@ fun MailBoxScreen(navController: NavController){
                         painter = painterResource(id = R.mipmap.red_icon),
                         modifier = Modifier
                             .background(Color.Unspecified)
-                            .height(12.dp)
-                            .width(12.dp)
+                            .height(10.dp)
+                            .width(10.dp)
                             .constrainAs(red) {
-                                top.linkTo(envelope.top, margin = 4.dp)
+                                top.linkTo(envelope.top, margin = 10.dp)
                                 start.linkTo(envelope.start, margin = 32.dp)
                             }
                     )
@@ -335,4 +335,3 @@ fun PreviewMailBox() {
 fun PreviewSetTimePop() {
     SetTimePop()
 }
-
