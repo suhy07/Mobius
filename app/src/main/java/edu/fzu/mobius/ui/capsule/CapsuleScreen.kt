@@ -34,6 +34,7 @@ fun CapsuleScreen(navController: NavController){
             AnimatedVisibility(visible =floatingVisible ) {
                 NavFloatButton {
                     /* onClick */
+                    navController.navigate("write_mail_screen")
                 }
             }
         }

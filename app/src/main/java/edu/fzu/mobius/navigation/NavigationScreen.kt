@@ -17,6 +17,7 @@ import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
+import edu.fzu.mobius.ui.write.WritePenPalScreen
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -48,6 +49,17 @@ fun NavigationScreen() {
         }
         composable("pen_pal_screen"){
             PenPalScreen(navController = navController)
+        }
+        composable("write_pen_pal_screen"){
+            WritePenPalScreen(
+                navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "笔友一号"
+            )
+        }
+        composable("pen_pal_invite_screen"){
+            CapsuleScreen(navController = navController)
         }
         composable("capsule_screen"){
             CapsuleScreen(navController = navController)

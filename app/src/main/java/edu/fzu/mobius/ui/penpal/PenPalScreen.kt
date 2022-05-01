@@ -6,6 +6,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,11 +32,14 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
+import edu.fzu.mobius.compose.mailbox.item.OtherUser
+import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.theme.BlueBackground
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun PenPalScreen(navController: NavController){
@@ -223,26 +227,18 @@ fun PenPalScreen(navController: NavController){
                             modifier = Modifier
                                 .constrainAs(list) {
                                     start.linkTo(parent.start, margin = 40.dp)
-                                    top.linkTo(parent.top, margin = 110.dp)
+                                    top.linkTo(parent.top, margin = 120.dp)
                                 }
                         ) {
+
                             items(15) {
-                                ListItem (
-                                    text = {
-                                        Text("笔友“$it”号")
-                                    },
-                                    icon = {
-                                        Icon(
-                                            imageVector = Icons.Filled.Face, contentDescription = null
-                                        )
-                                    }
-                                    )
+                                PenOtherUser(nickname = "笔友1号", modifier = Modifier.animateItemPlacement())
                             }
                         }
                                 NoShadowButton(
                                     onClick = { /* TODO 弹出添加笔友选项卡 */
                                         cardVisible = false;
-                                        popVisible = !popVisible;
+                                        popVisible = true;
                                               },
 
                                     modifier = Modifier
@@ -262,142 +258,136 @@ fun PenPalScreen(navController: NavController){
 
 //                    }
                 }
-                AnimatedVisibility(
-                    visible = popVisible,
-                    modifier= Modifier
-                        .constrainAs(card2) {
-                            start.linkTo(parent.start, margin = 0.dp)
-                            bottom.linkTo(parent.bottom, margin = 340.dp)
+                }
+
+            AnimatedVisibility(
+                visible = popVisible,
+                modifier= Modifier
+                    .constrainAs(card2) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        bottom.linkTo(parent.bottom, margin = 340.dp)
+                    }
+                    .background(Color.Unspecified),
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight*2 },
+                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { fullHeight -> fullHeight*2 },
+                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                ),
+            ) { // this: AnimatedVisibilityScope
+                // Use AnimatedVisibilityScope#transition to add a custom animation
+                // to the AnimatedVisibility.
+                Card(
+                    shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp,bottomStart = 20.dp, bottomEnd = 20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                        .height(350.dp)
+                        .background(Color.Unspecified)
+                ){
+                    ConstraintLayout() {
+                        val (cardtext2, close2, row2, list2,add2) = createRefs()
+                        var text by remember { mutableStateOf("") }
+                        Text(
+                            text = "笔友列表",
+                            modifier = Modifier
+                                .constrainAs(cardtext2) {
+                                    start.linkTo(parent.start, margin = 150.dp)
+                                    top.linkTo(parent.top, margin = 25.dp)
+                                },
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        NoShadowButton(
+                            onClick = {
+                                popVisible = false
+                            },
+                            modifier = Modifier
+                                .constrainAs(close2) {
+                                    end.linkTo(parent.end, margin = 10.dp)
+                                    top.linkTo(parent.top, margin = 10.dp)
+                                }
+                        ) {
+                            UnspecifiedIcon(
+                                painter = painterResource(id = R.mipmap.close_icon),
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
                         }
-                        .background(Color.Unspecified),
-                    enter = slideInVertically(
-                        initialOffsetY = { fullHeight -> fullHeight*2 },
-                        animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = { fullHeight -> fullHeight*2 },
-                        animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
-                    ),
-                ) { // this: AnimatedVisibilityScope
-                    // Use AnimatedVisibilityScope#transition to add a custom animation
-                    // to the AnimatedVisibility.
-                    Card(
-                        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp)
-                            .height(350.dp)
-                            .background(Color.Unspecified)
-                    ){
-                        ConstraintLayout() {
-                            val (cardtext2, close2, row2, list2,add2) = createRefs()
-                            var text by remember { mutableStateOf("") }
-                            Text(
-                                text = "笔友列表",
-                                modifier = Modifier
-                                    .constrainAs(cardtext2) {
-                                        start.linkTo(parent.start, margin = 150.dp)
-                                        top.linkTo(parent.top, margin = 25.dp)
-                                    },
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                            NoShadowButton(
-                                onClick = {
-                                    popVisible = false
-                                },
-                                modifier = Modifier
-                                    .constrainAs(close2) {
-                                        end.linkTo(parent.end, margin = 10.dp)
-                                        top.linkTo(parent.top, margin = 10.dp)
-                                    }
-                            ) {
-                                UnspecifiedIcon(
-                                    painter = painterResource(id = R.mipmap.close_icon),
-                                    modifier = Modifier
-                                        .width(20.dp)
-                                        .height(20.dp)
-                                )
-                            }
-                            TextField(
-                                value = text,
-                                onValueChange = {
-                                    text = it
-                                },
-                                modifier = Modifier
-                                    .height(50.dp)
-                                    .constrainAs(row2){
-                                        start.linkTo(parent.start, margin = 60.dp)
-                                        top.linkTo(parent.top, margin = 65.dp)
-                                    }
-                                ,
-
-                                singleLine = true,
-                                leadingIcon = @Composable {
-                                    Image(
-                                        imageVector = Icons.Filled.Search,
-                                        contentDescription = "search",
-                                        modifier = Modifier.clickable {
-
-                                        }
-                                    )
-                                },
-                                trailingIcon = @Composable {
-                                    Image(imageVector = Icons.Filled.Clear,
-                                        contentDescription = "clear",
-                                        modifier = Modifier.clickable {
-                                            text = ""
-                                        })
-                                },
-                                placeholder = @Composable{
-                                    Text(text = "请输入内容")
+                        TextField(
+                            value = text,
+                            onValueChange = {
+                                text = it
+                            },
+                            modifier = Modifier
+                                .height(50.dp)
+                                .constrainAs(row2){
+                                    start.linkTo(parent.start, margin = 60.dp)
+                                    top.linkTo(parent.top, margin = 65.dp)
                                 }
-                            )
-                            LazyColumn(
-                                modifier = Modifier
-                                    .constrainAs(list2) {
-                                        start.linkTo(parent.start, margin = 40.dp)
-                                        top.linkTo(parent.top, margin = 110.dp)
-                                    }
-                            ) {
-                                items(1) {
-                                    ListItem (
-                                        text = {
-                                            Text("笔友“$it”号")
-                                        },
-                                        icon = {
-                                            Icon(
-                                                imageVector = Icons.Filled.Face, contentDescription = null
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                            NoShadowButton(
-                                onClick = { /* TODO 弹出添加笔友信息 */
-                                },
+                            ,
 
-                                modifier = Modifier
-                                    .height(120.dp)
-                                    .width(120.dp)
-                                    .padding(start = 0.dp,top = 0.dp)
-                                    .constrainAs(add2) {
-                                        end.linkTo(parent.end, margin = 10.dp)
-                                        bottom.linkTo(parent.bottom, margin = 20.dp)
+                            singleLine = true,
+                            leadingIcon = @Composable {
+                                Image(
+                                    imageVector = Icons.Filled.Search,
+                                    contentDescription = "search",
+                                    modifier = Modifier.clickable {
+
                                     }
-                            ){
-                                UnspecifiedIcon(
-                                    painter = painterResource(R.mipmap.add_icon)
                                 )
+                            },
+                            trailingIcon = @Composable {
+                                Image(imageVector = Icons.Filled.Clear,
+                                    contentDescription = "clear",
+                                    modifier = Modifier.clickable {
+                                        text = ""
+                                    })
+                            },
+                            placeholder = @Composable{
+                                Text(text = "请输入内容")
                             }
+                        )
+                        LazyColumn(
+                            modifier = Modifier
+                                .constrainAs(list2) {
+                                    start.linkTo(parent.start, margin = 40.dp)
+                                    top.linkTo(parent.top, margin = 110.dp)
+                                }
+                        ) {
+                            items(1) {
+                                PenOtherUser(nickname = "笔友1号", modifier = Modifier.animateItemPlacement())
+                            }
+                        }
+                        NoShadowButton(
+                            onClick = { /* TODO 弹出添加笔友信息 */
+                                navController.navigate("write_pen_pal_screen")
+                            },
+
+                            modifier = Modifier
+                                .height(120.dp)
+                                .width(120.dp)
+                                .padding(start = 0.dp,top = 0.dp)
+                                .constrainAs(add2) {
+                                    end.linkTo(parent.end, margin = 10.dp)
+                                    bottom.linkTo(parent.bottom, margin = 20.dp)
+                                }
+                        ){
+                            UnspecifiedIcon(
+                                painter = painterResource(R.mipmap.add_icon)
+                            )
                         }
                     }
                 }
-                }
+            }
         }
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Preview
 @Composable

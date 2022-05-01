@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.mailbox.item.Envelope
+import edu.fzu.mobius.compose.mailbox.item.OtherUser
 import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.theme.BlueBackground
 
@@ -26,6 +27,9 @@ fun MyMailBoxScreen(navController: NavController){
             item {
                 Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1111111", type = 1, modifier = Modifier.animateItemPlacement())
             }
+//            item {
+//                OtherUser(nickname = "皇埔铁牛", modifier = Modifier.animateItemPlacement())
+//            }
             items(5) {
                 Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
             }
