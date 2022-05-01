@@ -22,24 +22,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
+import edu.fzu.mobius.compose.CloseButton
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
 import edu.fzu.mobius.theme.BlueBackground
+import edu.fzu.mobius.ui.signin.SignInPop
 
 @ExperimentalAnimationApi
 @Composable
 fun MailBoxScreen(navController: NavController){
-    var cardVisible by remember { mutableStateOf(false) }
-    var floatingVisible by remember { mutableStateOf(true) }
-    var expanded by remember { mutableStateOf(false) }
-    var time by remember { mutableStateOf("21:00") }
-    val items = listOf("00:00","01:00","21:00","00:00","01:00","21:00","00:00","01:00","21:00")
+    val mailBoxViewModel:MailBoxViewModel = viewModel()
+    var cardVisible = mailBoxViewModel.cardVisible
+    var signInVisible = mailBoxViewModel.signInVisible
+    var floatingVisible = mailBoxViewModel.floatingVisible
     Scaffold(
         backgroundColor = BlueBackground,
         topBar = {
@@ -48,9 +50,10 @@ fun MailBoxScreen(navController: NavController){
                     val (more,sign,envelope,red) = createRefs()
                     NoShadowButton(
                         onClick = {
-                            cardVisible = !cardVisible
-                            floatingVisible = !floatingVisible
-                                  },
+                            cardVisible.value = !cardVisible.value
+                            floatingVisible.value = !floatingVisible.value
+                            signInVisible.value = false
+                            },
                         contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
                             .defaultMinSize(1.dp, 1.dp)
@@ -64,12 +67,14 @@ fun MailBoxScreen(navController: NavController){
                             painter = painterResource(id = R.mipmap.more_icon),
                             null,
                             modifier = Modifier
-                                .height(20.dp)
-                                .width(20.dp)
+                                .height(25.dp)
+                                .width(30.dp)
                         )
                     }
                     NoShadowButton(
-                            onClick = { /*TODO 签到*/ },
+                            onClick = {
+                                signInVisible.value = !signInVisible.value
+                            },
                             contentPadding = PaddingValues(0.dp),
                             modifier = Modifier
                                 .defaultMinSize(1.dp, 1.dp)
@@ -82,8 +87,8 @@ fun MailBoxScreen(navController: NavController){
                             painter = painterResource(id = R.mipmap.sign_icon),
                             null,
                             modifier = Modifier
-                                .height(25.dp)
-                                .width(25.dp)
+                                .height(35.dp)
+                                .width(30.dp)
                         )
 
                     }
@@ -101,18 +106,18 @@ fun MailBoxScreen(navController: NavController){
                             painter = painterResource(id = R.mipmap.envelope_icon),
                             null,
                             modifier = Modifier
-                                .height(25.dp)
-                                .width(25.dp)
+                                .height(20.dp)
+                                .width(30.dp)
                         )
                     }
                     UnspecifiedIcon(
                         painter = painterResource(id = R.mipmap.red_icon),
                         modifier = Modifier
                             .background(Color.Unspecified)
-                            .height(8.dp)
-                            .width(8.dp)
+                            .height(12.dp)
+                            .width(12.dp)
                             .constrainAs(red) {
-                                top.linkTo(envelope.top, margin = 10.dp)
+                                top.linkTo(envelope.top, margin = 4.dp)
                                 start.linkTo(envelope.start, margin = 32.dp)
                             }
                     )
@@ -124,7 +129,7 @@ fun MailBoxScreen(navController: NavController){
         } ,
         floatingActionButton = {
             AnimatedVisibility(
-                visible = floatingVisible,
+                visible = floatingVisible.value,
                 enter = slideInVertically(
                     initialOffsetY = { fullHeight -> fullHeight*2 },
                     animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
@@ -143,7 +148,19 @@ fun MailBoxScreen(navController: NavController){
         // Screen content
         ConstraintLayout {
             // Create references for the composables to constrain
-            val (image,text1,text2,card,button) = createRefs()
+            val (image,text1,text2,card,button,signIn) = createRefs()
+            NoShadowButton(
+                onClick = { navController.navigate("anon_mailbox_screen") },
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(90.dp)
+                    .constrainAs(button) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        end.linkTo(parent.end, margin = 60.dp)
+                        bottom.linkTo(parent.bottom, margin = 320.dp)
+                        top.linkTo(parent.top, margin = 0.dp)
+                    },
+            ){}
             Image(
                 modifier = Modifier
                     .fillMaxSize()
@@ -174,22 +191,8 @@ fun MailBoxScreen(navController: NavController){
                         bottom.linkTo(parent.bottom, margin = 180.dp)
                     }
             )
-            NoShadowButton(
-                onClick = { navController.navigate("anon_mailbox_screen") },
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(90.dp)
-                    .constrainAs(button) {
-                        start.linkTo(parent.start, margin = 0.dp)
-                        end.linkTo(parent.end, margin = 60.dp)
-                        bottom.linkTo(parent.bottom, margin = 320.dp)
-                        top.linkTo(parent.top, margin = 0.dp)
-                    },
-            ){
-
-            }
             AnimatedVisibility(
-                visible = cardVisible,
+                visible = cardVisible.value,
                 modifier= Modifier
                     .constrainAs(card) {
                         start.linkTo(parent.start, margin = 0.dp)
@@ -205,91 +208,22 @@ fun MailBoxScreen(navController: NavController){
                     animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                 ),
             ) {
-                Card(
-                    shape = RoundedCornerShape(topStart = 20.dp,topEnd = 20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp)
-                        .height(200.dp)
-                        .background(Color.Unspecified)
-                ) {
-                    ConstraintLayout() {
-                        val (close, clock, text, dropButton) = createRefs()
-                        NoShadowButton(
-                            onClick = {
-                                cardVisible = false
-                                floatingVisible = true
-                            },
-                            modifier = Modifier
-                                .constrainAs(close) {
-                                    end.linkTo(parent.end, margin = 10.dp)
-                                    top.linkTo(parent.top, margin = 10.dp)
-                                }
-                        ) {
-                            UnspecifiedIcon(
-                                painter = painterResource(id = R.mipmap.close_icon),
-                                modifier = Modifier
-                                    .width(20.dp)
-                                    .height(20.dp)
-                            )
-                        }
-                        UnspecifiedIcon(
-                            painter = painterResource(id = R.mipmap.clock_icon),
-                            modifier = Modifier
-                                .constrainAs(clock) {
-                                    start.linkTo(parent.start, margin = 0.dp)
-                                    bottom.linkTo(parent.bottom, margin = 90.dp)
-                                }
-                                .fillMaxWidth()
-                                .height(90.dp)
-                        )
-                        Text(
-                            text = "收信时间",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .constrainAs(text) {
-                                    start.linkTo(parent.start, margin = 0.dp)
-                                    bottom.linkTo(parent.bottom, margin = 60.dp)
-                                },
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            textAlign = TextAlign.Center
-                        )
-                        TextButton(
-                            onClick = { expanded = true },
-                            modifier = Modifier
-                                .constrainAs(dropButton) {
-                                    start.linkTo(parent.start, margin = 0.dp)
-                                    bottom.linkTo(parent.bottom, margin = 0.dp)
-                                    top.linkTo(parent.top, margin = 120.dp)
-                                    end.linkTo(parent.end, margin = 0.dp)
-                                }
-                        ) {
-                            Text(
-                                text = "    每晚" + time + "  ∨",
-                                textAlign = TextAlign.Center
-                            )
-                            DropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false },
-                                properties = PopupProperties(focusable = false),
-                                modifier = Modifier
-                                    .height(50.dp)
-                            ) {
-
-                                items.forEachIndexed { _, s ->
-                                    DropdownMenuItem(onClick = {
-                                        expanded = false
-                                        time = s
-                                    }) {
-                                        Text(text = "$s        -")
-                                    }
-                                }
-
-                            }
-                        }
+                SetTimePop()
+            }
+            AnimatedVisibility(
+                visible = signInVisible.value,
+                modifier= Modifier
+                    .constrainAs(signIn) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        bottom.linkTo(parent.bottom, margin = 160.dp)
+                        top.linkTo(parent.top, margin = 0.dp)
+                        end.linkTo(parent.end, margin = 0.dp)
                     }
-                }
+                    .background(Color.Unspecified),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                SignInPop()
             }
         }
     }
@@ -297,11 +231,96 @@ fun MailBoxScreen(navController: NavController){
 
 @Composable
 fun SetTimePop(
-    cardVisible : Boolean,
-    floatingVisible : Boolean
 ){
+    val mailBoxViewModel:MailBoxViewModel = viewModel()
+    var cardVisible = mailBoxViewModel.cardVisible
+    var floatingVisible = mailBoxViewModel.floatingVisible
+    var expanded = mailBoxViewModel.expanded
+    var time = mailBoxViewModel.time
+    val items = mailBoxViewModel.items
 
+    Card(
+        shape = RoundedCornerShape(topStart = 20.dp,topEnd = 20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+            .height(200.dp)
+            .background(Color.Unspecified)
+    ) {
+        ConstraintLayout() {
+            val (close, clock, text, dropButton) = createRefs()
+            CloseButton(
+                onClick = {
+                    cardVisible.value = false
+                    floatingVisible.value = true
+                },
+                modifier = Modifier
+                    .constrainAs(close) {
+                        end.linkTo(parent.end, margin = 10.dp)
+                        top.linkTo(parent.top, margin = 10.dp)
+                    }
+            )
+            UnspecifiedIcon(
+                painter = painterResource(id = R.mipmap.clock_icon),
+                modifier = Modifier
+                    .constrainAs(clock) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        bottom.linkTo(parent.bottom, margin = 90.dp)
+                    }
+                    .fillMaxWidth()
+                    .height(90.dp)
+            )
+            Text(
+                text = "收信时间",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(text) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        bottom.linkTo(parent.bottom, margin = 60.dp)
+                    },
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center
+            )
+            TextButton(
+                onClick = { expanded.value = true },
+                modifier = Modifier
+                    .constrainAs(dropButton) {
+                        start.linkTo(parent.start, margin = 0.dp)
+                        bottom.linkTo(parent.bottom, margin = 0.dp)
+                        top.linkTo(parent.top, margin = 120.dp)
+                        end.linkTo(parent.end, margin = 0.dp)
+                    }
+            ) {
+                Text(
+                    text = "    每天" + time.value + "  ∨",
+                    textAlign = TextAlign.Center
+                )
+                DropdownMenu(
+                    expanded = expanded.value,
+                    onDismissRequest = { expanded.value = false },
+                    properties = PopupProperties(focusable = false),
+                    modifier = Modifier
+                        .height(50.dp)
+                ) {
+
+                    items.forEachIndexed { _, s ->
+                        DropdownMenuItem(onClick = {
+                            expanded.value = false
+                            time.value = s
+                        }) {
+                            Text(text = "$s        -")
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }
+
+
+
 
 @ExperimentalAnimationApi
 @Preview
@@ -309,5 +328,11 @@ fun SetTimePop(
 fun PreviewMailBox() {
     val navController = rememberNavController()
     MailBoxScreen(navController = navController)
+}
+
+@Preview
+@Composable
+fun PreviewSetTimePop() {
+    SetTimePop()
 }
 

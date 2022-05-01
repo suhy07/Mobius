@@ -100,7 +100,7 @@ fun MailEditor(
 ){
     Box(
         modifier = modifier
-            .padding(start = 12.dp , end = 12.dp , bottom = 100.dp)
+            .padding(start = 25.dp , end = 25.dp , bottom = 100.dp)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -127,7 +127,6 @@ fun MailEditor(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LineInput(
     text:String,
@@ -168,7 +167,7 @@ fun PreviewWriteMail(){
     WriteMailScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(lineItem)-> run {} },
         otherNickname ="陌生人"
     )
 }
