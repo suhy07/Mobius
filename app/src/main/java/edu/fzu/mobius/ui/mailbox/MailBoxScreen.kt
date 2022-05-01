@@ -45,8 +45,8 @@ fun MailBoxScreen(navController: NavController){
     Scaffold(
         backgroundColor = BlueBackground,
         topBar = {
-            NoShadowTopAppBar() {
-                ConstraintLayout() {
+            NoShadowTopAppBar {
+                ConstraintLayout {
                     val (more,sign,envelope,red) = createRefs()
                     NoShadowButton(
                         onClick = {
