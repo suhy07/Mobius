@@ -22,6 +22,7 @@ import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
+import edu.fzu.mobius.ui.register.SetNicknameScreen
 import edu.fzu.mobius.ui.write.WritePenPalScreen
 
 @ExperimentalMaterialApi
@@ -56,6 +57,13 @@ fun NavigationScreen() {
                 passwordRepeat = registerViewModel.passwordRepeat,
                 register = registerViewModel::register,
                 sendVerificationCode = registerViewModel::sendVerificationCode
+            )
+        }
+        composable("set_nickname_screen"){
+            SetNicknameScreen(
+                navController = navController,
+                nickname = registerViewModel.nickname,
+                setNickname = registerViewModel::setNickname
             )
         }
         composable("mailbox_screen"){

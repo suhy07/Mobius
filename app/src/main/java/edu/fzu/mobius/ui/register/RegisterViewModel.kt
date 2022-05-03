@@ -9,13 +9,17 @@ class RegisterViewModel:ViewModel() {
     var verificationCode = mutableStateOf("")
     var password = mutableStateOf("")
     var passwordRepeat = mutableStateOf("")
+    var nickname = mutableStateOf("")
 
     fun register(navController: NavController){
-        navController.navigate("mailbox_screen")
+        navController.navigate("set_nickname_screen")
     }
-
 
     fun sendVerificationCode(){
 
+    }
+
+    fun setNickname(navController: NavController){
+        navController.navigate("mailbox_screen")
     }
 }
