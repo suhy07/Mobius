@@ -42,7 +42,7 @@ fun MailBoxTop(navController: NavController,router: String,title: String = "") {
                     }
             ) {
                 UnspecifiedIcon(
-                    painter = painterResource(id = R.mipmap.back_icon),
+                    painter = painterResource(id = R.mipmap.back_left_icon),
                     modifier = Modifier
                         .width(30.dp)
                         .height(30.dp)

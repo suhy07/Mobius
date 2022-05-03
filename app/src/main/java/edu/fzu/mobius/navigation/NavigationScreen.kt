@@ -19,6 +19,7 @@ import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
+import edu.fzu.mobius.ui.mine.MineViewModel
 import edu.fzu.mobius.ui.penpal.PenPalScreen
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
@@ -34,6 +35,7 @@ fun NavigationScreen() {
     val loginViewModel : LoginViewModel = viewModel()
     val registerViewModel : RegisterViewModel = viewModel()
     val writeMailViewModel : WriteMailViewModel = viewModel()
+    val mineViewModel : MineViewModel = viewModel()
     NavHost(
         navController = navController,
         startDestination = "login_screen"
@@ -101,7 +103,12 @@ fun NavigationScreen() {
             CapsuleScreen(navController = navController)
         }
         composable("mine_screen"){
-            MineScreen(navController = navController)
+            MineScreen(
+                navController = navController,
+                nickname = mineViewModel.nickname,
+                tamp = mineViewModel.tamp,
+                grow = mineViewModel.grow
+            )
         }
     }
 }
