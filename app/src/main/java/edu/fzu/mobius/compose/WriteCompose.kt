@@ -68,7 +68,7 @@ fun LineInput(
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     fontWeight: FontWeight = FontWeight.Normal,
-    enable: Boolean = false,
+    enable: Boolean = true,
     onClick:()->Unit ={}
 ){
     TextField(
