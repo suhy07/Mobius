@@ -4,12 +4,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentComposer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
+import edu.fzu.mobius.ui.login.LoginScreen
+import edu.fzu.mobius.ui.login.LoginViewModel
 import edu.fzu.mobius.ui.write.WriteMailScreen
 import edu.fzu.mobius.ui.write.WriteMailViewModel
 import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
@@ -17,6 +20,8 @@ import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
+import edu.fzu.mobius.ui.register.RegisterScreen
+import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.write.WritePenPalScreen
 
 @ExperimentalMaterialApi
@@ -25,11 +30,34 @@ import edu.fzu.mobius.ui.write.WritePenPalScreen
 @Composable
 fun NavigationScreen() {
     val navController = rememberNavController()
-    val writeMailViewModel : WriteMailViewModel= viewModel()
+    val loginViewModel : LoginViewModel = viewModel()
+    val registerViewModel : RegisterViewModel = viewModel()
+    val writeMailViewModel : WriteMailViewModel = viewModel()
     NavHost(
         navController = navController,
-        startDestination = "mailbox_screen"
+        startDestination = "login_screen"
     ) {
+        composable("login_screen"){
+            LoginScreen(
+                navController = navController,
+                phoneNumber = loginViewModel.phoneNumber,
+                verificationCode = loginViewModel.verificationCode,
+                password = loginViewModel.password,
+                login = loginViewModel::login,
+                sendVerificationCode = loginViewModel::sendVerificationCode
+            )
+        }
+        composable("register_screen"){
+            RegisterScreen(
+                navController = navController,
+                phoneNumber = registerViewModel.phoneNumber,
+                verificationCode = registerViewModel.verificationCode,
+                password = registerViewModel.password,
+                passwordRepeat = registerViewModel.passwordRepeat,
+                register = registerViewModel::register,
+                sendVerificationCode = registerViewModel::sendVerificationCode
+            )
+        }
         composable("mailbox_screen"){
             MailBoxScreen(navController = navController)
         }

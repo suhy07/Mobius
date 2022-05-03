@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.login
+package edu.fzu.mobius.ui.register
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -8,13 +8,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -30,23 +28,23 @@ import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.compose.CountdownButton
 import edu.fzu.mobius.compose.EmptyTextField
 import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import kotlin.math.log
+
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     navController: NavController,
     phoneNumber: MutableState<String>,
     verificationCode: MutableState<String>,
     password: MutableState<String>,
-    login: (NavController)->Unit,
-    sendVerificationCode : ()->Unit
+    passwordRepeat: MutableState<String>,
+    register: (NavController)->Unit,
+    sendVerificationCode: ()->Unit
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (dog,house,edit,_login,register) = createRefs()
+        val (dog,house,edit,_register) = createRefs()
         UnspecifiedIcon(
             painter = painterResource(id = R.drawable.login_house),
             modifier = Modifier
@@ -59,7 +57,7 @@ fun LoginScreen(
         )
         Card(
             modifier = Modifier
-                .height(250.dp)
+                .height(300.dp)
                 .width(300.dp)
                 .constrainAs(edit) {
                     top.linkTo(dog.top, margin = 118.dp)
@@ -70,7 +68,7 @@ fun LoginScreen(
             elevation = 5.dp
         ) {
             ConstraintLayout {
-                val (phone,code,send,_password) = createRefs()
+                val (phone,code,send,_password,_passwordRepeat) = createRefs()
                 EmptyTextField(
                     value = phoneNumber.value,
                     onValueChange = phoneNumber.component2(),
@@ -84,7 +82,7 @@ fun LoginScreen(
                         .width(200.dp)
                         .constrainAs(phone) {
                             top.linkTo(parent.top, margin = 0.dp)
-                            bottom.linkTo(parent.bottom, margin = 140.dp)
+                            bottom.linkTo(parent.bottom, margin = 190.dp)
                             end.linkTo(parent.end, margin = 40.dp)
                             start.linkTo(parent.start, margin = 0.dp)
                         }
@@ -94,15 +92,15 @@ fun LoginScreen(
                     onValueChange = verificationCode.component2(),
                     placeholder = {
                         Text(
-                        text = "请输入验证码",
-                        fontSize = 12.sp
+                            text = "请输入验证码",
+                            fontSize = 12.sp
                         ) },
                     modifier = Modifier
                         .height(50.dp)
                         .width(120.dp)
                         .constrainAs(code) {
                             top.linkTo(parent.top, margin = 0.dp)
-                            bottom.linkTo(parent.bottom, margin = 20.dp)
+                            bottom.linkTo(parent.bottom, margin = 70.dp)
                             end.linkTo(parent.end, margin = 120.dp)
                             start.linkTo(parent.start, margin = 0.dp)
                         }
@@ -116,7 +114,7 @@ fun LoginScreen(
                         .width(100.dp)
                         .constrainAs(send) {
                             top.linkTo(parent.top, margin = 10.dp)
-                            bottom.linkTo(parent.bottom, margin = 20.dp)
+                            bottom.linkTo(parent.bottom, margin = 70.dp)
                             end.linkTo(parent.end, margin = 0.dp)
                             start.linkTo(parent.start, margin = 100.dp)
                         }
@@ -134,7 +132,26 @@ fun LoginScreen(
                         .width(250.dp)
                         .constrainAs(_password) {
                             top.linkTo(parent.top, margin = 120.dp)
-                            bottom.linkTo(parent.bottom, margin = 20.dp)
+                            bottom.linkTo(parent.bottom, margin = 70.dp)
+                            end.linkTo(parent.end, margin = 0.dp)
+                            start.linkTo(parent.start, margin = 10.dp)
+                        },
+                    visualTransformation = PasswordVisualTransformation()
+                )
+                EmptyTextField(
+                    value = passwordRepeat.value,
+                    onValueChange = passwordRepeat.component2(),
+                    placeholder = {
+                        Text(
+                            text = "请再次输入密码",
+                            fontSize = 12.sp
+                        ) },
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(250.dp)
+                        .constrainAs(_passwordRepeat) {
+                            top.linkTo(parent.top, margin = 170.dp)
+                            bottom.linkTo(parent.bottom, margin = 0.dp)
                             end.linkTo(parent.end, margin = 0.dp)
                             start.linkTo(parent.start, margin = 10.dp)
                         },
@@ -153,12 +170,12 @@ fun LoginScreen(
                 }
         )
         NoShadowButton(
-            onClick = { login(navController) },
+            onClick = { register(navController) },
             color = BlueButton,
             modifier = Modifier
                 .height(50.dp)
                 .width(300.dp)
-                .constrainAs(_login) {
+                .constrainAs(_register) {
                     top.linkTo(edit.bottom, margin = 50.dp)
                     bottom.linkTo(parent.bottom, margin = 10.dp)
                     end.linkTo(parent.end, margin = 20.dp)
@@ -168,7 +185,7 @@ fun LoginScreen(
             elevation = ButtonDefaults.elevation(5.dp,0.dp,0.dp)
         ) {
             Text(
-                text = "登陆",
+                text = "注册",
                 modifier = Modifier
                     .padding(top = 15.dp)
                     .fillMaxSize(),
@@ -178,40 +195,21 @@ fun LoginScreen(
                 fontSize = 16.sp
             )
         }
-        TextButton(
-            onClick = { navController.navigate("register_screen") },
-            modifier = Modifier
-                .height(30.dp)
-                .width(100.dp)
-                .constrainAs(register) {
-                    top.linkTo(_login.bottom, margin = 20.dp)
-                    end.linkTo(parent.end, margin = 0.dp)
-                    start.linkTo(parent.start, margin = 0.dp)
-                }
-        ) {
-            Text(
-                text = "去注册",
-                modifier = Modifier
-                    .fillMaxSize(),
-                textAlign = TextAlign.Center,
-                color = BlueText,
-                fontSize = 12.sp
-            )
-        }
-
     }
 }
 
 @Preview
 @Composable
-fun PreviewLogin(){
-    val loginViewModel:LoginViewModel = viewModel()
-    LoginScreen(
-        navController = rememberNavController(),
-        phoneNumber = loginViewModel.phoneNumber,
-        verificationCode = loginViewModel.verificationCode,
-        password = loginViewModel.password,
-        login = loginViewModel::login,
-        sendVerificationCode = loginViewModel::sendVerificationCode
+fun PreviewRegister(){
+    val registerViewModel:RegisterViewModel = viewModel()
+    val navController = rememberNavController()
+    RegisterScreen(
+        navController = navController,
+        phoneNumber = registerViewModel.phoneNumber,
+        verificationCode = registerViewModel.verificationCode,
+        password = registerViewModel.password,
+        passwordRepeat = registerViewModel.passwordRepeat,
+        register = registerViewModel::register,
+        sendVerificationCode = registerViewModel::sendVerificationCode
     )
 }

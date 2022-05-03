@@ -12,5 +12,4 @@ class TimeUtils {
             return (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 + 1
         }
     }
-
 }

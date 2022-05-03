@@ -24,9 +24,6 @@ import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.ui.write.MailEditor
-import edu.fzu.mobius.ui.write.WriteMailScreen
-import edu.fzu.mobius.ui.write.lineItem
 
 @Composable
 fun InviteSuccessScreen(
