@@ -39,11 +39,11 @@ fun InviteSuccessScreen(
             NoShadowBottomAppBar(
                 modifier = Modifier
                     .padding(12.dp)
-                    .height(600.dp)
+                    .height(500.dp)
             ) {
                 TextButton(
                     onClick = { /*TODO*/
-                        navController.navigate("write_pen_pal_screen")
+                        navController.navigate("return_write_pen_pal_screen")
                               },
                     shape = RoundedCornerShape(20.dp),
                     elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),

@@ -20,10 +20,13 @@ import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.mine.MineViewModel
+import edu.fzu.mobius.ui.penpal.InviteSuccessScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
+import edu.fzu.mobius.ui.penpal.ReturnWritePenpalScreen
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.register.SetNicknameScreen
+import edu.fzu.mobius.ui.write.WriteCapsuleScreen
 import edu.fzu.mobius.ui.write.WritePenPalScreen
 
 @ExperimentalMaterialApi
@@ -97,10 +100,22 @@ fun NavigationScreen() {
             )
         }
         composable("pen_pal_invite_screen"){
-            CapsuleScreen(navController = navController)
+            InviteSuccessScreen(navController = navController)
+        }
+        composable("return_write_pen_pal_screen"){
+            ReturnWritePenpalScreen(navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "笔友一号")
         }
         composable("capsule_screen"){
             CapsuleScreen(navController = navController)
+        }
+        composable("write_capsule_screen"){
+            WriteCapsuleScreen(navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "")
         }
         composable("mine_screen"){
             MineScreen(

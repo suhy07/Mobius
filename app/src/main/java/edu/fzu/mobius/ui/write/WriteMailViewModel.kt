@@ -17,7 +17,7 @@ class WriteMailViewModel : ViewModel() {
     var otherNickName by mutableStateOf("陌生人")
         private set
 
-    private val defaultLen = 10
+    private val defaultLen = 20
 
     private val maxLen = 280
 

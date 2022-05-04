@@ -86,7 +86,8 @@ fun WriteMailScreen(
                 modifier = Modifier
                     .constrainAs(edit){
 
-                    }
+                    },
+                enable = false,
             )
         }
     }

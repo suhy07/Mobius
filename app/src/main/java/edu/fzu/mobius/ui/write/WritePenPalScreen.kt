@@ -39,6 +39,7 @@ import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.PrimaryVariant
 import edu.fzu.mobius.theme.bluetext
+import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
 import kotlinx.coroutines.NonDisposableHandle.parent
 
 @ExperimentalFoundationApi
@@ -51,7 +52,7 @@ fun WritePenPalScreen(
 ) {
 
     var cardVisible by remember { mutableStateOf(false) }
-
+    var sureVisible by remember { mutableStateOf(true) }
     Scaffold(
         topBar = {
             MailBoxTop(
@@ -60,43 +61,57 @@ fun WritePenPalScreen(
             )
         },
         bottomBar = {
-            NoShadowBottomAppBar(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .height(120.dp)
-
-
+            AnimatedVisibility(
+                visible = sureVisible,
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight * 2 },
+                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { fullHeight -> fullHeight * 2 },
+                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                ),
             ) {
-                Column() {
-                    LazyColumn(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .fillMaxWidth()
-                            .padding(start = 200.dp, top = 0.dp)
-                    ) {
-                        items(1) {
-                            PenOtherUser(nickname = "黄埔铁牛",
-                                modifier = Modifier.animateItemPlacement())
+                NoShadowBottomAppBar(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .height(120.dp)
+
+
+                ) {
+                    Column() {
+                        LazyColumn(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .fillMaxWidth()
+                                .padding(start = 200.dp, top = 0.dp)
+                        ) {
+                            items(1) {
+                                PenOtherUser(nickname = "黄埔铁牛",
+                                    modifier = Modifier.animateItemPlacement())
+                            }
                         }
-                    }
-                    TextButton(
-                        onClick = { /*TODO*/
-                            cardVisible = true
-                                  },
-                        shape = RoundedCornerShape(20.dp),
-                        elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = BlueButton,
-                            contentColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .height(60.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "发送邀请",
-                            fontSize = 20.sp
-                        )
+
+                        TextButton(
+                            onClick = { /*TODO*/
+                                cardVisible = true
+                                sureVisible = false
+                            },
+                            shape = RoundedCornerShape(20.dp),
+                            elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
+                            colors = ButtonDefaults.textButtonColors(
+                                backgroundColor = BlueButton,
+                                contentColor = Color.White
+                            ),
+                            modifier = Modifier
+                                .height(60.dp)
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "发送邀请",
+                                fontSize = 20.sp
+                            )
+                        }
                     }
                 }
             }
@@ -110,7 +125,9 @@ fun WritePenPalScreen(
                 onEditItemChange = onEditItemChange,
                 modifier = Modifier
                     .constrainAs(edit) {
-                    }
+                    },
+
+                enable = false,
             )
             AnimatedVisibility(
                 visible = cardVisible,
@@ -119,7 +136,8 @@ fun WritePenPalScreen(
                         start.linkTo(parent.start, margin = 0.dp)
                         bottom.linkTo(parent.bottom, margin = 0.dp)
                     }
-                    .background(Color.White),
+                    .background(Color.Unspecified),
+
                 enter = slideInVertically(
                     initialOffsetY = { fullHeight -> fullHeight * 2 },
                     animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
@@ -135,7 +153,6 @@ fun WritePenPalScreen(
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp,0.dp)
                         .height(250.dp)
                         .background(Color.Unspecified)
                 ) {
@@ -149,7 +166,7 @@ fun WritePenPalScreen(
                                         start.linkTo(parent.start, margin = 15.dp)
                                         top.linkTo(parent.top, margin = 25.dp)
                                     },
-                                fontSize = 18.sp,)
+                                fontSize = 16.sp,)
                             Slider(
                                 value = progress.value,
                                 onValueChange = {
