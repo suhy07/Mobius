@@ -115,27 +115,10 @@ fun WritePenPalScreen(
                     }
                 }
             }
-        }
-    ) {
-        ConstraintLayout() {
-            val (edit, card) = createRefs()
-            MailEditor(
-                otherNickname = otherNickname,
-                items = items,
-                onEditItemChange = onEditItemChange,
-                modifier = Modifier
-                    .constrainAs(edit) {
-                    },
-
-                enable = false,
-            )
             AnimatedVisibility(
                 visible = cardVisible,
                 modifier = Modifier
-                    .constrainAs(card) {
-                        start.linkTo(parent.start, margin = 0.dp)
-                        bottom.linkTo(parent.bottom, margin = 0.dp)
-                    }
+
                     .background(Color.Unspecified),
 
                 enter = slideInVertically(
@@ -159,30 +142,30 @@ fun WritePenPalScreen(
                     ConstraintLayout() {
                         val (cardtext, slider, cardtext1, cardbutton) = createRefs()
                         val progress = remember { mutableStateOf(0f) }
-                            Text(
-                                text = "设置忧郁值"+"   "+(progress.value*100).toInt()+"%",
-                                modifier = Modifier
-                                    .constrainAs(cardtext) {
-                                        start.linkTo(parent.start, margin = 15.dp)
-                                        top.linkTo(parent.top, margin = 25.dp)
-                                    },
-                                fontSize = 16.sp,)
-                            Slider(
-                                value = progress.value,
-                                onValueChange = {
-                                    progress.value = it
+                        Text(
+                            text = "设置忧郁值"+"   "+(progress.value*100).toInt()+"%",
+                            modifier = Modifier
+                                .constrainAs(cardtext) {
+                                    start.linkTo(parent.start, margin = 15.dp)
+                                    top.linkTo(parent.top, margin = 25.dp)
                                 },
-                                colors = SliderDefaults.colors(
-                                    thumbColor = Color.Blue,
-                                    inactiveTrackColor = Color.LightGray,
-                                    activeTrackColor = Color.Blue
-                                ),
-                                modifier = Modifier
-                                    .constrainAs(slider) {
-                                        start.linkTo(parent.start, margin = 5.dp)
-                                        top.linkTo(parent.top, margin = 55.dp)
-                                    },
-                            )
+                            fontSize = 16.sp,)
+                        Slider(
+                            value = progress.value,
+                            onValueChange = {
+                                progress.value = it
+                            },
+                            colors = SliderDefaults.colors(
+                                thumbColor = Color.Blue,
+                                inactiveTrackColor = Color.LightGray,
+                                activeTrackColor = Color.Blue
+                            ),
+                            modifier = Modifier
+                                .constrainAs(slider) {
+                                    start.linkTo(parent.start, margin = 5.dp)
+                                    top.linkTo(parent.top, margin = 55.dp)
+                                },
+                        )
 
                         Text(
                             text = "每次邀请使用一张邮票",
@@ -220,6 +203,21 @@ fun WritePenPalScreen(
                     }
                 }
             }
+        }
+    ) {
+        ConstraintLayout() {
+            val (edit, card) = createRefs()
+            MailEditor(
+                otherNickname = otherNickname,
+                items = items,
+                onEditItemChange = onEditItemChange,
+                modifier = Modifier
+                    .constrainAs(edit) {
+                    },
+
+                enable = false,
+            )
+
         }
     }
 }

@@ -2,6 +2,7 @@ package edu.fzu.mobius.ui.write
 
 import android.app.DatePickerDialog
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -102,47 +103,11 @@ fun WriteCapsuleScreen(
                     }
                 }
             }
-        }}
-    ) {
-        ConstraintLayout() {
-            val (edit, card,card1) = createRefs()
-            MailEditor(
-                otherNickname = otherNickname,
-                items = items,
-                onEditItemChange = onEditItemChange,
-                modifier = Modifier
-                    .constrainAs(edit) {
-                    },
-                enable = true,
-                onClick = {
-                    isClick.value=!isClick.value
-                    Log.d("ASD","SDDS")
-                },
-            )
-            DropdownMenu(
-                expanded = isClick.value,
-                modifier = Modifier.fillMaxWidth(),
-                onDismissRequest = {},
-                content = {
-                    selectList.forEach {
-                        DropdownMenuItem(
-                            onClick = {
-                                isClick.value = !isClick.value
-                                selectType.value = it
-                            },
-                            content = {
-                                Text(text = it)
-                            }
-                        )
-                    }
-                }
-            )
+        }
             AnimatedVisibility(
                 visible = cardVisible,
                 modifier = Modifier
-                    .constrainAs(card) {
-                        bottom.linkTo(parent.bottom, margin = 0.dp)
-                    }
+
                     .background(Color.Unspecified),
                 enter = slideInVertically(
                     initialOffsetY = { fullHeight -> fullHeight * 2 },
@@ -198,7 +163,7 @@ fun WriteCapsuleScreen(
                         {
                             Text(
                                 modifier = Modifier
-                                .padding(start = 0.dp,top = 10.dp)
+                                    .padding(start = 0.dp,top = 10.dp)
                                 ,
                                 text = "设置收信时间  ",
                                 fontSize = 14.sp,
@@ -228,7 +193,7 @@ fun WriteCapsuleScreen(
                         TextButton(
                             onClick = { /*TODO 发送成功*/
 
-                                navController.navigate("pen_pal_invite_screen")
+                                navController.navigate("capsule_success_screen")
                             },
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
@@ -252,26 +217,66 @@ fun WriteCapsuleScreen(
                     }
                 }
             }
-//            AnimatedVisibility(
-//                visible = openDialog,
-//                modifier = Modifier
-//                    .constrainAs(card1) {
-//                        bottom.linkTo(parent.bottom, margin = 100.dp)
-//                    }
-//                    .background(Color.Unspecified),
-//                enter = slideInVertically(
-//                    initialOffsetY = { fullHeight -> fullHeight * 2 },
-//                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
-//                ),
-//                exit = slideOutVertically(
-//                    targetOffsetY = { fullHeight -> fullHeight * 2 },
-//                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
-//                ),
-//            ){
+        }
+    ) {
+        ConstraintLayout() {
+            val (edit, card,card1) = createRefs()
+            MailEditor(
+                otherNickname = otherNickname,
+                items = items,
+                onEditItemChange = onEditItemChange,
+                modifier = Modifier
+                    .constrainAs(edit) {
+                    },
+                enable = true,
+                onClick = {
+                    isClick.value= true
+                    Log.d("ASD", isClick.value.toString())
+                },
+            )
+            Log.d("ASD", isClick.value.toString())
+            DropdownMenu(
+                expanded = isClick.value,
+                modifier = Modifier.fillMaxWidth(),
+                onDismissRequest = {},
+                content = {
+                    selectList.forEach {
+                        DropdownMenuItem(
+                            onClick = {
+                                isClick.value = !isClick.value
+                                selectType.value = it
+                            },
+                            content = {
+                                Text(text = it)
+                            }
+                        )
+                    }
+                }
+            )
+
+            AnimatedVisibility(
+                visible = openDialog,
+                modifier = Modifier
+                    .constrainAs(card1) {
+                        bottom.linkTo(parent.bottom, margin = 100.dp)
+                    }
+                    .background(Color.Unspecified),
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight * 2 },
+                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { fullHeight -> fullHeight * 2 },
+                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                ),
+            ){
+
 //                DatePickerDialog(true,onDateSelected = {year,month,dayofMonth ->
-//                    Time = "1";
-//                },)
-//            }
+//                    Toast.makeText(this,"!!",Toast.LENGTH_SHORT).show()
+//                },onDismissRequest ={
+//
+//                })
+            }
 
         }
     }

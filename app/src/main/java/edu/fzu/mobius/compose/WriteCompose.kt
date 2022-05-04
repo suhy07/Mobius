@@ -1,5 +1,6 @@
 package edu.fzu.mobius.compose
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -102,8 +103,10 @@ fun MailEditor(
                                 enabled = enable,
                                 onClick = onClick
                             ),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        onClick = onClick
                     )
+                    Log.d("ASSSSSSSS",onClick.toString());
                 }
 //            }
             items(items = items){
@@ -152,7 +155,7 @@ fun LineInput(
             .clickable(
                 enabled = enable,
                 onClick = onClick
-            )
+            ),
     )
 }
 

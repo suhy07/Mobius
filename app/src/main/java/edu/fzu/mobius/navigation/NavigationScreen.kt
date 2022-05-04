@@ -11,6 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
+import edu.fzu.mobius.ui.capsule.CapsuleSuccessScreen
+import edu.fzu.mobius.ui.capsule.ReturnWriteCapsuleScreen
 import edu.fzu.mobius.ui.login.LoginScreen
 import edu.fzu.mobius.ui.login.LoginViewModel
 import edu.fzu.mobius.ui.write.WriteMailScreen
@@ -116,6 +118,15 @@ fun NavigationScreen() {
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "")
+        }
+        composable("capsule_success_screen"){
+            CapsuleSuccessScreen(navController = navController)
+        }
+        composable("return_write_capsule_screen"){
+            ReturnWriteCapsuleScreen(navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "好友1")
         }
         composable("mine_screen"){
             MineScreen(
