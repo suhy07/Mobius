@@ -2,6 +2,7 @@ package edu.fzu.mobius.ui.write
 
 import android.app.DatePickerDialog
 import android.util.Log
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -20,6 +21,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +36,7 @@ import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.bluetext
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
+import java.util.*
 
 
 @ExperimentalAnimationApi
@@ -46,6 +49,7 @@ fun WriteCapsuleScreen(
     otherNickname: String
 ) {
 
+    val mDate = remember { mutableStateOf("") }
     val isClick = rememberSaveable  { mutableStateOf(false) }
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
     val selectType = rememberSaveable { mutableStateOf(selectList[0])}
@@ -53,6 +57,33 @@ fun WriteCapsuleScreen(
     var sureVisible by remember { mutableStateOf(true) }
     var openDialog by remember { mutableStateOf(false) }
     var Time by remember { mutableStateOf("") }
+
+    val mContext = LocalContext.current
+
+    // Declaring integer values
+    // for year, month and day
+    val mYear: Int
+    val mMonth: Int
+    val mDay: Int
+
+    // Initializing a Calendar
+    val mCalendar = Calendar.getInstance()
+
+    // Fetching current year, month and day
+    mYear = mCalendar.get(Calendar.YEAR)
+    mMonth = mCalendar.get(Calendar.MONTH)
+    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+    mCalendar.time = Date()
+
+    // Declaring DatePickerDialog and setting
+    // initial values as current values (present year, month and day)
+    val mDatePickerDialog = DatePickerDialog(
+        mContext,
+        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+            mDate.value = "$mYear-${mMonth+1}-$mDayOfMonth"
+        }, mYear, mMonth, mDay
+    )
     Scaffold(
         topBar = {
             MailBoxTop(
@@ -175,10 +206,11 @@ fun WriteCapsuleScreen(
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.White,
                                 ),
-                                onClick = { openDialog = true}
+                                onClick = {
+                                    mDatePickerDialog.show()}
                             ){
                                 Icon(painter = painterResource(id = R.drawable.calendar), null)
-                                Text(text = Time)
+                                Text(text = mDate.value)
                             }
                         }
                         Text(
@@ -254,30 +286,6 @@ fun WriteCapsuleScreen(
                 }
             )
 
-            AnimatedVisibility(
-                visible = openDialog,
-                modifier = Modifier
-                    .constrainAs(card1) {
-                        bottom.linkTo(parent.bottom, margin = 100.dp)
-                    }
-                    .background(Color.Unspecified),
-                enter = slideInVertically(
-                    initialOffsetY = { fullHeight -> fullHeight * 2 },
-                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
-                ),
-                exit = slideOutVertically(
-                    targetOffsetY = { fullHeight -> fullHeight * 2 },
-                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
-                ),
-            ){
-
-//                DatePickerDialog(true,onDateSelected = {year,month,dayofMonth ->
-//                    Toast.makeText(this,"!!",Toast.LENGTH_SHORT).show()
-//                },onDismissRequest ={
-//
-//                })
-            }
-
         }
     }
 }
@@ -295,4 +303,42 @@ fun CapsulePreviewWriteMail(){
         onEditItemChange = {(lineItem)->{}},
         otherNickname =""
     )
+}
+
+@Composable
+fun MyContent(){
+
+    // Fetching the Local Context
+    val mContext = LocalContext.current
+
+    // Declaring integer values
+    // for year, month and day
+    val mYear: Int
+    val mMonth: Int
+    val mDay: Int
+
+    // Initializing a Calendar
+    val mCalendar = Calendar.getInstance()
+
+    // Fetching current year, month and day
+    mYear = mCalendar.get(Calendar.YEAR)
+    mMonth = mCalendar.get(Calendar.MONTH)
+    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+    mCalendar.time = Date()
+
+    // Declaring a string value to
+    // store date in string format
+    val mDate = remember { mutableStateOf("") }
+
+    // Declaring DatePickerDialog and setting
+    // initial values as current values (present year, month and day)
+    val mDatePickerDialog = DatePickerDialog(
+        mContext,
+        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+            mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
+        }, mYear, mMonth, mDay
+    )
+    mDatePickerDialog.show()
+
 }
