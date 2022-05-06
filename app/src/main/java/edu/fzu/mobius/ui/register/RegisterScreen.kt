@@ -32,7 +32,7 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 
 @Composable
-fun RegisterScreen(
+fun     RegisterScreen(
     navController: NavController,
     phoneNumber: MutableState<String>,
     verificationCode: MutableState<String>,

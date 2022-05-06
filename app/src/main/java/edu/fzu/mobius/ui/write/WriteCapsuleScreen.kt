@@ -30,8 +30,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.bluetext
@@ -86,7 +86,7 @@ fun WriteCapsuleScreen(
     )
     Scaffold(
         topBar = {
-            MailBoxTop(
+            BaseTitleTop(
                 navController = navController,
                 router = "capsule_screen"
             )

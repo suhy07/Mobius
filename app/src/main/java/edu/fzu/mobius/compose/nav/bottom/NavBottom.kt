@@ -40,11 +40,11 @@ fun NavBottom(navController: NavController, act:Int){
                 var penPalIcon = R.mipmap.penpal_icon
                 var capsuleIcon = R.mipmap.capsule_icon
                 var userIcon = R.mipmap.user_icon
-                when{
-                    act == 0 -> mailboxIcon =R.mipmap.mailbox_act_icon
-                    act == 1 -> penPalIcon = R.mipmap.penpal_act_icon
-                    act == 2 -> capsuleIcon = R.mipmap.capsule_act_icon
-                    act == 3 -> userIcon = R.mipmap.user_act_icon
+                when (act) {
+                    0 -> mailboxIcon =R.mipmap.mailbox_act_icon
+                    1 -> penPalIcon = R.mipmap.penpal_act_icon
+                    2 -> capsuleIcon = R.mipmap.capsule_act_icon
+                    3 -> userIcon = R.mipmap.user_act_icon
                 }
                 NavButton(
                     navController =navController ,

@@ -32,7 +32,7 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 fun MineScreen(
     navController: NavController,
     nickname: MutableState<String>,
-    tamp: MutableState<Int>,
+    stamp: MutableState<Int>,
     grow: MutableState<Int>
 ) {
     Scaffold(
@@ -44,7 +44,7 @@ fun MineScreen(
         ConstraintLayout(
             modifier = Modifier.fillMaxSize()
         ) {
-            val (editHead, _nickname, _tamp, _grow, card1, card2) = createRefs()
+            val (editHead, _nickname, _stamp, _grow, card1, card2) = createRefs()
             Box(
                 modifier = Modifier
                     .height(90.dp)
@@ -92,9 +92,9 @@ fun MineScreen(
                 fontWeight = FontWeight.Black
             )
             Text(
-                text = "邮票：${tamp.value}",
+                text = "邮票：${stamp.value}",
                 modifier = Modifier
-                    .constrainAs(_tamp) {
+                    .constrainAs(_stamp) {
                         top.linkTo(parent.top, margin = 60.dp)
                         bottom.linkTo(parent.bottom, margin = 585.dp)
                         start.linkTo(editHead.end, margin = 40.dp)
@@ -308,7 +308,7 @@ fun PreviewMine() {
     MineScreen(
         navController = navController,
         nickname = mineViewModel.nickname,
-        tamp = mineViewModel.tamp,
+        stamp = mineViewModel.stamp,
         grow = mineViewModel.grow
     )
 }

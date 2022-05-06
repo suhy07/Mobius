@@ -1,6 +1,7 @@
 package edu.fzu.mobius.ui.write
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,13 +23,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.PrimaryVariant
 
+@ExperimentalMaterialApi
 @Composable
 fun WriteMailScreen(
     navController: NavController,
@@ -38,7 +40,7 @@ fun WriteMailScreen(
 ) {
     Scaffold(
         topBar = {
-            MailBoxTop(
+            BaseTitleTop(
                 navController = navController,
                 router = "mailbox_screen"
             ) },
@@ -74,7 +76,7 @@ fun WriteMailScreen(
                 painter = painterResource(id = R.drawable.letter1),
                 modifier = Modifier
                     .height(60.dp)
-                    .constrainAs(icon){
+                    .constrainAs(icon) {
                         end.linkTo(parent.end, margin = 20.dp)
                         top.linkTo(parent.top, margin = 0.dp)
                     }
@@ -95,6 +97,7 @@ fun WriteMailScreen(
 
 
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewWriteMail(){

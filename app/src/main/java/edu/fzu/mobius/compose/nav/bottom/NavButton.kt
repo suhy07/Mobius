@@ -24,6 +24,7 @@ fun NavButton(navController:NavController, router:String, icon: Int, name:String
         onClick = {
             navController.navigate(router){
                 popUpTo(router){ inclusive = true }
+                launchSingleTop = true
             }
         },
         modifier = modifier

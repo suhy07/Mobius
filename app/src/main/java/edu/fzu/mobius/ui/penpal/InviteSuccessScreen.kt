@@ -20,7 +20,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
-import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
+import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
@@ -31,10 +31,11 @@ fun InviteSuccessScreen(
 ) {
     Scaffold(
         topBar = {
-            MailBoxTop(
+            BaseTitleTop(
                 navController = navController,
                 router = "pen_pal_screen"
-            ) },
+            )
+        },
         bottomBar = {
             NoShadowBottomAppBar(
                 modifier = Modifier
@@ -65,8 +66,8 @@ fun InviteSuccessScreen(
             }
         }
     ) {
-        ConstraintLayout() {
-            val (icon,edit) = createRefs()
+        ConstraintLayout {
+            val (icon) = createRefs()
             UnspecifiedIcon(
                 painter = painterResource(id = R.drawable.letter),
                 modifier = Modifier

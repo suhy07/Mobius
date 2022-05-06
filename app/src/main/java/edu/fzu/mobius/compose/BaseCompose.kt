@@ -1,4 +1,4 @@
-package edu.fzu.mobius.compose.mailbox.top
+package edu.fzu.mobius.compose
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,7 +24,7 @@ import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 @Composable
-fun MailBoxTop(navController: NavController,router: String,title: String = "") {
+fun BaseTitleTop(navController: NavController, router: String, title: String = "") {
     NoShadowTopAppBar(
     ) {
         ConstraintLayout() {
@@ -32,6 +32,7 @@ fun MailBoxTop(navController: NavController,router: String,title: String = "") {
             NoShadowButton(
                 onClick = {
                     navController.navigate(route = router) {
+                        launchSingleTop = true
                         popUpTo(router) { inclusive = true }
                     }
                 },
@@ -58,7 +59,7 @@ fun MailBoxTop(navController: NavController,router: String,title: String = "") {
                         start.linkTo(parent.start, margin = 0.dp)
                         end.linkTo(parent.end, margin = 0.dp)
                         bottom.linkTo(parent.bottom, margin = 0.dp)
-                },
+                    },
                 textAlign = TextAlign.Center,
                 color = Color.Black,
                 fontSize = 24.sp,
@@ -72,6 +73,6 @@ fun MailBoxTop(navController: NavController,router: String,title: String = "") {
 @Preview
 @Composable
 fun PreviewMailBoxTop(){
-    MailBoxTop(navController = rememberNavController(), router = "",title = "我的信箱")
+    BaseTitleTop(navController = rememberNavController(), router = "",title = "我的信箱")
 
 }

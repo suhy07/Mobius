@@ -29,7 +29,7 @@ fun MailEditor(
     items: List<lineItem>,
     onEditItemChange: (lineItem) -> Unit,
     modifier: Modifier = Modifier,
-    enable: Boolean,
+    enable: Boolean = false,
     onClick:()->Unit ={},
 ){
 //    val isClick = rememberSaveable{ mutableStateOf(false)}
@@ -127,8 +127,8 @@ fun LineInput(
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     fontWeight: FontWeight = FontWeight.Normal,
-    enable: Boolean = true,
-    onClick:()->Unit ={}
+    enable: Boolean = false,
+    onClick:()->Unit = {}
 ){
     TextField(
         value = text,
@@ -155,7 +155,7 @@ fun LineInput(
             .clickable(
                 enabled = enable,
                 onClick = onClick
-            ),
+            )
     )
 }
 
@@ -166,7 +166,6 @@ fun PreviewMailEditor(){
     MailEditor(
         items = lists,
         onEditItemChange = {(lineItem)->{}},
-        otherNickname = "菜鸟",
-        enable = false
+        otherNickname = "陌生人",
     )
 }

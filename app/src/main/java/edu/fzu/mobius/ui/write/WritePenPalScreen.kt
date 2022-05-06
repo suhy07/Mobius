@@ -14,15 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,10 +23,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.theme.BlueButton
@@ -55,7 +48,7 @@ fun WritePenPalScreen(
     var sureVisible by remember { mutableStateOf(true) }
     Scaffold(
         topBar = {
-            MailBoxTop(
+            BaseTitleTop(
                 navController = navController,
                 router = "pen_pal_screen"
             )

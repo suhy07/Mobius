@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.mailbox.item.Envelope
-import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.theme.BlueBackground
 
 @ExperimentalFoundationApi
@@ -19,7 +19,13 @@ import edu.fzu.mobius.theme.BlueBackground
 fun AnonMailBoxScreen(navController: NavController){
     Scaffold(
         backgroundColor = BlueBackground,
-        topBar = { MailBoxTop(navController = navController, router = "mailbox_screen", title = "陌生人邮箱") }
+        topBar = {
+            BaseTitleTop(
+                navController = navController,
+                router = "mailbox_screen",
+                title = "陌生人邮箱"
+            )
+        }
     ){
         LazyColumn(){
             items(15) {

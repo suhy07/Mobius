@@ -30,6 +30,7 @@ import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.register.SetNicknameScreen
 import edu.fzu.mobius.ui.write.WriteCapsuleScreen
 import edu.fzu.mobius.ui.write.WritePenPalScreen
+import kotlin.math.min
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -105,34 +106,40 @@ fun NavigationScreen() {
             InviteSuccessScreen(navController = navController)
         }
         composable("return_write_pen_pal_screen"){
-            ReturnWritePenpalScreen(navController = navController,
+            ReturnWritePenpalScreen(
+                navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = "笔友一号")
+                otherNickname = "笔友一号"
+            )
         }
         composable("capsule_screen"){
             CapsuleScreen(navController = navController)
         }
         composable("write_capsule_screen"){
-            WriteCapsuleScreen(navController = navController,
+            WriteCapsuleScreen(
+                navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = "")
+                otherNickname = ""
+            )
         }
         composable("capsule_success_screen"){
             CapsuleSuccessScreen(navController = navController)
         }
         composable("return_write_capsule_screen"){
-            ReturnWriteCapsuleScreen(navController = navController,
+            ReturnWriteCapsuleScreen(
+                navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = "好友1")
+                otherNickname = "好友1"
+            )
         }
         composable("mine_screen"){
             MineScreen(
                 navController = navController,
                 nickname = mineViewModel.nickname,
-                tamp = mineViewModel.tamp,
+                stamp = mineViewModel.stamp,
                 grow = mineViewModel.grow
             )
         }

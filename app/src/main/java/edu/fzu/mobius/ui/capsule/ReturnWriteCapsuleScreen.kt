@@ -20,8 +20,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.compose.mailbox.top.MailBoxTop
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
@@ -39,7 +39,7 @@ fun ReturnWriteCapsuleScreen(
 ) {
     Scaffold(
         topBar = {
-            MailBoxTop(
+            BaseTitleTop(
                 navController = navController,
                 router = "capsule_screen"
             ) },
@@ -59,8 +59,10 @@ fun ReturnWriteCapsuleScreen(
                             .padding(start = 200.dp, top = 0.dp)
                     ) {
                         items(1) {
-                            PenOtherUser(nickname = "黄埔铁牛",
-                                modifier = Modifier.animateItemPlacement())
+                            PenOtherUser(
+                                nickname = "黄埔铁牛",
+                                modifier = Modifier.animateItemPlacement()
+                            )
                         }
                     }
 
