@@ -3,6 +3,7 @@ package edu.fzu.mobius.ui.register
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import edu.fzu.mobius.navigation.singleTaskNav
 
 class RegisterViewModel:ViewModel() {
     var phoneNumber = mutableStateOf("")
@@ -12,7 +13,7 @@ class RegisterViewModel:ViewModel() {
     var nickname = mutableStateOf("")
 
     fun register(navController: NavController){
-        navController.navigate("set_nickname_screen")
+        singleTaskNav(navController,"set_nickname_screen")
     }
 
     fun sendVerificationCode(){
@@ -20,6 +21,6 @@ class RegisterViewModel:ViewModel() {
     }
 
     fun setNickname(navController: NavController){
-        navController.navigate("mailbox_screen")
+        singleTaskNav(navController,"mailbox_screen")
     }
 }

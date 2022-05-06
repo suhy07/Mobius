@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.currentComposer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -32,6 +33,7 @@ import edu.fzu.mobius.ui.write.WriteCapsuleScreen
 import edu.fzu.mobius.ui.write.WritePenPalScreen
 import kotlin.math.min
 
+val STARTNAV = "login_screen"
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -44,7 +46,7 @@ fun NavigationScreen() {
     val mineViewModel : MineViewModel = viewModel()
     NavHost(
         navController = navController,
-        startDestination = "login_screen"
+        startDestination = STARTNAV
     ) {
         composable("login_screen"){
             LoginScreen(
@@ -153,4 +155,11 @@ fun NavigationScreen() {
 @Composable
 fun PreviewNavigation() {
     NavigationScreen()
+}
+
+fun singleTaskNav(navController: NavController, router: String){
+    navController.navigate(router){
+        popUpTo(STARTNAV){ inclusive = true }
+        launchSingleTop = true
+    }
 }

@@ -20,21 +20,18 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
+import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 @Composable
 fun BaseTitleTop(navController: NavController, router: String, title: String = "") {
-    NoShadowTopAppBar(
-    ) {
-        ConstraintLayout() {
+    NoShadowTopAppBar {
+        ConstraintLayout {
             val (back,title_) = createRefs()
             NoShadowButton(
                 onClick = {
-                    navController.navigate(route = router) {
-                        launchSingleTop = true
-                        popUpTo(router) { inclusive = true }
-                    }
+                    singleTaskNav(navController,router)
                 },
                 modifier = Modifier
                     .constrainAs(back) {
