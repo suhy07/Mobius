@@ -32,8 +32,10 @@ fun MailEditor(
     enable: Boolean = false,
     onClick:()->Unit ={},
 ){
-//    val isClick = rememberSaveable{ mutableStateOf(false)}
-//    val selectType = rememberSaveable{ mutableStateOf(selectList[0])}
+    var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
+
+    val isClick = rememberSaveable{ mutableStateOf(false)}
+    val selectType = rememberSaveable{ mutableStateOf(selectList[0])}
     Box(
         modifier = modifier
             .padding(start = 25.dp , end = 25.dp , bottom = 100.dp)
@@ -42,56 +44,56 @@ fun MailEditor(
             modifier = Modifier
                 .fillMaxWidth()
         ){
-//            if (otherNickname.equals("")){
-//
-//                item() {
-//                    Row {
-//
-//                    Text(
-//                        text = "To:",
-//                        modifier = Modifier
-//                            .width(60.dp)
-//                            .padding(start = 0.dp,top = 10.dp)
-//                        ,
-//                        fontSize = 16.sp,
-//                        textAlign = TextAlign.Center,
-//                    )
-//                    Button(
-//                        onClick = {isClick.value = !isClick.value},
-//                        content = {
-//                            Text(text = selectType.value)
-//                        },
-//                        modifier = Modifier
-//                            .width(120.dp),
-//                        shape = RoundedCornerShape(5.dp),
-//                        border = BorderStroke(1.dp,Color.Blue) ,
-//                        colors = ButtonDefaults.buttonColors(
-//                            backgroundColor = Color.White,
-//                        )
-//                    )
-//                    DropdownMenu(
-//                        expanded = isClick.value,
-//                        modifier = Modifier.fillMaxWidth(),
-//                        onDismissRequest = {},
-//                        content = {
-//                            selectList.forEach {
-//                                DropdownMenuItem(
-//                                    onClick = {
-//                                        isClick.value = !isClick.value
-//                                        selectType.value = it
-//                                    },
-//                                    content = {
-//                                        Text(text = it)
-//                                    }
-//                                )
-//                            }
-//                        }
-//                    )
-//
-//                    }
-//                }
-//            }
-//            else {
+            if (otherNickname.equals("")){
+
+                item() {
+                    Row {
+
+                    Text(
+                        text = "To:",
+                        modifier = Modifier
+                            .width(60.dp)
+                            .padding(start = 0.dp,top = 10.dp)
+                        ,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                    Button(
+                        onClick = {isClick.value = !isClick.value},
+                        content = {
+                            Text(text = selectType.value)
+                        },
+                        modifier = Modifier
+                            .width(120.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        border = BorderStroke(1.dp,Color.Blue) ,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.White,
+                        )
+                    )
+                    DropdownMenu(
+                        expanded = isClick.value,
+                        modifier = Modifier.fillMaxWidth(),
+                        onDismissRequest = {},
+                        content = {
+                            selectList.forEach {
+                                DropdownMenuItem(
+                                    onClick = {
+                                        isClick.value = !isClick.value
+                                        selectType.value = it
+                                    },
+                                    content = {
+                                        Text(text = it)
+                                    }
+                                )
+                            }
+                        }
+                    )
+
+                    }
+                }
+            }
+            else {
                 item() {
                     LineInput(
                         text = "To:$otherNickname",
@@ -108,7 +110,7 @@ fun MailEditor(
                     )
                     Log.d("ASSSSSSSS",onClick.toString());
                 }
-//            }
+            }
             items(items = items){
                 val item = it
                 LineInput(

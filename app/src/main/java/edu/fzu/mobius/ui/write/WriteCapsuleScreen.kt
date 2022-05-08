@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,7 +47,10 @@ fun WriteCapsuleScreen(
     navController: NavController,
     items:List<lineItem>,
     onEditItemChange: (lineItem) -> Unit,
-    otherNickname: String
+    otherNickname: String,
+    card:Boolean,
+    sure:Boolean,
+    return1:Boolean
 ) {
 
     val mDate = remember { mutableStateOf("") }
@@ -55,9 +59,12 @@ fun WriteCapsuleScreen(
     val selectType = rememberSaveable { mutableStateOf(selectList[0])}
     var cardVisible by remember { mutableStateOf(false) }
     var sureVisible by remember { mutableStateOf(true) }
+    var returnVisible by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     var Time by remember { mutableStateOf("") }
-
+    cardVisible = card;
+    sureVisible = sure;
+    returnVisible = return1;
     val mContext = LocalContext.current
 
     // Declaring integer values
@@ -249,6 +256,52 @@ fun WriteCapsuleScreen(
                     }
                 }
             }
+            AnimatedVisibility(
+                visible = returnVisible,
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight * 2 },
+                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { fullHeight -> fullHeight * 2 },
+                    animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                ),
+            ){
+                NoShadowBottomAppBar(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .height(120.dp)
+
+
+                ) {
+                    Column() {
+                        LazyColumn(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .fillMaxWidth()
+                                .padding(start = 200.dp, top = 0.dp)
+                        ) {
+                            items(1) {
+                                PenOtherUser(
+                                    nickname = "黄埔铁牛",
+                                    modifier = Modifier.animateItemPlacement()
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = "信件将于4月1日到达",
+                            textAlign = TextAlign.Center,
+                            color = Color.Blue,
+                            modifier = Modifier
+                                .height(60.dp)
+                                .fillMaxWidth()
+                                .padding(start = 0.dp, top = 20.dp),
+                            fontSize = 16.sp,
+                        )
+                    }
+                }
+            }
         }
     ) {
         ConstraintLayout() {
@@ -267,24 +320,24 @@ fun WriteCapsuleScreen(
                 },
             )
             Log.d("ASD", isClick.value.toString())
-            DropdownMenu(
-                expanded = isClick.value,
-                modifier = Modifier.fillMaxWidth(),
-                onDismissRequest = {},
-                content = {
-                    selectList.forEach {
-                        DropdownMenuItem(
-                            onClick = {
-                                isClick.value = !isClick.value
-                                selectType.value = it
-                            },
-                            content = {
-                                Text(text = it)
-                            }
-                        )
-                    }
-                }
-            )
+//            DropdownMenu(
+//                expanded = isClick.value,
+//                modifier = Modifier.fillMaxWidth(),
+//                onDismissRequest = {},
+//                content = {
+//                    selectList.forEach {
+//                        DropdownMenuItem(
+//                            onClick = {
+//                                isClick.value = !isClick.value
+//                                selectType.value = it
+//                            },
+//                            content = {
+//                                Text(text = it)
+//                            }
+//                        )
+//                    }
+//                }
+//            )
 
         }
     }
@@ -301,44 +354,47 @@ fun CapsulePreviewWriteMail(){
         navController = rememberNavController(),
         items = lists,
         onEditItemChange = {(lineItem)->{}},
-        otherNickname =""
+        otherNickname ="",
+        card = true,
+        sure = false,
+        return1 = false,
     )
 }
-
-@Composable
-fun MyContent(){
-
-    // Fetching the Local Context
-    val mContext = LocalContext.current
-
-    // Declaring integer values
-    // for year, month and day
-    val mYear: Int
-    val mMonth: Int
-    val mDay: Int
-
-    // Initializing a Calendar
-    val mCalendar = Calendar.getInstance()
-
-    // Fetching current year, month and day
-    mYear = mCalendar.get(Calendar.YEAR)
-    mMonth = mCalendar.get(Calendar.MONTH)
-    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-
-    mCalendar.time = Date()
-
-    // Declaring a string value to
-    // store date in string format
-    val mDate = remember { mutableStateOf("") }
-
-    // Declaring DatePickerDialog and setting
-    // initial values as current values (present year, month and day)
-    val mDatePickerDialog = DatePickerDialog(
-        mContext,
-        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
-        }, mYear, mMonth, mDay
-    )
-    mDatePickerDialog.show()
-
-}
+//
+//@Composable
+//fun MyContent(){
+//
+//    // Fetching the Local Context
+//    val mContext = LocalContext.current
+//
+//    // Declaring integer values
+//    // for year, month and day
+//    val mYear: Int
+//    val mMonth: Int
+//    val mDay: Int
+//
+//    // Initializing a Calendar
+//    val mCalendar = Calendar.getInstance()
+//
+//    // Fetching current year, month and day
+//    mYear = mCalendar.get(Calendar.YEAR)
+//    mMonth = mCalendar.get(Calendar.MONTH)
+//    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+//
+//    mCalendar.time = Date()
+//
+//    // Declaring a string value to
+//    // store date in string format
+//    val mDate = remember { mutableStateOf("") }
+//
+//    // Declaring DatePickerDialog and setting
+//    // initial values as current values (present year, month and day)
+//    val mDatePickerDialog = DatePickerDialog(
+//        mContext,
+//        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+//            mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
+//        }, mYear, mMonth, mDay
+//    )
+//    mDatePickerDialog.show()
+//
+//}

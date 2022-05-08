@@ -1,21 +1,32 @@
-package edu.fzu.mobius.ui.write
+package edu.fzu.mobius.compose
 
+import android.app.DatePickerDialog
+import android.util.Log
+import android.widget.DatePicker
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,41 +34,62 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
-import edu.fzu.mobius.compose.BaseTitleTop
-import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
-import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.compose.penpal.PenOtherUser
-import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.PrimaryVariant
 import edu.fzu.mobius.theme.bluetext
-import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
-import kotlinx.coroutines.NonDisposableHandle.parent
+import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
+import edu.fzu.mobius.ui.write.lineItem
+import java.util.*
 
-@ExperimentalFoundationApi
 @Composable
-fun WritePenPalScreen(
+fun AnimatedButton(
     navController: NavController,
-    items:List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
-    otherNickname: String,
-    card:Boolean,
-    sure:Boolean,
-) {
-
+    otherNickname:String,
+    modifier: Modifier = Modifier,
+    onClick:()->Unit ={},
+    text: String,
+    navigate:String,
+){
+    val mDate = remember { mutableStateOf("") }
+    val isClick = rememberSaveable  { mutableStateOf(false) }
+    var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
+    val selectType = rememberSaveable { mutableStateOf(selectList[0])}
     var cardVisible by remember { mutableStateOf(false) }
     var sureVisible by remember { mutableStateOf(true) }
-    cardVisible = card
-    sureVisible = sure
-    Scaffold(
-        topBar = {
-            BaseTitleTop(
-                navController = navController,
-                router = "pen_pal_screen"
-            )
-        },
-        bottomBar = {
+    var openDialog by remember { mutableStateOf(false) }
+    var Time by remember { mutableStateOf("") }
+
+    val mContext = LocalContext.current
+
+    // Declaring integer values
+    // for year, month and day
+    val mYear: Int
+    val mMonth: Int
+    val mDay: Int
+
+    // Initializing a Calendar
+    val mCalendar = Calendar.getInstance()
+
+    // Fetching current year, month and day
+    mYear = mCalendar.get(Calendar.YEAR)
+    mMonth = mCalendar.get(Calendar.MONTH)
+    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+    mCalendar.time = Date()
+
+    // Declaring DatePickerDialog and setting
+    // initial values as current values (present year, month and day)
+    val mDatePickerDialog = DatePickerDialog(
+        mContext,
+        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+            mDate.value = "$mYear-${mMonth+1}-$mDayOfMonth"
+        }, mYear, mMonth, mDay
+    )
+    Box(
+        modifier = modifier
+            .padding(start = 25.dp , end = 25.dp , bottom = 100.dp)
+    ) {
+
             AnimatedVisibility(
                 visible = sureVisible,
                 enter = slideInVertically(
@@ -77,17 +109,6 @@ fun WritePenPalScreen(
 
                 ) {
                     Column() {
-                        LazyColumn(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .fillMaxWidth()
-                                .padding(start = 200.dp, top = 0.dp)
-                        ) {
-                            items(1) {
-                                PenOtherUser(nickname = "黄埔铁牛",
-                                    modifier = Modifier.animateItemPlacement())
-                            }
-                        }
 
                         TextButton(
                             onClick = { /*TODO*/
@@ -105,7 +126,7 @@ fun WritePenPalScreen(
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                text = "发送邀请",
+                                text = text,
                                 fontSize = 20.sp
                             )
                         }
@@ -117,7 +138,6 @@ fun WritePenPalScreen(
                 modifier = Modifier
 
                     .background(Color.Unspecified),
-
                 enter = slideInVertically(
                     initialOffsetY = { fullHeight -> fullHeight * 2 },
                     animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
@@ -133,11 +153,11 @@ fun WritePenPalScreen(
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp)
+                        .height(350.dp)
                         .background(Color.Unspecified)
                 ) {
                     ConstraintLayout() {
-                        val (cardtext, slider, cardtext1, cardbutton) = createRefs()
+                        val (cardtext, slider,row, cardtext1, cardbutton) = createRefs()
                         val progress = remember { mutableStateOf(0f) }
                         Text(
                             text = "设置忧郁值"+"   "+(progress.value*100).toInt()+"%",
@@ -163,20 +183,47 @@ fun WritePenPalScreen(
                                     top.linkTo(parent.top, margin = 55.dp)
                                 },
                         )
-
+                        Row(
+                            modifier = Modifier
+                                .constrainAs(row) {
+                                    start.linkTo(parent.start, margin = 15.dp)
+                                    top.linkTo(parent.top, margin = 105.dp) },
+                        )
+                        {
+                            Text(
+                                modifier = Modifier
+                                    .padding(start = 0.dp,top = 10.dp)
+                                ,
+                                text = "设置收信时间  ",
+                                fontSize = 14.sp,
+                            )
+                            Button(
+                                modifier = Modifier
+                                    .width(200.dp)
+                                ,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.White,
+                                ),
+                                onClick = {
+                                    mDatePickerDialog.show()}
+                            ){
+                                Icon(painter = painterResource(id = R.drawable.calendar), null)
+                                Text(text = mDate.value)
+                            }
+                        }
                         Text(
                             text = "每次邀请使用一张邮票",
                             modifier = Modifier
                                 .constrainAs(cardtext1) {
                                     start.linkTo(parent.start, margin = 15.dp)
-                                    top.linkTo(parent.top, margin = 105.dp)
+                                    top.linkTo(parent.top, margin = 165.dp)
                                 },
                             fontSize = 14.sp,
                             color = bluetext,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
 
-                                navController.navigate("pen_pal_invite_screen")
+                                navController.navigate(navigate.toString())
                             },
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
@@ -189,7 +236,7 @@ fun WritePenPalScreen(
                                 .width(300.dp)
                                 .constrainAs(cardbutton) {
                                     start.linkTo(parent.start, margin = 15.dp)
-                                    top.linkTo(parent.top, margin = 145.dp)
+                                    top.linkTo(parent.top, margin = 205.dp)
                                 },
                         ) {
                             Text(
@@ -201,36 +248,17 @@ fun WritePenPalScreen(
                 }
             }
         }
-    ) {
-        ConstraintLayout() {
-            val (edit, card) = createRefs()
-            MailEditor(
-                otherNickname = otherNickname,
-                items = items,
-                onEditItemChange = onEditItemChange,
-                modifier = Modifier
-                    .constrainAs(edit) {
-                    },
-
-                enable = false,
-            )
-
-        }
-    }
+    
 }
 
-
-@ExperimentalFoundationApi
 @Preview
 @Composable
-fun PenPreviewWriteMail(){
+fun PreviewAnimat(){
     val lists = listOf(lineItem(""), lineItem(""))
-    WritePenPalScreen(
+    AnimatedButton(
+        otherNickname = "陌生人",
         navController = rememberNavController(),
-        items = lists,
-        onEditItemChange = {(lineItem)->{}},
-        otherNickname ="笔友一号",
-        card=false,
-        sure=true,
+        text = "发送邮件",
+        navigate = "capsule_success_screen"
     )
 }

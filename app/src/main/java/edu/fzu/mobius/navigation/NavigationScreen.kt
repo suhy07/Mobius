@@ -101,18 +101,22 @@ fun NavigationScreen() {
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = "笔友一号"
+                otherNickname = "笔友一号",
+                card=false,
+                sure=true,
             )
         }
         composable("pen_pal_invite_screen"){
             InviteSuccessScreen(navController = navController)
         }
         composable("return_write_pen_pal_screen"){
-            ReturnWritePenpalScreen(
+            WritePenPalScreen(
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = "笔友一号"
+                otherNickname = "笔友一号",
+                card=false,
+                sure=false,
             )
         }
         composable("capsule_screen"){
@@ -123,18 +127,24 @@ fun NavigationScreen() {
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = ""
+                otherNickname = "",
+                card = false,
+                sure = true,
+                return1 = false,
             )
         }
         composable("capsule_success_screen"){
             CapsuleSuccessScreen(navController = navController)
         }
         composable("return_write_capsule_screen"){
-            ReturnWriteCapsuleScreen(
+            WriteCapsuleScreen(
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname = "好友1"
+                otherNickname ="你好友1",
+                card = false,
+                sure = false,
+                return1 = true,
             )
         }
         composable("mine_screen"){
