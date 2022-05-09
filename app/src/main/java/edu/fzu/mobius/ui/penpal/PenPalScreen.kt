@@ -50,7 +50,7 @@ fun PenPalScreen(navController: NavController){
         topBar = {
             NoShadowTopAppBar (
                 modifier = Modifier
-                    .height(50.dp)//TopBar的高度   相关属性都可以用modifier改
+                    .height(55.dp)//TopBar的高度   相关属性都可以用modifier改
                     ){
                 ConstraintLayout {
                     NoShadowButton(
@@ -60,7 +60,7 @@ fun PenPalScreen(navController: NavController){
                         modifier = Modifier
                             .height(50.dp)
                             .width(50.dp)
-                            .padding(start = 0.dp,top = 0.dp)
+                            .padding(start = 5.dp,top = 5.dp)
                     ){
                         UnspecifiedIcon(
                             painter = painterResource(R.mipmap.anony_icon)
@@ -254,8 +254,8 @@ fun PenPalScreen(navController: NavController){
                                               },
 
                                     modifier = Modifier
-                                        .height(120.dp)
-                                        .width(120.dp)
+                                        .height(100.dp)
+                                        .width(100.dp)
                                         .padding(start = 0.dp,top = 0.dp)
                                         .constrainAs(add) {
                                             end.linkTo(parent.end, margin = 10.dp)
@@ -389,8 +389,8 @@ fun PenPalScreen(navController: NavController){
                             },
 
                             modifier = Modifier
-                                .height(120.dp)
-                                .width(120.dp)
+                                .height(100.dp)
+                                .width(100.dp)
                                 .padding(start = 0.dp,top = 0.dp)
                                 .constrainAs(add2) {
                                     end.linkTo(parent.end, margin = 10.dp)
