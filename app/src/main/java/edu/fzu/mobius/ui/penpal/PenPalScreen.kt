@@ -6,12 +6,10 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,6 +19,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +37,7 @@ import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.theme.BlueBackground
+import edu.fzu.mobius.theme.PrimaryVariant
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -50,7 +50,7 @@ fun PenPalScreen(navController: NavController){
         topBar = {
             NoShadowTopAppBar (
                 modifier = Modifier
-                    .height(80.dp)//TopBar的高度   相关属性都可以用modifier改
+                    .height(50.dp)//TopBar的高度   相关属性都可以用modifier改
                     ){
                 ConstraintLayout {
                     NoShadowButton(
@@ -58,8 +58,8 @@ fun PenPalScreen(navController: NavController){
                             cardVisible = !cardVisible },
 
                         modifier = Modifier
-                            .height(180.dp)
-                            .width(80.dp)
+                            .height(50.dp)
+                            .width(50.dp)
                             .padding(start = 0.dp,top = 0.dp)
                     ){
                         UnspecifiedIcon(
@@ -96,6 +96,7 @@ fun PenPalScreen(navController: NavController){
                 )
                 Text(
                     text = "有一封信正在赶来...",
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .constrainAs(text1) {
                             start.linkTo(parent.start, margin = 80.dp)
@@ -104,6 +105,7 @@ fun PenPalScreen(navController: NavController){
                 )
                 Text(
                     text = "路上遇到了暴雨.",
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .constrainAs(text2) {
                             start.linkTo(parent.start, margin = 80.dp)
@@ -112,6 +114,7 @@ fun PenPalScreen(navController: NavController){
                 )
                 Text(
                     text = "大约八小时后到达",
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
                        .constrainAs(text3) {
                             start.linkTo(parent.start, margin = 80.dp)
@@ -166,7 +169,7 @@ fun PenPalScreen(navController: NavController){
                             text = "笔友列表",
                             modifier = Modifier
                                 .constrainAs(cardtext1) {
-                                    start.linkTo(parent.start, margin = 150.dp)
+                                    start.linkTo(parent.start, margin = 140.dp)
                                     top.linkTo(parent.top, margin = 25.dp)
                                 },
                             fontSize = 20.sp,
@@ -189,17 +192,19 @@ fun PenPalScreen(navController: NavController){
                                     .height(20.dp)
                             )
                         }
+
                         TextField(
                             value = text,
                             onValueChange = {
                                 text = it
                             },
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(55.dp)
                                 .constrainAs(row){
-                                    start.linkTo(parent.start, margin = 60.dp)
+                                    start.linkTo(parent.start, margin = 48.dp)
                                     top.linkTo(parent.top, margin = 65.dp)
                                 }
+                                .border(1.dp,Color(0xFFE5E5E5),shape = RoundedCornerShape(20.dp))
                             ,
 
                             singleLine = true,
@@ -221,18 +226,25 @@ fun PenPalScreen(navController: NavController){
                             },
                             placeholder = @Composable{
                                 Text(text = "请输入内容")
-                            }
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor =  Color.Unspecified,
+                                focusedIndicatorColor = Color.White,
+                                unfocusedIndicatorColor =  Color.White,
+                                cursorColor = Color.Blue
+                            ),
+                            shape= RoundedCornerShape(20f)
                         )
                         LazyColumn(
                             modifier = Modifier
                                 .constrainAs(list) {
                                     start.linkTo(parent.start, margin = 40.dp)
-                                    top.linkTo(parent.top, margin = 120.dp)
+                                    top.linkTo(parent.top, margin = 130.dp)
                                 }
                         ) {
 
                             items(15) {
-                                PenOtherUser(nickname = "笔友1号", modifier = Modifier.animateItemPlacement())
+                                PenOtherUser(nickname = "笔友1号", modifier = Modifier.width(200.dp).padding(top = 10.dp))
                             }
                         }
                                 NoShadowButton(
@@ -265,7 +277,7 @@ fun PenPalScreen(navController: NavController){
                 modifier= Modifier
                     .constrainAs(card2) {
                         start.linkTo(parent.start, margin = 0.dp)
-                        bottom.linkTo(parent.bottom, margin = 340.dp)
+                        bottom.linkTo(parent.bottom, margin = 280.dp)
                     }
                     .background(Color.Unspecified),
                 enter = slideInVertically(
@@ -294,7 +306,7 @@ fun PenPalScreen(navController: NavController){
                             text = "笔友列表",
                             modifier = Modifier
                                 .constrainAs(cardtext2) {
-                                    start.linkTo(parent.start, margin = 150.dp)
+                                    start.linkTo(parent.start, margin = 140.dp)
                                     top.linkTo(parent.top, margin = 25.dp)
                                 },
                             fontSize = 20.sp,
@@ -323,11 +335,12 @@ fun PenPalScreen(navController: NavController){
                                 text = it
                             },
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(55.dp)
                                 .constrainAs(row2){
-                                    start.linkTo(parent.start, margin = 60.dp)
+                                    start.linkTo(parent.start, margin = 48.dp)
                                     top.linkTo(parent.top, margin = 65.dp)
                                 }
+                                .border(1.dp,Color(0xFFE5E5E5),shape = RoundedCornerShape(20.dp))
                             ,
 
                             singleLine = true,
@@ -349,13 +362,21 @@ fun PenPalScreen(navController: NavController){
                             },
                             placeholder = @Composable{
                                 Text(text = "请输入内容")
-                            }
-                        )
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor =  Color.Unspecified,
+                                focusedIndicatorColor = Color.White,
+                                unfocusedIndicatorColor =  Color.White,
+                                cursorColor = Color.Blue
+                            ),
+//                            colors = TextFieldDefaults.textFieldColors(backgroundColor =  Color.White),
+                            shape= RoundedCornerShape(20f)
+                            )
                         LazyColumn(
                             modifier = Modifier
                                 .constrainAs(list2) {
                                     start.linkTo(parent.start, margin = 40.dp)
-                                    top.linkTo(parent.top, margin = 110.dp)
+                                    top.linkTo(parent.top, margin = 140.dp)
                                 }
                         ) {
                             items(1) {

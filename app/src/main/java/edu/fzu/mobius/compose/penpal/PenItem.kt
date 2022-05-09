@@ -152,7 +152,7 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
 @Composable
 fun PenOtherUser(nickname:String,modifier: Modifier=Modifier){
     ConstraintLayout(
-        modifier = modifier
+        modifier = modifier.width(200.dp)
     ) {
         val (name,head,rear) = createRefs()
         Text(
@@ -161,7 +161,7 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier){
             modifier = Modifier
                 .width(100.dp)
                 .constrainAs(name){
-                    start.linkTo(parent.start, margin = 35.dp)
+                    start.linkTo(parent.start, margin = 45.dp)
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin =0.dp)
@@ -173,7 +173,7 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier){
             painter = painterResource(id = R.mipmap.head_girl),
             modifier = Modifier
                 .height(45.dp)
-                .padding(end = 110.dp)
+                .padding(end = 140.dp)
                 .constrainAs(head) {
                     start.linkTo(parent.start, margin = 0.dp)
                     end.linkTo(parent.end, margin = 0.dp)

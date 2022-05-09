@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -61,6 +62,7 @@ fun CapsuleScreen(navController: NavController){
             )
             Text(
                 text = "每寄出一封信",
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .constrainAs(text1) {
                         start.linkTo(parent.start, margin = 80.dp)
@@ -69,6 +71,7 @@ fun CapsuleScreen(navController: NavController){
             )
             Text(
                 text = "都在对未来说嗨..",
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .constrainAs(text2) {
                         start.linkTo(parent.start, margin = 80.dp)
