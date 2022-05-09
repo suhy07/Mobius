@@ -38,7 +38,7 @@ import edu.fzu.mobius.ui.signin.SignInPop
 @ExperimentalAnimationApi
 @Composable
 fun MailBoxScreen(navController: NavController){
-    val mailBoxViewModel:MailBoxViewModel = viewModel()
+    val mailBoxViewModel: MailBoxViewModel = viewModel()
     var cardVisible = mailBoxViewModel.cardVisible
     var signInVisible = mailBoxViewModel.signInVisible
     var floatingVisible = mailBoxViewModel.floatingVisible
@@ -232,7 +232,7 @@ fun MailBoxScreen(navController: NavController){
 @Composable
 fun SetTimePop(
 ){
-    val mailBoxViewModel:MailBoxViewModel = viewModel()
+    val mailBoxViewModel: MailBoxViewModel = viewModel()
     var cardVisible = mailBoxViewModel.cardVisible
     var floatingVisible = mailBoxViewModel.floatingVisible
     var expanded = mailBoxViewModel.expanded

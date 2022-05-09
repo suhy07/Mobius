@@ -21,9 +21,15 @@ import edu.fzu.mobius.theme.BlueBackground
 fun MyMailBoxScreen(navController: NavController){
     Scaffold(
         backgroundColor = BlueBackground,
-        topBar = { BaseTitleTop(navController = navController, router = "mailbox_screen", title = "我的信箱") }
+        topBar = {
+            BaseTitleTop(
+                navController = navController,
+                router = "mailbox_screen",
+                title = "我的信箱"
+            )
+        }
     ){
-        LazyColumn(){
+        LazyColumn {
             item {
                 Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1111111", type = 1, modifier = Modifier.animateItemPlacement())
             }

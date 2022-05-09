@@ -26,7 +26,7 @@ import edu.fzu.mobius.util.TimeUtils
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SignInPop(modifier: Modifier = Modifier) {
-    val mailBoxViewModel:MailBoxViewModel = viewModel()
+    val mailBoxViewModel: MailBoxViewModel = viewModel()
     val signInViewModel: SignInViewModel = viewModel()
     var items: List<SignInItem> = signInViewModel.items
     var signInVisible = mailBoxViewModel.signInVisible

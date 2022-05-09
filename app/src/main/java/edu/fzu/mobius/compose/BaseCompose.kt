@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.navigation.singleTaskNav
+import edu.fzu.mobius.theme.BlueButton
+import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
@@ -67,9 +72,42 @@ fun BaseTitleTop(navController: NavController, router: String, title: String = "
     }
 }
 
+@Composable
+fun ButtonBottom(
+    onClick: ()->Unit,
+    title: String
+){
+    NoShadowBottomAppBar(
+        modifier = Modifier
+            .padding(12.dp)
+            .height(100.dp)
+    ) {
+        TextButton(
+            onClick = onClick,
+            shape = RoundedCornerShape(20.dp),
+            elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = BlueButton,
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = title,
+                fontSize = 20.sp
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewMailBoxTop(){
-    BaseTitleTop(navController = rememberNavController(), router = "",title = "我的信箱")
-
+    BaseTitleTop(
+        navController = rememberNavController(),
+        router = "",
+        title = "我的信箱"
+    )
 }

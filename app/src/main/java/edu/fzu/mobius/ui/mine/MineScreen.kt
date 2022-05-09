@@ -4,11 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TextButton
-import androidx.compose.material3.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -30,7 +26,7 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 @Composable
 fun MineScreen(
-    navController: NavController,
+     navController: NavController,
     nickname: MutableState<String>,
     stamp: MutableState<Int>,
     grow: MutableState<Int>
@@ -67,7 +63,7 @@ fun MineScreen(
                             }
                     )
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate("set_nickname_screen") },
                         modifier = Modifier
                             .width(20.dp)
                             .height(20.dp)
@@ -131,7 +127,7 @@ fun MineScreen(
                     Card1Item(
                         icon = R.mipmap.stamp_icon,
                         title = "我寄出的信",
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate("sent_mailbox_screen") },
                         modifier = Modifier
                             .constrainAs(item1){
                                 start.linkTo(parent.start, margin = 10.dp)
@@ -154,7 +150,7 @@ fun MineScreen(
                     Card1Item(
                         icon = R.mipmap.suitcase_icon,
                         title = "草稿箱",
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate("drafts_screen") },
                         modifier = Modifier
                             .constrainAs(item2){
                                 end.linkTo(parent.end, margin = 10.dp)
@@ -181,7 +177,7 @@ fun MineScreen(
                     modifier = Modifier
                         .padding(all = 25.dp)
                 ){
-                    Card2Item(title = "邮票收集", onClick = { /*TODO*/ })
+                    Card2Item(title = "邮票收集", onClick = { navController.navigate("stamp_collect_screen") })
                     Card2Item(title = "反馈", onClick = { /*TODO*/ })
                 }
             }
@@ -200,7 +196,7 @@ fun Card1Item(
         onClick = onClick,
         modifier = modifier
             .height(50.dp)
-            .width(150.dp)
+            .width(160.dp)
     ) {
         ConstraintLayout {
             val (_icon,_title) = createRefs()
@@ -219,7 +215,7 @@ fun Card1Item(
             Text(
                 text = title,
                 modifier = Modifier
-                    .width(70.dp)
+                    .width(80.dp)
                     .constrainAs(_title) {
                         start.linkTo(_icon.end, margin = 20.dp)
                         top.linkTo(parent.top)

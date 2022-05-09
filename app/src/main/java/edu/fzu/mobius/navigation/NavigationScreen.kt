@@ -11,9 +11,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.fzu.mobius.entity.Draft
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
 import edu.fzu.mobius.ui.capsule.CapsuleSuccessScreen
 import edu.fzu.mobius.ui.capsule.ReturnWriteCapsuleScreen
+import edu.fzu.mobius.ui.draft.DraftEditScreen
+import edu.fzu.mobius.ui.draft.DraftViewModel
+import edu.fzu.mobius.ui.draft.DraftsScreen
 import edu.fzu.mobius.ui.login.LoginScreen
 import edu.fzu.mobius.ui.login.LoginViewModel
 import edu.fzu.mobius.ui.write.WriteMailScreen
@@ -21,6 +25,7 @@ import edu.fzu.mobius.ui.write.WriteMailViewModel
 import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
+import edu.fzu.mobius.ui.mailbox.SentMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.mine.MineViewModel
 import edu.fzu.mobius.ui.penpal.InviteSuccessScreen
@@ -29,6 +34,8 @@ import edu.fzu.mobius.ui.penpal.ReturnWritePenpalScreen
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.register.SetNicknameScreen
+import edu.fzu.mobius.ui.stamp.StampCollectScreen
+import edu.fzu.mobius.ui.stamp.StampViewModel
 import edu.fzu.mobius.ui.write.WriteCapsuleScreen
 import edu.fzu.mobius.ui.write.WritePenPalScreen
 import kotlin.math.min
@@ -40,10 +47,12 @@ val STARTNAV = "login_screen"
 @Composable
 fun NavigationScreen() {
     val navController = rememberNavController()
-    val loginViewModel : LoginViewModel = viewModel()
-    val registerViewModel : RegisterViewModel = viewModel()
-    val writeMailViewModel : WriteMailViewModel = viewModel()
-    val mineViewModel : MineViewModel = viewModel()
+    val loginViewModel: LoginViewModel = viewModel()
+    val registerViewModel: RegisterViewModel = viewModel()
+    val writeMailViewModel: WriteMailViewModel = viewModel()
+    val mineViewModel: MineViewModel = viewModel()
+    val stampViewModel: StampViewModel = viewModel()
+    val draftViewModel: DraftViewModel = viewModel()
     NavHost(
         navController = navController,
         startDestination = STARTNAV
@@ -82,6 +91,12 @@ fun NavigationScreen() {
         composable("my_mailbox_screen"){
             MyMailBoxScreen(navController = navController)
         }
+        composable("anon_mailbox_screen"){
+            AnonMailBoxScreen(navController = navController)
+        }
+        composable("sent_mailbox_screen"){
+            SentMailBoxScreen(navController = navController)
+        }
         composable("write_mail_screen"){
             WriteMailScreen(
                 navController = navController,
@@ -89,9 +104,6 @@ fun NavigationScreen() {
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "陌生人"
             )
-        }
-        composable("anon_mailbox_screen"){
-            AnonMailBoxScreen(navController = navController)
         }
         composable("pen_pal_screen"){
             PenPalScreen(navController = navController)
@@ -153,6 +165,24 @@ fun NavigationScreen() {
                 nickname = mineViewModel.nickname,
                 stamp = mineViewModel.stamp,
                 grow = mineViewModel.grow
+            )
+        }
+        composable("stamp_collect_screen"){
+            StampCollectScreen(
+                navController = navController,
+                stamps = stampViewModel.stamps
+            )
+        }
+        composable("drafts_screen"){
+            DraftsScreen(
+                navController = navController,
+                drafts = draftViewModel.drafts
+            )
+        }
+        composable("draft_edit_screen"){
+            DraftEditScreen(
+                navController = navController,
+                draft = Draft(0,"")
             )
         }
     }
