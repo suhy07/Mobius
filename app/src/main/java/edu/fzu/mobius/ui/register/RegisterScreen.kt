@@ -10,6 +10,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -41,6 +43,8 @@ fun     RegisterScreen(
     register: (NavController)->Unit,
     sendVerificationCode: ()->Unit
 ) {
+    var count = remember{ mutableStateOf(60) }
+    var state = remember{ mutableStateOf(true)}
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -109,6 +113,8 @@ fun     RegisterScreen(
                     tips = "发送验证码",
                     tipsAft = "重新发送",
                     onClick = sendVerificationCode,
+                    count = count,
+                    state = state,
                     modifier = Modifier
                         .height(30.dp)
                         .width(100.dp)

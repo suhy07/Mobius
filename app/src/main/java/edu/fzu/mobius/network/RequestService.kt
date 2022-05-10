@@ -13,9 +13,21 @@ import java.util.concurrent.TimeUnit
 interface RequestService {
 
     @POST(value = "user/login")
-    fun logIn(
-       @Body user: User
+    fun logInByPassword(
+       @Body loginPasswordForm: LoginPasswordForm
     ): Call<LogInBackData>
+
+    @POST(value = "/user/phoneIn")
+    fun logInByCode(
+        @Body loginCodeForm: LoginCodeForm
+    ): Call<LogInBackData>
+
+    @POST(value = "/code/login")
+    fun sendVerificationCode(
+        @Body verificationCodeForm: VerificationCodeForm
+    ): Call<LogInBackData>
+
+
 }
 
 class Network {
@@ -57,7 +69,16 @@ data class LogInBackData(
     val data: Map<String, Any>
 )
 
-data class User(
+data class LoginPasswordForm(
     val phone: String,
     val password: String
+)
+
+data class LoginCodeForm(
+    val phone: String,
+    val code: String
+)
+
+data class VerificationCodeForm(
+    val phone: String
 )

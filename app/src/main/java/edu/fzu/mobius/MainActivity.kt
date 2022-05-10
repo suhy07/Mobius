@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
             MobiusTheme {
                NavigationScreen()
             }
-            POPWindows.PopWin()
+            PopWindows.PopWin()
         }
 //        setTransparent(window = window)
         window.statusBarColor = 0xFFF2F1F6.toInt()

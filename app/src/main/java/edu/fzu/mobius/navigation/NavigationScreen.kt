@@ -63,6 +63,7 @@ fun NavigationScreen() {
                 phoneNumber = loginViewModel.phoneNumber,
                 verificationCode = loginViewModel.verificationCode,
                 password = loginViewModel.password,
+                state = loginViewModel.state,
                 login = loginViewModel::login,
                 sendVerificationCode = loginViewModel::sendVerificationCode
             )

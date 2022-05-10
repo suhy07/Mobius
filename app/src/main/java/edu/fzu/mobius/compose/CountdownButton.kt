@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,12 +22,12 @@ import edu.fzu.mobius.theme.BlueText
 fun CountdownButton(
     tips: String,
     tipsAft: String,
+    count: MutableState<Int>,
+    state: MutableState<Boolean>,
     time: Int = 60 ,
     modifier: Modifier = Modifier,
-    onClick: ()->Unit = {},
+    onClick: ()->Unit = {}
 ) {
-    var count = remember { mutableStateOf(time) }
-    val state = remember { mutableStateOf(true) }
     val countDownThread = Thread {
         run {
             state.value = false
