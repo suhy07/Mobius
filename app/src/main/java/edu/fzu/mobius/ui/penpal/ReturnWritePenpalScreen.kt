@@ -55,7 +55,6 @@ fun ReturnWritePenpalScreen(
                 modifier = Modifier
                     .constrainAs(edit) {
                     },
-                enable = false,
             )
 
         }

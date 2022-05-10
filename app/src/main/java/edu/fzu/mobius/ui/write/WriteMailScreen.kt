@@ -71,7 +71,6 @@ fun WriteMailScreen(
                     .constrainAs(edit){
 
                     },
-                enable = false,
             )
         }
     }

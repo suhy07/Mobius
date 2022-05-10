@@ -313,11 +313,6 @@ fun WriteCapsuleScreen(
                 modifier = Modifier
                     .constrainAs(edit) {
                     },
-                enable = true,
-                onClick = {
-                    isClick.value= true
-                    Log.d("ASD", isClick.value.toString())
-                },
             )
             Log.d("ASD", isClick.value.toString())
 //            DropdownMenu(

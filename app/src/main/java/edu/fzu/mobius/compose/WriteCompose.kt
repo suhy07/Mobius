@@ -29,8 +29,6 @@ fun MailEditor(
     items: List<lineItem>,
     onEditItemChange: (lineItem) -> Unit,
     modifier: Modifier = Modifier,
-    enable: Boolean = false,
-    onClick:()->Unit ={},
 ){
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
 
@@ -45,7 +43,6 @@ fun MailEditor(
                 .fillMaxWidth()
         ){
             if (otherNickname.equals("")){
-
                 item() {
                     Row {
 
@@ -53,7 +50,7 @@ fun MailEditor(
                         text = "To:",
                         modifier = Modifier
                             .width(60.dp)
-                            .padding(start = 0.dp,top = 10.dp)
+                            .padding(start = 0.dp, top = 10.dp)
                         ,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Center,
@@ -100,15 +97,9 @@ fun MailEditor(
                         onTextChange = {},
                         readOnly = true,
                         modifier = Modifier
-                            .width(120.dp)
-                            .clickable(
-                                enabled = enable,
-                                onClick = onClick
-                            ),
+                            .width(120.dp),
                         fontWeight = FontWeight.Bold,
-                        onClick = onClick
                     )
-                    Log.d("ASSSSSSSS",onClick.toString());
                 }
             }
             items(items = items){
@@ -129,8 +120,6 @@ fun LineInput(
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     fontWeight: FontWeight = FontWeight.Normal,
-    enable: Boolean = false,
-    onClick:()->Unit = {}
 ){
     TextField(
         value = text,
@@ -154,10 +143,6 @@ fun LineInput(
             .fillMaxWidth()
             .padding(0.dp)
             .height(50.dp)
-            .clickable(
-                enabled = enable,
-                onClick = onClick
-            )
     )
 }
 

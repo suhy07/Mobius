@@ -90,7 +90,6 @@ fun ReturnWriteCapsuleScreen(
                 modifier = Modifier
                     .constrainAs(edit) {
                     },
-                enable = false,
             )
 
         }

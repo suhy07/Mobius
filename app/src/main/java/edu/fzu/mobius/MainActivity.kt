@@ -10,10 +10,13 @@ import android.view.WindowManager
 import android.os.Build
 import android.view.View
 import android.view.Window
+import android.widget.PopupWindow
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import edu.fzu.mobius.navigation.NavigationScreen
+
+
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -25,6 +28,7 @@ class MainActivity : ComponentActivity() {
             MobiusTheme {
                NavigationScreen()
             }
+            POPWindows.PopWin()
         }
 //        setTransparent(window = window)
         window.statusBarColor = 0xFFF2F1F6.toInt()

@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "edu.fzu.mobius"
         minSdk 24
-        targetSdk 31
+        targetSdk 27
         versionCode 1
         versionName "1.0"
 

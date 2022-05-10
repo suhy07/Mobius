@@ -5,19 +5,16 @@ import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
+import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface RequestService {
 
-    @GET("elephants")
-
-    @POST(value = "api-admin/login")
+    @POST(value = "user/login")
     fun logIn(
-        @Query("username") username: String,
-        @Query("password") password: String
+       @Body user: User
     ): Call<LogInBackData>
 }
 
@@ -31,8 +28,7 @@ class Network {
             val builder = url.newBuilder()
             requestBuilder.url(builder.build())
                 .method(request.method(), request.body())
-                .addHeader("clientType", "IOS")
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("Content-Type", "application/json")
             chain.proceed(requestBuilder.build())
         }
 
@@ -45,7 +41,7 @@ class Network {
 
 
         private var retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("你的baseUrl")
+            .baseUrl("http://101.132.99.44:8998")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client.build())
             .build()
@@ -56,8 +52,12 @@ class Network {
 }
 
 data class LogInBackData(
-    val msg: String,
+    val message: String,
     val code: Int,
     val data: Map<String, Any>
 )
 
+data class User(
+    val phone: String,
+    val password: String
+)

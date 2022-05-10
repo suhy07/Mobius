@@ -211,8 +211,6 @@ fun WritePenPalScreen(
                 modifier = Modifier
                     .constrainAs(edit) {
                     },
-
-                enable = false,
             )
 
         }

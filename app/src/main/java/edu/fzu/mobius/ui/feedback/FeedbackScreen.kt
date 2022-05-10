@@ -1,8 +1,6 @@
-package edu.fzu.mobius.ui.draft
+package edu.fzu.mobius.ui.feedback
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -22,13 +20,11 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.ButtonBottom
 import edu.fzu.mobius.compose.EmptyTextField
-import edu.fzu.mobius.entity.Draft
-import edu.fzu.mobius.theme.PrimaryVariant
 
 @Composable
-fun DraftEditScreen(
+fun FeedbackScreen(
     navController: NavController,
-    draft: Draft
+    feedback: String
 ) {
     Scaffold(
         topBar = {
@@ -41,22 +37,22 @@ fun DraftEditScreen(
         bottomBar = {
             ButtonBottom(
                 onClick = { /*TODO*/ },
-                title = "提交"
+                title = "确定"
             )
         }
     ) {
-        var _draft by remember { mutableStateOf(draft.value) }
+        var _feedback by remember { mutableStateOf(feedback) }
         Card(
             modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 50.dp, start = 25.dp, end = 25.dp, bottom = 200.dp),
+                .fillMaxSize()
+                .padding(top = 50.dp, start = 25.dp, end = 25.dp, bottom = 200.dp),
             shape = RoundedCornerShape(20.dp),
             elevation = 5.dp
         ) {
             EmptyTextField(
-                value = _draft,
+                value = _feedback,
                 onValueChange = {
-                    _draft = it
+                    _feedback = it
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Unspecified,
@@ -78,9 +74,9 @@ fun DraftEditScreen(
 
 @Preview
 @Composable
-fun PreviewDraftEdit(){
-    DraftEditScreen(
+fun PreviewFeedback(){
+    FeedbackScreen(
         navController = rememberNavController(),
-        draft = Draft(0,"")
+        feedback = ""
     )
 }
