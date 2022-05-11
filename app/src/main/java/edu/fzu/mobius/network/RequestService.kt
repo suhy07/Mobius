@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
@@ -43,6 +44,12 @@ interface RequestService {
     fun setNickname(
         @Body registerForm: Any
     ): Call<LogInBackData>
+
+    @GET(value = "ums/friend/list")
+    fun setFriendlist(
+        @Body friendlistForm: Any
+    ): Call<FriendListData>
+
 }
 
 class Network {
@@ -112,7 +119,13 @@ class Network {
         }
     }
 }
-
+data class FriendListData(
+    val message: String,
+    val code: Int,
+    val nickname: String,
+    val pageNum: Int,
+    val pageSize: Int
+)
 data class LogInBackData(
     val message: String,
     val code: Int,

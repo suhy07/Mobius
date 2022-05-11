@@ -30,7 +30,7 @@ class LoginViewModel:ViewModel() {
                 body = LoginPasswordForm(phone = phoneNumber.value, password = password.value),
                 code200 = {
                     singleTaskNav(navController, "mailbox_screen")
-                    Network.token = it.data["token"] as String
+                    Network.token = it.data["tokenHead"] as String+" "+it.data["token"] as String
                 },
                 codeElse = {
                     PopWindows.postValue(
