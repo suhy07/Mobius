@@ -3,6 +3,8 @@ package edu.fzu.mobius.network
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -14,32 +16,39 @@ interface RequestService {
 
     @POST(value = "user/login")
     fun logInByPassword(
-       @Body loginPasswordForm: LoginPasswordForm
+       @Body loginPasswordForm: Any
     ): Call<LogInBackData>
 
     @POST(value = "/user/phoneIn")
     fun logInByCode(
-        @Body loginCodeForm: LoginCodeForm
+        @Body loginCodeForm: Any
     ): Call<LogInBackData>
 
     @POST(value = "/code/login")
     fun loginSendVerificationCode(
-        @Body verificationCodeForm: VerificationCodeForm
+        @Body verificationCodeForm: Any
     ): Call<LogInBackData>
 
     @POST(value = "/code/reg")
     fun registerSendVerificationCode(
-        @Body verificationCodeForm: VerificationCodeForm
+        @Body verificationCodeForm: Any
     ): Call<LogInBackData>
 
     @POST(value = "/user/register")
     fun register(
-        @Body registerForm: RegisterForm
+        @Body registerForm: Any
+    ): Call<LogInBackData>
+
+    @POST(value = "user/setName")
+    fun setNickname(
+        @Body registerForm: Any
     ): Call<LogInBackData>
 }
 
 class Network {
     companion object {
+        @JvmStatic
+        var token = ""
         //创建拦截器
         private val interceptor = Interceptor { chain ->
             val request = chain.request()
@@ -49,6 +58,7 @@ class Network {
             requestBuilder.url(builder.build())
                 .method(request.method(), request.body())
                 .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer $token")
             chain.proceed(requestBuilder.build())
         }
 
@@ -68,6 +78,38 @@ class Network {
 
         var service: RequestService = retrofit.create(RequestService::class.java)
 
+        fun networkThread(
+            requestService: (Any)->Call<LogInBackData>,
+            body: Any,
+            code200:(LogInBackData)->Unit = {},
+            codeElse:(LogInBackData)->Unit = {},
+            fail: (Throwable)->Unit = {},
+            other: (LogInBackData)->Unit = {}
+        ){
+            Thread{
+                requestService(body).enqueue(object : Callback<LogInBackData> {
+                    override fun onResponse(
+                        call: Call<LogInBackData>,
+                        response: Response<LogInBackData>
+                    ) {
+                        response.body()?.let { it ->
+                            other(it)
+                            when (it.code) {
+                                200 -> {
+                                    code200(it)
+                                }
+                                else -> {
+                                    codeElse(it)
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
+                        fail(t)
+                    }
+                })
+            }.start()
+        }
     }
 }
 

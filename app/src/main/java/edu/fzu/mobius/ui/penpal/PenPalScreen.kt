@@ -254,12 +254,12 @@ fun PenPalScreen(navController: NavController){
                                               },
 
                                     modifier = Modifier
-                                        .height(100.dp)
-                                        .width(100.dp)
+                                        .height(50.dp)
+                                        .width(50.dp)
                                         .padding(start = 0.dp,top = 0.dp)
                                         .constrainAs(add) {
-                                            end.linkTo(parent.end, margin = 10.dp)
-                                            bottom.linkTo(parent.bottom, margin = 20.dp)
+                                            end.linkTo(parent.end, margin = 30.dp)
+                                            bottom.linkTo(parent.bottom, margin = 50.dp)
                                         }
                                 ){
                                     UnspecifiedIcon(

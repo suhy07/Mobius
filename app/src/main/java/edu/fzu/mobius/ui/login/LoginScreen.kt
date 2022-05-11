@@ -35,6 +35,7 @@ import edu.fzu.mobius.compose.EmptyTextField
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
+import edu.fzu.mobius.ui.mine.MineViewModel
 
 @Composable
 fun LoginScreen(
@@ -48,7 +49,7 @@ fun LoginScreen(
 ) {
     var count = remember{mutableStateOf(60)}
     var state_c = remember{ mutableStateOf(true)}
-
+    val mineViewModel: MineViewModel = viewModel()
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
