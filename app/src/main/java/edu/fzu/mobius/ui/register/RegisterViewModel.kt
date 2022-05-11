@@ -1,9 +1,17 @@
 package edu.fzu.mobius.ui.register
 
+import ToastMsg
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
+import edu.fzu.mobius.network.LogInBackData
+import edu.fzu.mobius.network.Network
+import edu.fzu.mobius.network.RegisterForm
+import edu.fzu.mobius.network.VerificationCodeForm
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RegisterViewModel:ViewModel() {
     var phoneNumber = mutableStateOf("")
@@ -13,11 +21,138 @@ class RegisterViewModel:ViewModel() {
     var nickname = mutableStateOf("")
 
     fun register(navController: NavController){
-        singleTaskNav(navController,"set_nickname_screen")
+        when{
+            phoneNumber.value.isEmpty() -> {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = "WARM 手机号不嫩为空",
+                        type = ToastType.WARM
+                    )
+                )
+            }
+            verificationCode.value.isEmpty() -> {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = "WARM 验证码未填写",
+                        type = ToastType.WARM
+                    )
+                )
+            }
+            password.value.isEmpty() -> {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = "WARM 密码不能为空",
+                        type = ToastType.WARM
+                    )
+                )
+            }
+            passwordRepeat.value.isEmpty() -> {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = "WARM 请再次输入密码",
+                        type = ToastType.WARM
+                    )
+                )
+            }
+            !password.value.equals(passwordRepeat.value) -> {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = "WARM 两次密码不相等",
+                        type = ToastType.WARM
+                    )
+                )
+            }
+            else -> {
+                Thread {
+                    Network.service.register(RegisterForm(phone = phoneNumber.value, code = verificationCode.value, password = password.value))
+                        .enqueue(object : Callback<LogInBackData> {
+                            override fun onResponse(
+                                call: Call<LogInBackData>,
+                                response: Response<LogInBackData>
+                            ) {
+                                response.body()?.let { it ->
+                                    when (it.code) {
+                                        200 -> {
+                                            PopWindows.postValue(
+                                                ToastMsg(
+                                                    value = it.code.toString() + " " + it.message,
+                                                    type = ToastType.SUCCESS
+                                                )
+                                            )
+                                            singleTaskNav(navController,"set_nickname_screen")
+                                        }
+                                        else -> {
+                                            PopWindows.postValue(
+                                                ToastMsg(
+                                                    value = it.code.toString() + " " + it.message,
+                                                    type = ToastType.ERROR
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                            override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
+                                PopWindows.postValue(
+                                    ToastMsg(
+                                        value = t.localizedMessage,
+                                        type = ToastType.ERROR
+                                    )
+                                )
+                            }
+                        })
+                }.start()
+            }
+        }
     }
-
     fun sendVerificationCode(){
-
+        if(phoneNumber.value.isEmpty()){
+            PopWindows.postValue(
+                ToastMsg(
+                    value = "ERROR 手机号不能为空",
+                    type = ToastType.ERROR
+                )
+            )
+        }else {
+            Thread {
+                Network.service.registerSendVerificationCode(VerificationCodeForm(phone = phoneNumber.value))
+                    .enqueue(object : Callback<LogInBackData> {
+                        override fun onResponse(
+                            call: Call<LogInBackData>,
+                            response: Response<LogInBackData>
+                        ) {
+                            response.body()?.let { it ->
+                                when (it.code) {
+                                    200 -> {
+                                        PopWindows.postValue(
+                                            ToastMsg(
+                                                value = it.code.toString() + " " + it.message,
+                                                type = ToastType.SUCCESS
+                                            )
+                                        )
+                                    }
+                                    else -> {
+                                        PopWindows.postValue(
+                                            ToastMsg(
+                                                value = it.code.toString() + " " + it.message,
+                                                type = ToastType.ERROR
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
+                            PopWindows.postValue(
+                                ToastMsg(
+                                    value = t.localizedMessage,
+                                    type = ToastType.ERROR
+                                )
+                            )
+                        }
+                    })
+            }.start()
+        }
     }
 
     fun setNickname(navController: NavController){

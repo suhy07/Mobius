@@ -23,11 +23,19 @@ interface RequestService {
     ): Call<LogInBackData>
 
     @POST(value = "/code/login")
-    fun sendVerificationCode(
+    fun loginSendVerificationCode(
         @Body verificationCodeForm: VerificationCodeForm
     ): Call<LogInBackData>
 
+    @POST(value = "/code/reg")
+    fun registerSendVerificationCode(
+        @Body verificationCodeForm: VerificationCodeForm
+    ): Call<LogInBackData>
 
+    @POST(value = "/user/register")
+    fun register(
+        @Body registerForm: RegisterForm
+    ): Call<LogInBackData>
 }
 
 class Network {
@@ -81,4 +89,10 @@ data class LoginCodeForm(
 
 data class VerificationCodeForm(
     val phone: String
+)
+
+data class RegisterForm(
+    val phone: String,
+    val code: String,
+    val password: String
 )

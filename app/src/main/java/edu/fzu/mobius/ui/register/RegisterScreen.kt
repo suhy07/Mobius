@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -34,7 +36,7 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 
 @Composable
-fun     RegisterScreen(
+fun RegisterScreen(
     navController: NavController,
     phoneNumber: MutableState<String>,
     verificationCode: MutableState<String>,
@@ -75,7 +77,13 @@ fun     RegisterScreen(
                 val (phone,code,send,_password,_passwordRepeat) = createRefs()
                 EmptyTextField(
                     value = phoneNumber.value,
-                    onValueChange = phoneNumber.component2(),
+                    onValueChange = {
+                        when{
+                            it.length < 12 && it.isDigitsOnly() ->{
+                                phoneNumber.value = it
+                            }
+                        }
+                    },
                     placeholder = {
                         Text(
                             text = "请输入手机号",
@@ -89,11 +97,19 @@ fun     RegisterScreen(
                             bottom.linkTo(parent.bottom, margin = 190.dp)
                             end.linkTo(parent.end, margin = 40.dp)
                             start.linkTo(parent.start, margin = 0.dp)
-                        }
+                        },
+                    singleLine = true,
+                    textStyle = TextStyle(fontSize = 14.sp, letterSpacing = 3.sp)
                 )
                 EmptyTextField(
                     value = verificationCode.value,
-                    onValueChange = verificationCode.component2(),
+                    onValueChange = {
+                        when{
+                            it.length < 5 && it.isDigitsOnly() ->{
+                                verificationCode.value = it
+                            }
+                        }
+                    },
                     placeholder = {
                         Text(
                             text = "请输入验证码",
@@ -107,7 +123,9 @@ fun     RegisterScreen(
                             bottom.linkTo(parent.bottom, margin = 70.dp)
                             end.linkTo(parent.end, margin = 120.dp)
                             start.linkTo(parent.start, margin = 0.dp)
-                        }
+                        },
+                    singleLine = true,
+                    textStyle = TextStyle(fontSize = 14.sp, letterSpacing = 3.sp)
                 )
                 CountdownButton(
                     tips = "发送验证码",
@@ -142,7 +160,9 @@ fun     RegisterScreen(
                             end.linkTo(parent.end, margin = 0.dp)
                             start.linkTo(parent.start, margin = 10.dp)
                         },
-                    visualTransformation = PasswordVisualTransformation()
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
+                    textStyle = TextStyle(fontSize = 14.sp, letterSpacing = 3.sp)
                 )
                 EmptyTextField(
                     value = passwordRepeat.value,
@@ -161,7 +181,9 @@ fun     RegisterScreen(
                             end.linkTo(parent.end, margin = 0.dp)
                             start.linkTo(parent.start, margin = 10.dp)
                         },
-                    visualTransformation = PasswordVisualTransformation()
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
+                    textStyle = TextStyle(fontSize = 14.sp, letterSpacing = 3.sp)
                 )
             }
         }
