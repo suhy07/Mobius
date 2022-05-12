@@ -17,7 +17,7 @@ class WriteCapsuleViewModel:ViewModel() {
     fun sendWriteCapsule(navController: NavController){
             Network.networkThread(
                 requestService = Network.service::sendCapsule,
-                body = sendCapsule(arriveTime =arriveTime.value, content = content.value, contentId = contentId.value,
+                body = SendCapsuleForm(arriveTime =arriveTime.value, content = content.value, contentId = contentId.value,
                 receiverId = receiverId.value,title = title.value),
                 code200 = {
 //                    Network.token = it.data["token"] as String

@@ -11,7 +11,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KFunction1
 
 interface RequestService {
 
@@ -137,6 +136,7 @@ class Network {
                             when (it.code) {
                                 200 -> {
                                     code200(it)
+                                    router(it)
                                 }
                                 else -> {
                                     codeElse(it)
@@ -151,7 +151,7 @@ class Network {
             }.start()
         }
         fun networkThreadget(
-            requestService: KFunction1<String, Call<LogInBackData>>,
+            requestService: (Any)->Call<LogInBackData>,
             param: Any,
             code200:(LogInBackData)->Unit = {},
             codeElse:(LogInBackData)->Unit = {},
@@ -184,14 +184,14 @@ class Network {
         }
     }
 }
-data class sendCapsule(
+data class SendCapsuleForm(
     val arriveTime:String,
     val content:String,
     val contentId:Int,
     val receiverId:Int,
     val title:String
 )
-data class FriendListData(
+data class FriendListForm(
 //    val message: String,
 //    val code: Int,
     val nickname: String,
@@ -201,20 +201,10 @@ data class FriendListData(
 
 )
 
-data class applyFriendFrom(
+data class ApplyFriendFrom(
     val applyUserId: Int,
 )
-data class Data(
-    val pageNum: Int,
-    val pageSize: Int,
-    val totalPage: Int,
-    val total: Int,
-    val list: List<Project>
-)
-data class Project(
-    val id: Int,
-    val nickname: String,
-)
+
 data class LogInBackData(
     val message: String,
     val code: Int,
