@@ -79,7 +79,9 @@ fun WriteCapsuleScreen(
     val mYear: Int
     val mMonth: Int
     val mDay: Int
-
+    val mH:Int
+    val mm:Int
+    val ms:Int
     // Initializing a Calendar
     val mCalendar = Calendar.getInstance()
 
@@ -87,7 +89,9 @@ fun WriteCapsuleScreen(
     mYear = mCalendar.get(Calendar.YEAR)
     mMonth = mCalendar.get(Calendar.MONTH)
     mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-
+    mH = mCalendar.get(Calendar.HOUR_OF_DAY)
+    mm = mCalendar.get(Calendar.MINUTE)
+    ms = mCalendar.get(Calendar.SECOND)
     mCalendar.time = Date()
 
     // Declaring DatePickerDialog and setting
@@ -95,9 +99,14 @@ fun WriteCapsuleScreen(
     val mDatePickerDialog = DatePickerDialog(
         mContext,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            mDate.value = "$mYear-${mMonth+1}-$mDayOfMonth"
+
+            val mH = mCalendar.get(Calendar.HOUR_OF_DAY)
+            val mm = mCalendar.get(Calendar.MINUTE)
+            val ms = mCalendar.get(Calendar.SECOND)
+            mDate.value = "$mYear-${mMonth+1}-$mDayOfMonth $mH:$mm:$ms"
         }, mYear, mMonth, mDay
     )
+
     Scaffold(
         topBar = {
             BaseTitleTop(
@@ -238,6 +247,7 @@ fun WriteCapsuleScreen(
                             color = bluetext,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
+                                arriveTime.value = mDate.value
                                 sendWriteCapsule(navController)
                             },
                             shape = RoundedCornerShape(20.dp),

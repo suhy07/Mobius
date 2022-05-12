@@ -36,7 +36,7 @@ import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.compose.mailbox.item.OtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser1
-import edu.fzu.mobius.network.Project
+import edu.fzu.mobius.entity.TestData
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
@@ -49,7 +49,7 @@ import edu.fzu.mobius.ui.login.LoginViewModel
 @Composable
 fun PenPalScreen(
     navController: NavController,
-    friendlist: MutableList<Project> = mutableListOf<Project>(),
+    friendlist: MutableList<TestData.Data.Project> = mutableListOf<TestData.Data.Project>(),
     penPalList: (NavController)->Unit,
 ){
     var cardVisible by remember { mutableStateOf(false) }

@@ -16,7 +16,7 @@ import edu.fzu.mobius.network.*
 class PenPalViewModel:ViewModel() {
     var nickname = mutableStateOf("h")
     var nickname1 = mutableStateOf<Int>(2)
-    var friendlist = mutableListOf<Project>()
+    var friendlist = mutableListOf<TestData.Data.Project>()
 
     fun PenPalList(navController: NavController){
             Network.networkThreadget(
@@ -25,9 +25,9 @@ class PenPalViewModel:ViewModel() {
                 code200 = {
                     val jsonParser = JsonParser()
                     val jsonElement = jsonParser.parse(it.data.toString())
-                   val bean = Gson().fromJson(jsonElement,Data::class.javaObjectType)
+                   val bean = Gson().fromJson(jsonElement, TestData.Data::class.javaObjectType)
                     val result = bean.list
-                    friendlist = result as MutableList<Project>
+                    friendlist = result as MutableList<TestData.Data.Project>
                     nickname1.value = bean.pageNum
                     Log.e("SDDD",result.toString())
                 },
