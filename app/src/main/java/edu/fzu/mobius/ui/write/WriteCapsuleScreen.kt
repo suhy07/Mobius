@@ -3,7 +3,6 @@ package edu.fzu.mobius.ui.write
 import android.app.DatePickerDialog
 import android.util.Log
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -28,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
@@ -38,6 +38,7 @@ import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.bluetext
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import java.util.*
+import kotlin.reflect.KMutableProperty0
 
 
 @ExperimentalAnimationApi
@@ -50,7 +51,13 @@ fun WriteCapsuleScreen(
     otherNickname: String,
     card:Boolean,
     sure:Boolean,
-    return1:Boolean
+    return1:Boolean,
+    sendWriteCapsule: (NavController)->Unit,
+    arriveTime: MutableState<String>,
+    content: MutableState<String>,
+    contentId: MutableState<Int>,
+    receiverId: MutableState<Int>,
+    title: MutableState<String>
 ) {
 
     val mDate = remember { mutableStateOf("") }
@@ -231,8 +238,7 @@ fun WriteCapsuleScreen(
                             color = bluetext,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
-
-                                navController.navigate("capsule_success_screen")
+                                sendWriteCapsule(navController)
                             },
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
@@ -345,51 +351,21 @@ fun WriteCapsuleScreen(
 @Composable
 fun CapsulePreviewWriteMail(){
     val lists = listOf(lineItem(""), lineItem(""))
+    val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
+
     WriteCapsuleScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = { (lineItem)->{}},
         otherNickname ="",
         card = true,
         sure = false,
         return1 = false,
+        sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
+        arriveTime = writeCapsuleViewModel.arriveTime,
+        content = writeCapsuleViewModel.content,
+        contentId = writeCapsuleViewModel.contentId,
+        receiverId = writeCapsuleViewModel.receiverId,
+        title = writeCapsuleViewModel.title,
     )
 }
-//
-//@Composable
-//fun MyContent(){
-//
-//    // Fetching the Local Context
-//    val mContext = LocalContext.current
-//
-//    // Declaring integer values
-//    // for year, month and day
-//    val mYear: Int
-//    val mMonth: Int
-//    val mDay: Int
-//
-//    // Initializing a Calendar
-//    val mCalendar = Calendar.getInstance()
-//
-//    // Fetching current year, month and day
-//    mYear = mCalendar.get(Calendar.YEAR)
-//    mMonth = mCalendar.get(Calendar.MONTH)
-//    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-//
-//    mCalendar.time = Date()
-//
-//    // Declaring a string value to
-//    // store date in string format
-//    val mDate = remember { mutableStateOf("") }
-//
-//    // Declaring DatePickerDialog and setting
-//    // initial values as current values (present year, month and day)
-//    val mDatePickerDialog = DatePickerDialog(
-//        mContext,
-//        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-//            mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
-//        }, mYear, mMonth, mDay
-//    )
-//    mDatePickerDialog.show()
-//
-//}

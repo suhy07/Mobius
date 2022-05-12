@@ -4,7 +4,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentComposer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -14,14 +13,11 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.entity.Draft
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
 import edu.fzu.mobius.ui.capsule.CapsuleSuccessScreen
-import edu.fzu.mobius.ui.capsule.ReturnWriteCapsuleScreen
 import edu.fzu.mobius.ui.draft.DraftEditScreen
 import edu.fzu.mobius.ui.draft.DraftViewModel
 import edu.fzu.mobius.ui.draft.DraftsScreen
 import edu.fzu.mobius.ui.login.LoginScreen
 import edu.fzu.mobius.ui.login.LoginViewModel
-import edu.fzu.mobius.ui.write.WriteMailScreen
-import edu.fzu.mobius.ui.write.WriteMailViewModel
 import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MailBoxScreen
 import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
@@ -30,15 +26,13 @@ import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.mine.MineViewModel
 import edu.fzu.mobius.ui.penpal.InviteSuccessScreen
 import edu.fzu.mobius.ui.penpal.PenPalScreen
-import edu.fzu.mobius.ui.penpal.ReturnWritePenpalScreen
+import edu.fzu.mobius.ui.penpal.PenPalViewModel
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.register.SetNicknameScreen
 import edu.fzu.mobius.ui.stamp.StampCollectScreen
 import edu.fzu.mobius.ui.stamp.StampViewModel
-import edu.fzu.mobius.ui.write.WriteCapsuleScreen
-import edu.fzu.mobius.ui.write.WritePenPalScreen
-import kotlin.math.min
+import edu.fzu.mobius.ui.write.*
 
 val STARTNAV = "login_screen"
 @ExperimentalMaterialApi
@@ -49,10 +43,13 @@ fun NavigationScreen() {
     val navController = rememberNavController()
     val loginViewModel: LoginViewModel = viewModel()
     val registerViewModel: RegisterViewModel = viewModel()
+    val penPalViewModel: PenPalViewModel = viewModel()
+    val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
     val writeMailViewModel: WriteMailViewModel = viewModel()
     val mineViewModel: MineViewModel = viewModel()
     val stampViewModel: StampViewModel = viewModel()
     val draftViewModel: DraftViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = STARTNAV
@@ -107,7 +104,11 @@ fun NavigationScreen() {
             )
         }
         composable("pen_pal_screen"){
-            PenPalScreen(navController = navController)
+            PenPalScreen(
+                navController = navController,
+                friendlist = penPalViewModel.friendlist,
+                penPalList = penPalViewModel::PenPalList,
+            )
         }
         composable("write_pen_pal_screen"){
             WritePenPalScreen(
@@ -144,6 +145,12 @@ fun NavigationScreen() {
                 card = false,
                 sure = true,
                 return1 = false,
+                sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
+                arriveTime = writeCapsuleViewModel.arriveTime,
+                content = writeCapsuleViewModel.content,
+                contentId = writeCapsuleViewModel.contentId,
+                receiverId = writeCapsuleViewModel.receiverId,
+                title = writeCapsuleViewModel.title,
             )
         }
         composable("capsule_success_screen"){
@@ -154,10 +161,16 @@ fun NavigationScreen() {
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
-                otherNickname ="你好友1",
+                otherNickname ="你自己",
                 card = false,
                 sure = false,
                 return1 = true,
+                sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
+                arriveTime = writeCapsuleViewModel.arriveTime,
+                content = writeCapsuleViewModel.content,
+                contentId = writeCapsuleViewModel.contentId,
+                receiverId = writeCapsuleViewModel.receiverId,
+                title = writeCapsuleViewModel.title,
             )
         }
         composable("mine_screen"){
@@ -196,6 +209,7 @@ fun NavigationScreen() {
 @Composable
 fun PreviewNavigation() {
     NavigationScreen()
+
 }
 
 fun singleTaskNav(navController: NavController, router: String){

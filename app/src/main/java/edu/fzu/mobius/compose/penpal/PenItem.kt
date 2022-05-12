@@ -21,7 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.theme.AnonEnvelope
 import edu.fzu.mobius.theme.BlueText
@@ -33,6 +36,8 @@ import edu.fzu.mobius.theme.InviteEnvelope
 fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:Int , modifier: Modifier = Modifier) {
     //userHead:Bitmap
     //0匿名信 1笔友信 2邀请信 3时空胶囊 4鲜花
+
+    val navController = rememberNavController()
     if(type == 4){
         Card(
             modifier = modifier
@@ -144,6 +149,18 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                             bottom.linkTo(parent.bottom, margin = 10.dp)
                         }
                 )
+                PenOtherUser1(
+                    nickname = otherNickname,
+                    modifier = Modifier
+                        .constrainAs(other){
+                            start.linkTo(parent.start, margin = 260.dp)
+                            end.linkTo(parent.end, margin = 0.dp)
+                            top.linkTo(parent.top, margin = 120.dp)
+                            bottom.linkTo(parent.bottom, margin = 10.dp)
+                        }
+                ,
+                    navController
+                )
             }
         }
     }
@@ -181,33 +198,21 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier){
                     bottom.linkTo(parent.bottom, margin = 0.dp)
                 }
         )
-//        UnspecifiedIcon(
-//            painter = painterResource(id = R.mipmap.add_icon),
-//            modifier = Modifier
-//                .height(45.dp)
-//                .padding(start = 200.dp)
-//                .constrainAs(rear) {
-//                    start.linkTo(parent.start, margin = 0.dp)
-//                    end.linkTo(parent.end, margin = 0.dp)
-//                    top.linkTo(parent.top, margin = 0.dp)
-//                    bottom.linkTo(parent.bottom, margin = 0.dp)
-//                }
-//        )
     }
 }
 @Composable
-fun PenOtherUser1(nickname:String,modifier: Modifier=Modifier){
+fun PenOtherUser1(nickname:String,modifier: Modifier=Modifier,navController: NavController){
     ConstraintLayout(
-        modifier = modifier
+        modifier = modifier.width(250.dp)
     ) {
-        val (name,head) = createRefs()
+        val (name,head,rear) = createRefs()
         Text(
             text = nickname,
             color = Color.Black,
             modifier = Modifier
                 .width(100.dp)
                 .constrainAs(name){
-                    start.linkTo(parent.start, margin = 35.dp)
+                    start.linkTo(parent.start, margin = 5.dp)
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin =0.dp)
@@ -216,17 +221,35 @@ fun PenOtherUser1(nickname:String,modifier: Modifier=Modifier){
             textAlign = TextAlign.Center
         )
         UnspecifiedIcon(
-            painter = painterResource(id = R.mipmap.head_girl1),
+            painter = painterResource(id = R.mipmap.head_girl),
             modifier = Modifier
                 .height(45.dp)
-                .padding(end = 110.dp)
+                .padding(end = 200.dp)
                 .constrainAs(head) {
                     start.linkTo(parent.start, margin = 0.dp)
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
-                    bottom.linkTo(parent.bottom, margin = 10.dp)
+                    bottom.linkTo(parent.bottom, margin = 0.dp)
                 }
         )
+        NoShadowButton(
+            onClick = { /* TODO 弹出添加笔友信息 */
+                navController.navigate("write_pen_pal_screen")
+            },
+
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp)
+                .padding(start = 0.dp,top = 0.dp)
+                .constrainAs(rear) {
+                    end.linkTo(parent.end, margin = 0.dp)
+                    bottom.linkTo(parent.bottom, margin = 0.dp)
+                }
+        ){
+            UnspecifiedIcon(
+                painter = painterResource(R.mipmap.add_icon)
+            )
+        }
     }
 }
 @Composable
@@ -301,7 +324,8 @@ fun PenOtherUser3(nickname:String,modifier: Modifier=Modifier){
 @Preview
 @Composable
 fun PreviewOtherUser(){
-    PenOtherUser(nickname = "皇浦铁牛")
+    val navController = rememberNavController()
+    PenOtherUser1(nickname = "皇浦铁牛", navController = navController)
 }
 
 @ExperimentalAnimationApi

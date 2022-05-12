@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
@@ -33,6 +34,7 @@ import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.PrimaryVariant
 import edu.fzu.mobius.theme.bluetext
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
+import edu.fzu.mobius.ui.penpal.PenPalViewModel
 import kotlinx.coroutines.NonDisposableHandle.parent
 
 @ExperimentalFoundationApi
@@ -223,6 +225,9 @@ fun WritePenPalScreen(
 @Composable
 fun PenPreviewWriteMail(){
     val lists = listOf(lineItem(""), lineItem(""))
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
+
+    val penPalViewModel: PenPalViewModel = viewModel()
     WritePenPalScreen(
         navController = rememberNavController(),
         items = lists,

@@ -1,5 +1,6 @@
 package edu.fzu.mobius.ui.penpal
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -27,22 +28,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.compose.mailbox.item.OtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser
+import edu.fzu.mobius.compose.penpal.PenOtherUser1
+import edu.fzu.mobius.network.Project
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.theme.PrimaryVariant
+import edu.fzu.mobius.ui.login.LoginViewModel
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun PenPalScreen(navController: NavController){
+fun PenPalScreen(
+    navController: NavController,
+    friendlist: MutableList<Project> = mutableListOf<Project>(),
+    penPalList: (NavController)->Unit,
+){
     var cardVisible by remember { mutableStateOf(false) }
     var popVisible by remember { mutableStateOf(false) }
 //    var text by remember { mutableStateOf("") }
@@ -55,7 +64,11 @@ fun PenPalScreen(navController: NavController){
                 ConstraintLayout {
                     NoShadowButton(
                         onClick = { /* TODO 弹出笔友选项卡 */
-                            cardVisible = !cardVisible },
+                            cardVisible = !cardVisible
+                            popVisible = false
+                            penPalList(navController)
+//                            Log.e("ACDD",friendlist[0].nickname)
+                                  },
 
                         modifier = Modifier
                             .height(50.dp)
@@ -243,8 +256,8 @@ fun PenPalScreen(navController: NavController){
                                 }
                         ) {
 
-                            items(15) {
-                                PenOtherUser(nickname = "笔友1号", modifier = Modifier.width(200.dp).padding(top = 10.dp))
+                            items(friendlist.size) {
+                                PenOtherUser(nickname = friendlist[it].nickname, modifier = Modifier.width(200.dp).padding(top = 10.dp))
                             }
                         }
                                 NoShadowButton(
@@ -379,28 +392,28 @@ fun PenPalScreen(navController: NavController){
                                     top.linkTo(parent.top, margin = 140.dp)
                                 }
                         ) {
-                            items(1) {
-                                PenOtherUser(nickname = "笔友1号", modifier = Modifier.animateItemPlacement())
+                            items(friendlist.size) {
+                                PenOtherUser1(nickname = friendlist[it].nickname, modifier = Modifier.animateItemPlacement(),navController)
                             }
                         }
-                        NoShadowButton(
-                            onClick = { /* TODO 弹出添加笔友信息 */
-                                navController.navigate("write_pen_pal_screen")
-                            },
-
-                            modifier = Modifier
-                                .height(100.dp)
-                                .width(100.dp)
-                                .padding(start = 0.dp,top = 0.dp)
-                                .constrainAs(add2) {
-                                    end.linkTo(parent.end, margin = 10.dp)
-                                    bottom.linkTo(parent.bottom, margin = 20.dp)
-                                }
-                        ){
-                            UnspecifiedIcon(
-                                painter = painterResource(R.mipmap.add_icon)
-                            )
-                        }
+//                        NoShadowButton(
+//                            onClick = { /* TODO 弹出添加笔友信息 */
+//                                navController.navigate("write_pen_pal_screen")
+//                            },
+//
+//                            modifier = Modifier
+//                                .height(100.dp)
+//                                .width(100.dp)
+//                                .padding(start = 0.dp,top = 0.dp)
+//                                .constrainAs(add2) {
+//                                    end.linkTo(parent.end, margin = 10.dp)
+//                                    bottom.linkTo(parent.bottom, margin = 20.dp)
+//                                }
+//                        ){
+//                            UnspecifiedIcon(
+//                                painter = painterResource(R.mipmap.add_icon)
+//                            )
+//                        }
                     }
                 }
             }
@@ -414,5 +427,12 @@ fun PenPalScreen(navController: NavController){
 @Composable
 fun PreviewPenPal() {
     val navController = rememberNavController()
-    PenPalScreen(navController = navController)
+    val penPalViewModel: PenPalViewModel = viewModel()
+
+    penPalViewModel.PenPalList(navController)
+
+    PenPalScreen(navController = navController,
+        friendlist = penPalViewModel.friendlist,
+        penPalList = penPalViewModel::PenPalList,
+    )
 }

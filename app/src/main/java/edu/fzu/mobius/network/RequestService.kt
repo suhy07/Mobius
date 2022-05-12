@@ -9,17 +9,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.concurrent.TimeUnit
+import kotlin.reflect.KFunction1
 
 interface RequestService {
 
     @POST(value = "user/login")
     fun logInByPassword(
-       @Body loginPasswordForm: Any
+        @Body loginPasswordForm: Any
     ): Call<LogInBackData>
 
     @POST(value = "/user/phoneIn")
@@ -47,10 +45,21 @@ interface RequestService {
         @Body setNicknameForm: Any
     ): Call<LogInBackData>
 
-    @GET(value = "ums/friend/list")
+    @GET(value = "ums/friend/list/")
     fun setFriendlist(
-        @Body friendlistForm: Any
-    ): Call<FriendListData>
+        @Query("nickname") nickname: String,
+    ): Call<LogInBackData>
+
+    @GET(value = "ums/friend/apply")
+    fun applyFriend(
+        @Body applyfriendForm: Any
+    ): Call<LogInBackData>
+
+
+    @POST(value = "lms/capsule")
+    fun sendCapsule(
+        @Body sendCapsuleForm: Any
+    ): Call<LogInBackData>
 
 }
 
@@ -128,7 +137,38 @@ class Network {
                             when (it.code) {
                                 200 -> {
                                     code200(it)
-                                    router(it)
+                                }
+                                else -> {
+                                    codeElse(it)
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
+                        fail(t)
+                    }
+                })
+            }.start()
+        }
+        fun networkThreadget(
+            requestService: KFunction1<String, Call<LogInBackData>>,
+            param: Any,
+            code200:(LogInBackData)->Unit = {},
+            codeElse:(LogInBackData)->Unit = {},
+            fail: (Throwable)->Unit = {},
+            other: (LogInBackData)->Unit = {}
+        ){
+            Thread{
+                requestService(param as String).enqueue(object : Callback<LogInBackData> {
+                    override fun onResponse(
+                        call: Call<LogInBackData>,
+                        response: Response<LogInBackData>
+                    ) {
+                        response.body()?.let { it ->
+                            other(it)
+                            when (it.code) {
+                                200 -> {
+                                    code200(it)
                                 }
                                 else -> {
                                     codeElse(it)
@@ -144,12 +184,36 @@ class Network {
         }
     }
 }
+data class sendCapsule(
+    val arriveTime:String,
+    val content:String,
+    val contentId:Int,
+    val receiverId:Int,
+    val title:String
+)
 data class FriendListData(
-    val message: String,
-    val code: Int,
+//    val message: String,
+//    val code: Int,
     val nickname: String,
+//    val pageNum: Int,
+//    val pageSize: Int,
+//    val data :Data
+
+)
+
+data class applyFriendFrom(
+    val applyUserId: Int,
+)
+data class Data(
     val pageNum: Int,
-    val pageSize: Int
+    val pageSize: Int,
+    val totalPage: Int,
+    val total: Int,
+    val list: List<Project>
+)
+data class Project(
+    val id: Int,
+    val nickname: String,
 )
 data class LogInBackData(
     val message: String,
