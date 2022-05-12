@@ -71,6 +71,7 @@ class RegisterViewModel: ViewModel() {
         }
     }
     fun sendVerificationCode(){
+
         if(phoneNumber.value.isEmpty()){
             PopWindows.postValue(
                 ToastMsg(
