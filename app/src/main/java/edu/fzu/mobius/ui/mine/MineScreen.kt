@@ -1,15 +1,14 @@
 package edu.fzu.mobius.ui.mine
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,10 +27,12 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 @Composable
 fun MineScreen(
     navController: NavController,
-    nickname: MutableState<String>,
-    stamp: MutableState<Int>,
-    grow: MutableState<Int>
 ) {
+    val mineViewModel: MineViewModel = viewModel()
+    val nickname: MutableState<String> = mineViewModel.nickname
+    val stamp: MutableState<Int> = mineViewModel.stamp
+    val grow: MutableState<Int> = mineViewModel.grow
+    mineViewModel.getUserInfo()
     Scaffold(
         backgroundColor = BlueBackground,
         bottomBar = {
@@ -84,6 +85,8 @@ fun MineScreen(
                         top.linkTo(parent.top, margin = 0.dp)
                         bottom.linkTo(parent.bottom, margin = 585.dp)
                         start.linkTo(editHead.end, margin = 40.dp)
+                    }.clickable {
+                        nickname.value += "123"
                     },
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
@@ -304,9 +307,6 @@ fun PreviewMine() {
     val mineViewModel:MineViewModel = viewModel()
     MineScreen(
         navController = navController,
-        nickname = mineViewModel.nickname,
-        stamp = mineViewModel.stamp,
-        grow = mineViewModel.grow
     )
 }
 

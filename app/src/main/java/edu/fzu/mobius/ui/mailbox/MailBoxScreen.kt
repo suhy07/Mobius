@@ -33,6 +33,7 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
 import edu.fzu.mobius.theme.BlueBackground
+import edu.fzu.mobius.ui.mine.MineViewModel
 import edu.fzu.mobius.ui.signin.SignInPop
 
 @ExperimentalAnimationApi

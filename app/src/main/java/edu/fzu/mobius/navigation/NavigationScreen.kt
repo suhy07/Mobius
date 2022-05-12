@@ -176,9 +176,6 @@ fun NavigationScreen() {
         composable("mine_screen"){
             MineScreen(
                 navController = navController,
-                nickname = mineViewModel.nickname,
-                stamp = mineViewModel.stamp,
-                grow = mineViewModel.grow
             )
         }
         composable("stamp_collect_screen"){

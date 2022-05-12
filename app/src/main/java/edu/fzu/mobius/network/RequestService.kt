@@ -1,7 +1,6 @@
 package edu.fzu.mobius.network
 
 import ToastMsg
-import android.widget.Space
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -15,7 +14,7 @@ import kotlin.reflect.KFunction1
 
 interface RequestService {
 
-    @POST(value = "user/login")
+    @POST(value = "/user/login")
     fun logInByPassword(
         @Body loginPasswordForm: Any
     ): Call<LogInBackData>
@@ -28,33 +27,37 @@ interface RequestService {
     @POST(value = "/code/login")
     fun loginSendVerificationCode(
         @Body verificationCodeForm: Any
-    ): Call<LogInBackData>
+    ): Call<LogInBackDataString>
 
     @POST(value = "/code/reg")
     fun registerSendVerificationCode(
         @Body verificationCodeForm: Any
-    ): Call<LogInBackData>
+    ): Call<LogInBackDataString>
+
+    @GET(value = "/user/info")
+    fun getUserInfo(
+        @Query ("") empty: Any
+    ):Call<LogInBackData>
 
     @POST(value = "/user/register")
     fun register(
         @Body registerForm: Any
     ): Call<LogInBackData>
 
-    @POST(value = "user/setName")
+    @POST(value = "/user/setName")
     fun setNickname(
         @Body setNicknameForm: Any
-    ): Call<LogInBackData>
+    ): Call<LogInBackDataString>
 
     @GET(value = "ums/friend/list/")
     fun setFriendlist(
-        @Query("nickname") nickname: String,
+        @Query("nickname") nickname: Any,
     ): Call<LogInBackData>
 
     @GET(value = "ums/friend/apply")
     fun applyFriend(
         @Body applyfriendForm: Any
     ): Call<LogInBackData>
-
 
     @POST(value = "lms/capsule")
     fun sendCapsule(
@@ -137,6 +140,7 @@ class Network {
                             when (it.code) {
                                 200 -> {
                                     code200(it)
+                                    router(it)
                                 }
                                 else -> {
                                     codeElse(it)
@@ -150,8 +154,65 @@ class Network {
                 })
             }.start()
         }
+
+        fun networkThreadString(
+            requestService: (Any)->Call<LogInBackDataString>,
+            body: Any,
+            code200: (LogInBackDataString)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString() + " " + it.message,
+                        type = ToastType.SUCCESS
+                    )
+                )
+            },
+            router: (LogInBackDataString)->Unit = {},
+            codeElse: (LogInBackDataString)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            fail: (Throwable)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.localizedMessage,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            other: (LogInBackDataString)->Unit = {}
+        ){
+            Thread{
+                requestService(body).enqueue(object : Callback<LogInBackDataString> {
+                    override fun onResponse(
+                        call: Call<LogInBackDataString>,
+                        response: Response<LogInBackDataString>
+                    ) {
+                        response.body()?.let { it ->
+                            other(it)
+                            when (it.code) {
+                                200 -> {
+                                    code200(it)
+                                    router(it)
+                                }
+                                else -> {
+                                    codeElse(it)
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<LogInBackDataString>, t: Throwable) {
+                        fail(t)
+                    }
+                })
+            }.start()
+        }
+
         fun networkThreadget(
-            requestService: KFunction1<String, Call<LogInBackData>>,
+            requestService: (Any)->Call<LogInBackData>,
             param: Any,
             code200:(LogInBackData)->Unit = {},
             codeElse:(LogInBackData)->Unit = {},
@@ -229,5 +290,4 @@ data class RegisterForm(
 
 data class SetNicknameForm(
     val nickName: String,
-    val space: String = ""
 )

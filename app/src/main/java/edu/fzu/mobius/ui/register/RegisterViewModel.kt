@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.network.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RegisterViewModel: ViewModel() {
     var phoneNumber = mutableStateOf("")

@@ -1,16 +1,12 @@
 package edu.fzu.mobius.ui.login
 
 import ToastMsg
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.network.*
 import edu.fzu.mobius.ui.mine.MineViewModel
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
 
@@ -52,7 +48,7 @@ class LoginViewModel:ViewModel() {
                 )
             )
         }else{
-            Network.networkThread(
+            Network.networkThreadString(
                 requestService =  Network.service::loginSendVerificationCode,
                 body = VerificationCodeForm(phone = phoneNumber.value),
             )
