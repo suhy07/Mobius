@@ -24,9 +24,10 @@ import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
+
 @Composable
 fun MineScreen(
-     navController: NavController,
+    navController: NavController,
     nickname: MutableState<String>,
     stamp: MutableState<Int>,
     grow: MutableState<Int>

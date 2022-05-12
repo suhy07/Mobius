@@ -5,15 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
-import edu.fzu.mobius.network.LogInBackData
-import edu.fzu.mobius.network.Network
-import edu.fzu.mobius.network.RegisterForm
-import edu.fzu.mobius.network.VerificationCodeForm
+import edu.fzu.mobius.network.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RegisterViewModel:ViewModel() {
+class RegisterViewModel: ViewModel() {
     var phoneNumber = mutableStateOf("")
     var verificationCode = mutableStateOf("")
     var password = mutableStateOf("")
@@ -63,45 +60,13 @@ class RegisterViewModel:ViewModel() {
                 )
             }
             else -> {
-                Thread {
-                    Network.service.register(RegisterForm(phone = phoneNumber.value, code = verificationCode.value, password = password.value))
-                        .enqueue(object : Callback<LogInBackData> {
-                            override fun onResponse(
-                                call: Call<LogInBackData>,
-                                response: Response<LogInBackData>
-                            ) {
-                                response.body()?.let { it ->
-                                    when (it.code) {
-                                        200 -> {
-                                            PopWindows.postValue(
-                                                ToastMsg(
-                                                    value = it.code.toString() + " " + it.message,
-                                                    type = ToastType.SUCCESS
-                                                )
-                                            )
-                                            singleTaskNav(navController,"set_nickname_screen")
-                                        }
-                                        else -> {
-                                            PopWindows.postValue(
-                                                ToastMsg(
-                                                    value = it.code.toString() + " " + it.message,
-                                                    type = ToastType.ERROR
-                                                )
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                            override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
-                                PopWindows.postValue(
-                                    ToastMsg(
-                                        value = t.localizedMessage,
-                                        type = ToastType.ERROR
-                                    )
-                                )
-                            }
-                        })
-                }.start()
+                Network.networkThread(
+                    requestService = Network.service::register,
+                    body = RegisterForm(phone = phoneNumber.value, code = verificationCode.value, password = password.value),
+                    router = {
+                        singleTaskNav(navController,"set_nickname_screen")
+                    },
+                )
             }
         }
     }
@@ -114,48 +79,20 @@ class RegisterViewModel:ViewModel() {
                 )
             )
         }else {
-            Thread {
-                Network.service.registerSendVerificationCode(VerificationCodeForm(phone = phoneNumber.value))
-                    .enqueue(object : Callback<LogInBackData> {
-                        override fun onResponse(
-                            call: Call<LogInBackData>,
-                            response: Response<LogInBackData>
-                        ) {
-                            response.body()?.let { it ->
-                                when (it.code) {
-                                    200 -> {
-                                        PopWindows.postValue(
-                                            ToastMsg(
-                                                value = it.code.toString() + " " + it.message,
-                                                type = ToastType.SUCCESS
-                                            )
-                                        )
-                                    }
-                                    else -> {
-                                        PopWindows.postValue(
-                                            ToastMsg(
-                                                value = it.code.toString() + " " + it.message,
-                                                type = ToastType.ERROR
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                        override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
-                            PopWindows.postValue(
-                                ToastMsg(
-                                    value = t.localizedMessage,
-                                    type = ToastType.ERROR
-                                )
-                            )
-                        }
-                    })
-            }.start()
+            Network.networkThread(
+                requestService = Network.service::registerSendVerificationCode,
+                body = VerificationCodeForm(phone = phoneNumber.value),
+            )
         }
     }
 
     fun setNickname(navController: NavController){
-        singleTaskNav(navController,"mailbox_screen")
+        Network.networkThread(
+            requestService = Network.service::setNickname,
+            body = SetNicknameForm(nickName = nickname.value),
+            router = {
+                singleTaskNav(navController,"mailbox_screen")
+            }
+        )
     }
 }

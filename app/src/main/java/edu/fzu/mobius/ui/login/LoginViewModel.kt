@@ -28,80 +28,21 @@ class LoginViewModel:ViewModel() {
             Network.networkThread(
                 requestService = Network.service::logInByPassword,
                 body = LoginPasswordForm(phone = phoneNumber.value, password = password.value),
-                code200 = {
+                router = {
+                    singleTaskNav(navController, "mailbox_screen")
+                    Network.token = it.data["token"] as String
+                }
+            )
+        }else{
+            Network.networkThread(
+                requestService = Network.service::logInByCode,
+                body = LoginCodeForm(phone = phoneNumber.value, code = verificationCode.value),
+                router = {
                     singleTaskNav(navController, "mailbox_screen")
                     Network.token = it.data["token"] as String
                 },
-                codeElse = {
-                    PopWindows.postValue(
-                        ToastMsg(
-                            value = it.code.toString()+" "+it.message,
-                            type = ToastType.ERROR
-                        )
-                    )
-                },
             )
         }
-//        Thread{
-//            if(!state.value){
-//                Network.service.logInByPassword()
-//                    .enqueue(object : Callback<LogInBackData> {
-//                        override fun onResponse(
-//                            call: Call<LogInBackData>,
-//                            response: Response<LogInBackData>
-//                        ) {
-//                            response.body()?.let { it ->
-//                                when(it.code){
-//                                    200 -> {
-//
-//                                    }
-//                                    else -> {
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
-//                            PopWindows.postValue(
-//                                ToastMsg(
-//                                    value = t.localizedMessage,
-//                                    type = ToastType.ERROR
-//                                )
-//                            )
-//                        }
-//                    })
-//            }else{
-//                Network.service.logInByCode(LoginCodeForm(phone = phoneNumber.value, code = verificationCode.value))
-//                    .enqueue(object : Callback<LogInBackData> {
-//                        override fun onResponse(
-//                            call: Call<LogInBackData>,
-//                            response: Response<LogInBackData>
-//                        ) {
-//                            response.body()?.let { it ->
-//                                when(it.code){
-//                                    200 -> navController.navigate("mailbox_screen")
-//                                    else -> {
-//                                        PopWindows.postValue(
-//                                            ToastMsg(
-//                                                value = it.code.toString()+" "+it.message,
-//                                                type = ToastType.ERROR
-//                                            )
-//                                        )
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
-//                            PopWindows.postValue(
-//                                ToastMsg(
-//                                    value = t.localizedMessage,
-//                                    type = ToastType.ERROR
-//                                )
-//                            )
-//                        }
-//                    })
-//            }
-//        }.start()
     }
     fun sendVerificationCode() {
         if(phoneNumber.value.isEmpty()){
@@ -112,45 +53,10 @@ class LoginViewModel:ViewModel() {
                 )
             )
         }else{
-            Thread {
-                Network.service.loginSendVerificationCode(VerificationCodeForm(phone = phoneNumber.value))
-                    .enqueue(object : Callback<LogInBackData> {
-                        override fun onResponse(
-                            call: Call<LogInBackData>,
-                            response: Response<LogInBackData>
-                        ) {
-                            response.body()?.let { it ->
-                                when (it.code) {
-                                    200 -> {
-                                        PopWindows.postValue(
-                                            ToastMsg(
-                                                value = it.code.toString() + " " + it.message,
-                                                type = ToastType.SUCCESS
-                                            )
-                                        )
-                                    }
-                                    else -> {
-                                        PopWindows.postValue(
-                                            ToastMsg(
-                                                value = it.code.toString() + " " + it.message,
-                                                type = ToastType.ERROR
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
-                            PopWindows.postValue(
-                                ToastMsg(
-                                    value = t.localizedMessage,
-                                    type = ToastType.ERROR
-                                )
-                            )
-                        }
-                    })
-            }.start()
+            Network.networkThread(
+                requestService =  Network.service::loginSendVerificationCode,
+                body = VerificationCodeForm(phone = phoneNumber.value),
+            )
         }
     }
 }

@@ -83,6 +83,7 @@ fun InviteSuccessScreen(
         }
     }
 }
+
 @Preview
 @Composable
 fun PreviewInvite(){

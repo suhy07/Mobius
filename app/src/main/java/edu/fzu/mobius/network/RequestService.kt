@@ -1,5 +1,7 @@
 package edu.fzu.mobius.network
 
+import ToastMsg
+import android.widget.Space
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -41,7 +43,7 @@ interface RequestService {
 
     @POST(value = "user/setName")
     fun setNickname(
-        @Body registerForm: Any
+        @Body setNicknameForm: Any
     ): Call<LogInBackData>
 }
 
@@ -81,9 +83,31 @@ class Network {
         fun networkThread(
             requestService: (Any)->Call<LogInBackData>,
             body: Any,
-            code200:(LogInBackData)->Unit = {},
-            codeElse:(LogInBackData)->Unit = {},
-            fail: (Throwable)->Unit = {},
+            code200: (LogInBackData)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString() + " " + it.message,
+                        type = ToastType.SUCCESS
+                    )
+                )
+            },
+            router: (LogInBackData)->Unit = {},
+            codeElse: (LogInBackData)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            fail: (Throwable)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.localizedMessage,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
             other: (LogInBackData)->Unit = {}
         ){
             Thread{
@@ -97,6 +121,7 @@ class Network {
                             when (it.code) {
                                 200 -> {
                                     code200(it)
+                                    router(it)
                                 }
                                 else -> {
                                     codeElse(it)
@@ -114,6 +139,12 @@ class Network {
 }
 
 data class LogInBackData(
+    val message: String,
+    val code: Int,
+    val data: Map<String, Any>
+)
+
+data class LogInBackDataString(
     val message: String,
     val code: Int,
     val data: Map<String, Any>
@@ -137,4 +168,9 @@ data class RegisterForm(
     val phone: String,
     val code: String,
     val password: String
+)
+
+data class SetNicknameForm(
+    val nickName: String,
+    val space: String = ""
 )

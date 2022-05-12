@@ -259,7 +259,7 @@ fun LoginScreen(
             onClick = { navController.navigate("register_screen") },
             modifier = Modifier
                 .height(30.dp)
-                .width(100.dp)
+                .width(80.dp)
                 .constrainAs(register) {
                     top.linkTo(_login.bottom, margin = 20.dp)
                     start.linkTo(parent.start, margin = 40.dp)
@@ -279,10 +279,10 @@ fun LoginScreen(
             onClick = { state.value = !state.value },
             modifier = Modifier
                 .height(30.dp)
-                .width(150.dp)
+                .width(100.dp)
                 .constrainAs(change) {
                     top.linkTo(_login.bottom, margin = 20.dp)
-                    end.linkTo(parent.end, margin = 25.dp)
+                    end.linkTo(parent.end, margin = 45.dp)
                 }
         ) {
             Text(
