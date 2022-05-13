@@ -77,7 +77,7 @@ class RegisterViewModel: ViewModel() {
                 )
             )
         }else {
-            Network.networkThread(
+            Network.networkThreadString(
                 requestService = Network.service::registerSendVerificationCode,
                 body = VerificationCodeForm(phone = phoneNumber.value),
             )
@@ -85,7 +85,7 @@ class RegisterViewModel: ViewModel() {
     }
 
     fun setNickname(navController: NavController){
-        Network.networkThread(
+        Network.networkThreadString(
             requestService = Network.service::setNickname,
             body = SetNicknameForm(nickName = nickname.value),
             router = {

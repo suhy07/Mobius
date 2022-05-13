@@ -265,7 +265,7 @@ data class LogInBackData(
 data class LogInBackDataString(
     val message: String,
     val code: Int,
-    val data: Map<String, Any>
+    val data: String
 )
 
 data class LoginPasswordForm(
