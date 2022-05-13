@@ -3,10 +3,13 @@ package edu.fzu.mobius.ui.login
 import ToastMsg
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.network.*
 import edu.fzu.mobius.ui.mine.MineViewModel
+import edu.fzu.mobius.ui.penpal.PenPalViewModel
+import edu.fzu.mobius.ui.penpal.Penpal
 import retrofit2.Response
 
 
@@ -15,6 +18,7 @@ class LoginViewModel:ViewModel() {
     var verificationCode = mutableStateOf("")
     var password = mutableStateOf("")
     var state = mutableStateOf(true)
+//    val penPalViewModel: PenPalViewModel = viewModel()
     fun login(navController: NavController){
         if(phoneNumber.value == "1234"){
             singleTaskNav(navController,"mailbox_screen")
@@ -26,6 +30,8 @@ class LoginViewModel:ViewModel() {
                 router = {
                     singleTaskNav(navController, "mailbox_screen")
                     Network.token = it.data["token"] as String
+                    Penpal.PenPalList1(navController)
+//                    penPalViewModel.PenPalList(navController)
                 }
             )
         }else{

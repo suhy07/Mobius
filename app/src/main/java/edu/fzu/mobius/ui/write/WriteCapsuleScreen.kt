@@ -300,7 +300,8 @@ fun WriteCapsuleScreen(
                             items(1) {
                                 PenOtherUser(
                                     nickname = "黄埔铁牛",
-                                    modifier = Modifier.animateItemPlacement()
+                                    modifier = Modifier.animateItemPlacement(),
+                                    navController
                                 )
                             }
                         }

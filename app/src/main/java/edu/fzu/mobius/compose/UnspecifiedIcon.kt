@@ -35,6 +35,7 @@ fun UnspecifiedIcon(
         Modifier
     }
     Box(
+
         modifier.toolingGraphicsLayer().defaultSizeFor(painter)
             .paint(
                 painter,

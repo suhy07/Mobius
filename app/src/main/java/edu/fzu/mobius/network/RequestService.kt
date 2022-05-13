@@ -1,6 +1,7 @@
 package edu.fzu.mobius.network
 
 import ToastMsg
+import edu.fzu.mobius.entity.TestData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -70,6 +71,8 @@ class Network {
     companion object {
         @JvmStatic
         var token = ""
+
+        var friendlist = mutableListOf<TestData.Data.Project>()
         //创建拦截器
         private val interceptor = Interceptor { chain ->
             val request = chain.request()
