@@ -62,6 +62,7 @@ class RegisterViewModel: ViewModel() {
                     body = RegisterForm(phone = phoneNumber.value, code = verificationCode.value, password = password.value),
                     router = {
                         singleTaskNav(navController,"set_nickname_screen")
+                        Network.token = it.data["token"] as String
                     },
                 )
             }
