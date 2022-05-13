@@ -259,17 +259,13 @@ fun LoginScreen(
             onClick = { navController.navigate("register_screen") },
             modifier = Modifier
                 .height(30.dp)
-                .width(80.dp)
                 .constrainAs(register) {
                     top.linkTo(_login.bottom, margin = 20.dp)
-                    start.linkTo(parent.start, margin = 40.dp)
-
+                    start.linkTo(_login.start, margin = 0.dp)
                 }
         ) {
             Text(
                 text = "新用户注册",
-                modifier = Modifier
-                    .fillMaxSize(),
                 textAlign = TextAlign.Center,
                 color = BlueText,
                 fontSize = 12.sp
@@ -279,10 +275,9 @@ fun LoginScreen(
             onClick = { state.value = !state.value },
             modifier = Modifier
                 .height(30.dp)
-                .width(100.dp)
                 .constrainAs(change) {
                     top.linkTo(_login.bottom, margin = 20.dp)
-                    end.linkTo(parent.end, margin = 45.dp)
+                    end.linkTo(_login.end, margin = 0.dp)
                 }
         ) {
             Text(
@@ -290,8 +285,6 @@ fun LoginScreen(
                     true -> "手机号密码登陆"
                     false -> "验证码登陆"
                 },
-                modifier = Modifier
-                    .fillMaxSize(),
                 textAlign = TextAlign.Center,
                 color = BlueText,
                 fontSize = 12.sp,
