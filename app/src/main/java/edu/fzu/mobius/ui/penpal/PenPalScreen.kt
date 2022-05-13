@@ -51,8 +51,9 @@ fun PenPalScreen(
     navController: NavController,
     friendlist: MutableList<TestData.Data.Project> = mutableListOf<TestData.Data.Project>(),
     penPalList: (NavController)->Unit,
+    penPalViewModel: PenPalViewModel
 ){
-
+    Log.e("AAAAAAAAAAAAA",friendlist.toString())
     var cardVisible by remember { mutableStateOf(false) }
     var popVisible by remember { mutableStateOf(false) }
 //    var text by remember { mutableStateOf("") }
@@ -257,8 +258,8 @@ fun PenPalScreen(
                                 }
                         ) {
 
-                            items(friendlist.size) {
-                                PenOtherUser(nickname = friendlist[it].nickname, modifier = Modifier.width(200.dp).padding(top = 10.dp),navController)
+                            items(penPalViewModel.friendlist.size) {
+                                PenOtherUser(nickname = penPalViewModel.friendlist[it].nickname, modifier = Modifier.width(200.dp).padding(top = 10.dp),navController)
                             }
                         }
                                 NoShadowButton(
@@ -393,8 +394,8 @@ fun PenPalScreen(
                                     top.linkTo(parent.top, margin = 140.dp)
                                 }
                         ) {
-                            items(friendlist.size) {
-                                PenOtherUser1(nickname = friendlist[it].nickname, modifier = Modifier.animateItemPlacement(),navController)
+                            items(penPalViewModel.friendlist.size) {
+                                PenOtherUser1(nickname = penPalViewModel.friendlist[it].nickname, modifier = Modifier.animateItemPlacement(),navController)
                             }
                         }
 //                        NoShadowButton(
@@ -435,5 +436,6 @@ fun PreviewPenPal() {
     PenPalScreen(navController = navController,
         friendlist = penPalViewModel.friendlist,
         penPalList = penPalViewModel::PenPalList,
+        penPalViewModel = penPalViewModel
     )
 }

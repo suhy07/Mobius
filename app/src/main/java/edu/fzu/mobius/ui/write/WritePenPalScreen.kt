@@ -55,7 +55,8 @@ fun WritePenPalScreen(
     sure:Boolean,
     topcard:Boolean,
     topsure:Boolean,
-    cut:Boolean
+    cut:Boolean,
+    nav:String
 ) {
 
     var cardVisible by remember { mutableStateOf(false) }
@@ -83,7 +84,7 @@ fun WritePenPalScreen(
             ){
             BaseTitleTop(
                 navController = navController,
-                router = "revert_pen_pal_screen"
+                router = "pen_pal_screen"
             )
             }
             AnimatedVisibility(
@@ -124,6 +125,7 @@ fun WritePenPalScreen(
                                 modifier = Modifier
                                     .width(30.dp)
                                     .height(30.dp)
+                                    .padding(start = 20.dp)
                             )
                         }
                         Text(
@@ -291,7 +293,7 @@ fun WritePenPalScreen(
                         TextButton(
                             onClick = { /*TODO 发送成功*/
 
-                                navController.navigate("pen_pal_invite_screen")
+                                navController.navigate(nav)
                             },
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
@@ -301,9 +303,9 @@ fun WritePenPalScreen(
                             ),
                             modifier = Modifier
                                 .height(60.dp)
-                                .width(300.dp)
+                                .width(360.dp)
                                 .constrainAs(cardbutton) {
-                                    start.linkTo(parent.start, margin = 15.dp)
+                                    start.linkTo(parent.start, margin = 25.dp)
                                     top.linkTo(parent.top, margin = 145.dp)
                                 },
                         ) {
@@ -413,6 +415,7 @@ fun PenPreviewWriteMail(){
         sure=false,
         topcard = true,
         topsure = false,
-        cut = true
+        cut = true,
+        nav = "pen_pal_invite_screen"
     )
 }

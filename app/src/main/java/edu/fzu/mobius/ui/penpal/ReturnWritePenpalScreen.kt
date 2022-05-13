@@ -84,6 +84,7 @@ fun ReturnWritePenpalScreen(
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
+                                .padding(start = 20.dp)
                         )
                     }
                     Text(
@@ -91,7 +92,7 @@ fun ReturnWritePenpalScreen(
                         modifier = Modifier
                             .constrainAs(title_) {
                                 top.linkTo(parent.top, margin = 0.dp)
-                                start.linkTo(parent.start, margin = 300.dp)
+                                start.linkTo(parent.start, margin = 310.dp)
                                 end.linkTo(parent.end, margin = 0.dp)
                                 bottom.linkTo(parent.bottom, margin = 170.dp)
                             },

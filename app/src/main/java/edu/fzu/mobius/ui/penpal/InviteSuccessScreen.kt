@@ -40,7 +40,7 @@ fun InviteSuccessScreen(
             NoShadowBottomAppBar(
                 modifier = Modifier
                     .padding(12.dp)
-                    .height(500.dp)
+                    .height(400.dp)
             ) {
                 TextButton(
                     onClick = { /*TODO*/
@@ -56,7 +56,7 @@ fun InviteSuccessScreen(
                         .height(50.dp)
                         .width(250.dp)
                         .fillMaxWidth()
-                        .padding(start = 100.dp, top = 0.dp)
+                        .padding(start = 125.dp, top = 0.dp)
                 ) {
                     Text(
                         text = "查看信件",

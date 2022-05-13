@@ -225,6 +225,7 @@ fun WriteCapsuleScreen(
                             Button(
                                 modifier = Modifier
                                     .width(200.dp)
+                                    .height(35.dp)
                                 ,
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.White,
@@ -248,7 +249,8 @@ fun WriteCapsuleScreen(
                         TextButton(
                             onClick = { /*TODO 发送成功*/
                                 arriveTime.value = mDate.value
-                                sendWriteCapsule(navController)
+//                                sendWriteCapsule(navController)
+                                navController.navigate("capsule_success_screen")
                             },
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
@@ -258,9 +260,9 @@ fun WriteCapsuleScreen(
                             ),
                             modifier = Modifier
                                 .height(60.dp)
-                                .width(300.dp)
+                                .width(365.dp)
                                 .constrainAs(cardbutton) {
-                                    start.linkTo(parent.start, margin = 15.dp)
+                                    start.linkTo(parent.start, margin = 25.dp)
                                     top.linkTo(parent.top, margin = 205.dp)
                                 },
                         ) {

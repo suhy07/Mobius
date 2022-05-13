@@ -56,7 +56,7 @@ fun SendPenPalSuccessScreen(
                         .height(50.dp)
                         .width(250.dp)
                         .fillMaxWidth()
-                        .padding(start = 100.dp, bottom = 0.dp)
+                        .padding(start = 120.dp, bottom = 0.dp)
                 ) {
                     Text(
                         text = "返回主页",
@@ -68,7 +68,7 @@ fun SendPenPalSuccessScreen(
                 text = "信件发送成功,大约六小时后到达",
                 modifier = Modifier
 
-                    .padding(start = 50.dp, top = 0.dp)
+                    .padding(start = 70.dp, top = 70.dp)
                 ,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -85,7 +85,7 @@ fun SendPenPalSuccessScreen(
                     .width(300.dp)
                     .padding(0.dp)
                     .constrainAs(icon){
-                        start.linkTo(parent.start, margin = 30.dp)
+                        start.linkTo(parent.start, margin = 60.dp)
                         top.linkTo(parent.top, margin = 10.dp)
                     }
             )

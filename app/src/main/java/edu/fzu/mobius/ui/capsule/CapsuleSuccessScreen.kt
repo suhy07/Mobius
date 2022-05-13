@@ -29,6 +29,7 @@ fun CapsuleSuccessScreen(
     navController: NavController,
 ) {
     Scaffold(
+        backgroundColor = Color(0xFFF0EFF3),
         topBar = {
             BaseTitleTop(
                 navController = navController,
@@ -66,7 +67,7 @@ fun CapsuleSuccessScreen(
                 text = "信件发送成功！",
                 modifier = Modifier
 
-                    .padding(start = 110.dp, top = 0.dp)
+                    .padding(start = 130.dp, top = 40.dp)
                     ,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -75,7 +76,7 @@ fun CapsuleSuccessScreen(
             Text(
                 text = "将于4月1日到达!",
                 modifier = Modifier
-                    .padding(start = 100.dp, top = 50.dp),
+                    .padding(start = 120.dp, top = 90.dp),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Blue
@@ -87,12 +88,13 @@ fun CapsuleSuccessScreen(
             UnspecifiedIcon(
                 painter = painterResource(id = R.drawable.plane),
                 modifier = Modifier
-                    .height(300.dp)
-                    .width(300.dp)
+                    .height(400.dp)
+                    .width(380.dp)
                     .padding(0.dp)
                     .constrainAs(icon){
                         start.linkTo(parent.start, margin = 30.dp)
-                        top.linkTo(parent.top, margin = 100.dp)
+                        top.linkTo(parent.top, margin = 0.dp)
+                        bottom.linkTo(parent.bottom,margin = 0.dp)
                     }
             )
 

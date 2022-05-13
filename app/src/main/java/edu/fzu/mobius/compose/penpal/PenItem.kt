@@ -86,7 +86,14 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                 .fillMaxWidth()
                 .height(174.dp)
                 .padding(start = 18.dp,end = 18.dp,bottom = 10.dp)
-                .background(color = Color.Unspecified),
+                .background(color = Color.Unspecified)
+                .clickable(
+                    enabled = true,
+                    role = Role.Button
+                ){
+//                    navController.navigate("look_write_revert_pen_pal_screen")
+                }
+            ,
             backgroundColor = background,
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -101,11 +108,6 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                             end.linkTo(parent.end, margin = 180.dp)
                             top.linkTo(parent.top, margin = 0.dp)
                             bottom.linkTo(parent.bottom, margin = 100.dp)
-                        }.clickable(
-                            enabled = true,
-                            role = Role.Button
-                        ){
-                            navController.navigate("look_write_revert_pen_pal_screen")
                         }
                     ,
                     fontSize = 16.sp
@@ -147,18 +149,7 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                         )
                     }
                 }
-                PenOtherUser(
-                    nickname = otherNickname,
-                    modifier = Modifier
-                        .constrainAs(other){
-                            start.linkTo(parent.start, margin = 260.dp)
-                            end.linkTo(parent.end, margin = 0.dp)
-                            top.linkTo(parent.top, margin = 120.dp)
-                            bottom.linkTo(parent.bottom, margin = 10.dp)
-                        },
-                    navController
-                )
-                PenOtherUser1(
+                PenOtherUser2(
                     nickname = otherNickname,
                     modifier = Modifier
                         .constrainAs(other){
@@ -167,9 +158,8 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                             top.linkTo(parent.top, margin = 120.dp)
                             bottom.linkTo(parent.bottom, margin = 10.dp)
                         }
-                ,
-                    navController
                 )
+
             }
         }
     }
@@ -217,7 +207,7 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier,navController: NavC
 @Composable
 fun PenOtherUser1(nickname:String,modifier: Modifier=Modifier,navController: NavController){
     ConstraintLayout(
-        modifier = modifier.width(250.dp)
+        modifier = modifier.width(290.dp)
     ) {
         val (name,head,rear) = createRefs()
         Text(
@@ -286,7 +276,7 @@ fun PenOtherUser2(nickname:String,modifier: Modifier=Modifier){
         val (name,head) = createRefs()
         Text(
             text = nickname,
-            color = Color.Black,
+            color = Color.White,
             modifier = Modifier
                 .width(100.dp)
                 .constrainAs(name){
@@ -295,13 +285,13 @@ fun PenOtherUser2(nickname:String,modifier: Modifier=Modifier){
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin =0.dp)
                 },
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center
+            fontSize = 16.sp,
+            textAlign = TextAlign.Left
         )
         UnspecifiedIcon(
-            painter = painterResource(id = R.mipmap.head_girl2),
+            painter = painterResource(id = R.mipmap.head_girl),
             modifier = Modifier
-                .height(45.dp)
+                .height(25.dp)
                 .padding(end = 110.dp)
                 .constrainAs(head) {
                     start.linkTo(parent.start, margin = 0.dp)
@@ -310,7 +300,6 @@ fun PenOtherUser2(nickname:String,modifier: Modifier=Modifier){
                     bottom.linkTo(parent.bottom, margin = 10.dp)
                 }
         )
-
     }
 }
 @Composable

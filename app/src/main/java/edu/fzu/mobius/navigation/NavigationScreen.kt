@@ -106,6 +106,7 @@ fun NavigationScreen() {
                 navController = navController,
                 friendlist = penPalViewModel.friendlist,
                 penPalList = penPalViewModel::PenPalList,
+                penPalViewModel = penPalViewModel
             )
         }
         composable("write_pen_pal_screen"){
@@ -118,7 +119,8 @@ fun NavigationScreen() {
                 sure=true,
                 topcard = false,
                 topsure = true,
-                cut = false
+                cut = false,
+                nav = "pen_pal_invite_screen"
             )
         }
         composable("pen_pal_invite_screen"){
@@ -134,7 +136,8 @@ fun NavigationScreen() {
                 sure=false,
                 topcard = false,
                 topsure = true,
-                cut = false
+                cut = false,
+                nav = "pen_pal_invite_screen"
             )
         }
         composable("revert_pen_pal_screen"){
@@ -155,7 +158,8 @@ fun NavigationScreen() {
                 sure=true,
                 topcard = true,
                 topsure = false,
-                cut = false
+                cut = false,
+                nav = "send_penpal_success_screen"
             )
         }
         composable("cut_write_revert_pen_pal_screen"){
@@ -168,7 +172,8 @@ fun NavigationScreen() {
                 sure=false,
                 topcard = true,
                 topsure = false,
-                cut = true
+                cut = true,
+                nav = "pen_pal_invite_screen"
             )
         }
 
@@ -182,7 +187,8 @@ fun NavigationScreen() {
                 sure=false,
                 topcard = false,
                 topsure = true,
-                cut = false
+                cut = false,
+                nav = "pen_pal_invite_screen"
             )
         }
         composable("send_penpal_success_screen"){
