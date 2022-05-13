@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
+import edu.fzu.mobius.compose.ButtonBottom
 import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.theme.BlueButton
@@ -133,29 +134,13 @@ fun WriteCapsuleScreen(
 
 
             ) {
-                Column() {
-
-                    TextButton(
-                        onClick = { /*TODO*/
-                            cardVisible = true
-                            sureVisible = false
-                        },
-                        shape = RoundedCornerShape(20.dp),
-                        elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = BlueButton,
-                            contentColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .height(60.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "发送信件",
-                            fontSize = 20.sp
-                        )
-                    }
-                }
+                ButtonBottom(
+                    onClick = {
+                        cardVisible = true
+                        sureVisible = false
+                              },
+                    title = "发送信件"
+                )
             }
         }
             AnimatedVisibility(

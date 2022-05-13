@@ -50,6 +50,16 @@ interface RequestService {
         @Body setNicknameForm: Any
     ): Call<LogInBackDataString>
 
+    @GET(value = "/anon/random/5")
+    fun getAnonList(
+        @Query ("") empty: Any
+    ):Call<LogInBackData>
+
+    @POST(value = "/anon/save")
+    fun postAnonLetter(
+        @Body postAnonForm: Any
+    ): Call<LogInBackData>
+
     @GET(value = "ums/friend/list/")
     fun setFriendlist(
         @Query("nickname") nickname: Any,
@@ -293,4 +303,11 @@ data class RegisterForm(
 
 data class SetNicknameForm(
     val nickName: String,
+)
+
+data class PostAnonForm(
+    val content: String,
+    val contentId: Int = 0,
+    val moodLevel: Int,
+
 )
