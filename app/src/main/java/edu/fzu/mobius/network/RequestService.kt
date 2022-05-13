@@ -70,10 +70,10 @@ interface RequestService {
         @Body applyfriendForm: Any
     ): Call<LogInBackData>
 
-    @POST(value = "lms/capsule")
+    @POST(value = "/capsule")
     fun sendCapsule(
         @Body sendCapsuleForm: Any
-    ): Call<LogInBackData>
+    ): Call<LogInBackDataString>
 
 }
 
@@ -261,7 +261,6 @@ class Network {
 data class SendCapsuleForm(
     val arriveTime:String,
     val content:String,
-    val contentId:Int,
     val receiverId:Int,
     val title:String
 )

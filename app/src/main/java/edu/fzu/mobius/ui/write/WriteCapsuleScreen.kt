@@ -10,10 +10,12 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -22,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,11 +36,14 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.ButtonBottom
+import edu.fzu.mobius.compose.LineInput
 import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.bluetext
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
+import edu.fzu.mobius.ui.penpal.PenPalViewModel
+import edu.fzu.mobius.ui.penpal.Penpal
 import java.util.*
 import kotlin.reflect.KMutableProperty0
 
@@ -54,13 +60,9 @@ fun WriteCapsuleScreen(
     sure:Boolean,
     return1:Boolean,
     sendWriteCapsule: (NavController)->Unit,
-    arriveTime: MutableState<String>,
-    content: MutableState<String>,
-    contentId: MutableState<Int>,
-    receiverId: MutableState<Int>,
-    title: MutableState<String>
+    writeCapsuleViewModel:WriteCapsuleViewModel
 ) {
-
+    var letterValue = (viewModel() as WriteMailViewModel).letterValue
     val mDate = remember { mutableStateOf("") }
     val isClick = rememberSaveable  { mutableStateOf(false) }
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
@@ -70,6 +72,13 @@ fun WriteCapsuleScreen(
     var returnVisible by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     var Time by remember { mutableStateOf("") }
+
+    Log.e("AAAAAA",Penpal.friendlist.size.toString())
+    for (i in 0 until  Penpal.friendlist.size){
+        writeCapsuleViewModel.selectList.add(Penpal.friendlist[i].nickname)
+        writeCapsuleViewModel.selectIdList.add(Penpal.friendlist[i].id)
+    }
+    writeCapsuleViewModel.title.value = "给未来的信"
     cardVisible = card;
     sureVisible = sure;
     returnVisible = return1;
@@ -90,9 +99,6 @@ fun WriteCapsuleScreen(
     mYear = mCalendar.get(Calendar.YEAR)
     mMonth = mCalendar.get(Calendar.MONTH)
     mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-    mH = mCalendar.get(Calendar.HOUR_OF_DAY)
-    mm = mCalendar.get(Calendar.MINUTE)
-    ms = mCalendar.get(Calendar.SECOND)
     mCalendar.time = Date()
 
     // Declaring DatePickerDialog and setting
@@ -100,10 +106,12 @@ fun WriteCapsuleScreen(
     val mDatePickerDialog = DatePickerDialog(
         mContext,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-
-            val mH = mCalendar.get(Calendar.HOUR_OF_DAY)
-            val mm = mCalendar.get(Calendar.MINUTE)
-            val ms = mCalendar.get(Calendar.SECOND)
+            val mH:Int
+            val mm:Int
+            val ms:Int
+            mH = mCalendar.get(Calendar.HOUR_OF_DAY)
+            mm = mCalendar.get(Calendar.MINUTE)
+            ms = mCalendar.get(Calendar.SECOND)
             mDate.value = "$mYear-${mMonth+1}-$mDayOfMonth $mH:$mm:$ms"
         }, mYear, mMonth, mDay
     )
@@ -134,13 +142,29 @@ fun WriteCapsuleScreen(
 
 
             ) {
-                ButtonBottom(
-                    onClick = {
-                        cardVisible = true
-                        sureVisible = false
-                              },
-                    title = "发送信件"
-                )
+                Column() {
+
+                    TextButton(
+                        onClick = { /*TODO*/
+                            cardVisible = true
+                            sureVisible = false
+                        },
+                        shape = RoundedCornerShape(20.dp),
+                        elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = BlueButton,
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .height(60.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "发送信件",
+                            fontSize = 20.sp
+                        )
+                    }
+                }
             }
         }
             AnimatedVisibility(
@@ -233,9 +257,15 @@ fun WriteCapsuleScreen(
                             color = bluetext,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
-                                arriveTime.value = mDate.value
-//                                sendWriteCapsule(navController)
-                                navController.navigate("capsule_success_screen")
+                                writeCapsuleViewModel.arriveTime.value = mDate.value
+                                writeCapsuleViewModel.content.value = letterValue
+
+                                Log.e("AAAAAA",writeCapsuleViewModel.arriveTime.value)
+                                Log.e("AAAAAA",writeCapsuleViewModel.content.value)
+                                Log.e("AAAAAA",writeCapsuleViewModel.receiverId.value.toString())
+                                Log.e("AAAAAA",writeCapsuleViewModel.title.value)
+                                sendWriteCapsule(navController)
+//                                navController.navigate("capsule_success_screen")
                             },
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
@@ -310,14 +340,96 @@ fun WriteCapsuleScreen(
     ) {
         ConstraintLayout() {
             val (edit, card,card1) = createRefs()
-            MailEditor(
-                otherNickname = otherNickname,
-                items = items,
-                onEditItemChange = onEditItemChange,
+//            MailEditor(
+//                otherNickname = otherNickname,
+//                items = items,
+//                onEditItemChange = onEditItemChange,
+//                modifier = Modifier
+//                    .constrainAs(edit) {
+//                    },
+//            )
+            Box(
                 modifier = Modifier
                     .constrainAs(edit) {
                     },
-            )
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ){
+                    if (otherNickname.equals("")){
+                        item() {
+                            Row {
+
+                                Text(
+                                    text = "To:",
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .padding(start = 0.dp, top = 10.dp)
+                                    ,
+                                    fontSize = 16.sp,
+                                    textAlign = TextAlign.Center,
+                                )
+                                Button(
+                                    onClick = {isClick.value = !isClick.value},
+                                    content = {
+                                        Text(text = selectType.value)
+                                    },
+                                    modifier = Modifier
+                                        .width(120.dp),
+                                    shape = RoundedCornerShape(5.dp),
+                                    border = BorderStroke(1.dp,Color.Blue) ,
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = Color.White,
+                                    )
+                                )
+                                DropdownMenu(
+                                    expanded = isClick.value,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDismissRequest = {},
+                                    content = {
+                                        writeCapsuleViewModel.selectList.forEach {
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    isClick.value = !isClick.value
+                                                    selectType.value = it
+                                                },
+                                                content = {
+                                                    Text(text = it)
+                                                    for (i in 0 until  Penpal.friendlist.size){
+                                                        if (it.equals(writeCapsuleViewModel.selectList[i]))
+                                                        writeCapsuleViewModel.receiverId.value=writeCapsuleViewModel.selectIdList[i]
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    }
+                                )
+
+                            }
+                        }
+                    }
+                    else {
+                        item() {
+                            LineInput(
+                                text = "To:$otherNickname",
+                                onTextChange = {},
+                                readOnly = true,
+                                modifier = Modifier
+                                    .width(120.dp),
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
+                    items(items = items){
+                        val item = it
+                        LineInput(
+                            text = it.value,
+                            onTextChange = { onEditItemChange(item.copy(value = it)) },
+                        )
+                    }
+                }
+            }
             Log.d("ASD", isClick.value.toString())
 //            DropdownMenu(
 //                expanded = isClick.value,
@@ -360,10 +472,6 @@ fun CapsulePreviewWriteMail(){
         sure = false,
         return1 = false,
         sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
-        arriveTime = writeCapsuleViewModel.arriveTime,
-        content = writeCapsuleViewModel.content,
-        contentId = writeCapsuleViewModel.contentId,
-        receiverId = writeCapsuleViewModel.receiverId,
-        title = writeCapsuleViewModel.title,
+        writeCapsuleViewModel = writeCapsuleViewModel
     )
 }

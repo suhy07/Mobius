@@ -207,11 +207,7 @@ fun NavigationScreen() {
                 sure = true,
                 return1 = false,
                 sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
-                arriveTime = writeCapsuleViewModel.arriveTime,
-                content = writeCapsuleViewModel.content,
-                contentId = writeCapsuleViewModel.contentId,
-                receiverId = writeCapsuleViewModel.receiverId,
-                title = writeCapsuleViewModel.title,
+                writeCapsuleViewModel = writeCapsuleViewModel
             )
         }
         composable("capsule_success_screen"){
@@ -227,11 +223,7 @@ fun NavigationScreen() {
                 sure = false,
                 return1 = true,
                 sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
-                arriveTime = writeCapsuleViewModel.arriveTime,
-                content = writeCapsuleViewModel.content,
-                contentId = writeCapsuleViewModel.contentId,
-                receiverId = writeCapsuleViewModel.receiverId,
-                title = writeCapsuleViewModel.title,
+                writeCapsuleViewModel = writeCapsuleViewModel
             )
         }
         composable("mine_screen"){
