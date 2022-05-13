@@ -24,9 +24,7 @@ import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
 import edu.fzu.mobius.ui.mailbox.SentMailBoxScreen
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.mine.MineViewModel
-import edu.fzu.mobius.ui.penpal.InviteSuccessScreen
-import edu.fzu.mobius.ui.penpal.PenPalScreen
-import edu.fzu.mobius.ui.penpal.PenPalViewModel
+import edu.fzu.mobius.ui.penpal.*
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.register.SetNicknameScreen
@@ -118,6 +116,9 @@ fun NavigationScreen() {
                 otherNickname = "笔友一号",
                 card=false,
                 sure=true,
+                topcard = false,
+                topsure = true,
+                cut = false
             )
         }
         composable("pen_pal_invite_screen"){
@@ -131,7 +132,61 @@ fun NavigationScreen() {
                 otherNickname = "笔友一号",
                 card=false,
                 sure=false,
+                topcard = false,
+                topsure = true,
+                cut = false
             )
+        }
+        composable("revert_pen_pal_screen"){
+            ReturnWritePenpalScreen(
+                navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "笔友一号",
+            )
+        }
+        composable("write_revert_pen_pal_screen"){
+            WritePenPalScreen(
+                navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "hzd",
+                card=false,
+                sure=true,
+                topcard = true,
+                topsure = false,
+                cut = false
+            )
+        }
+        composable("cut_write_revert_pen_pal_screen"){
+            WritePenPalScreen(
+                navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "hzd",
+                card=false,
+                sure=false,
+                topcard = true,
+                topsure = false,
+                cut = true
+            )
+        }
+
+        composable("look_write_revert_pen_pal_screen"){
+            WritePenPalScreen(
+                navController = navController,
+                items = writeMailViewModel.lineItems ,
+                onEditItemChange = writeMailViewModel::onEditItemChange,
+                otherNickname = "hzd",
+                card=false,
+                sure=false,
+                topcard = false,
+                topsure = true,
+                cut = false
+            )
+        }
+        composable("send_penpal_success_screen"){
+            SendPenPalSuccessScreen(navController = navController)
         }
         composable("capsule_screen"){
             CapsuleScreen(navController = navController)

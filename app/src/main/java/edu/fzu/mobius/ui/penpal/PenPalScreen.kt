@@ -52,6 +52,7 @@ fun PenPalScreen(
     friendlist: MutableList<TestData.Data.Project> = mutableListOf<TestData.Data.Project>(),
     penPalList: (NavController)->Unit,
 ){
+
     var cardVisible by remember { mutableStateOf(false) }
     var popVisible by remember { mutableStateOf(false) }
 //    var text by remember { mutableStateOf("") }
@@ -257,7 +258,7 @@ fun PenPalScreen(
                         ) {
 
                             items(friendlist.size) {
-                                PenOtherUser(nickname = friendlist[it].nickname, modifier = Modifier.width(200.dp).padding(top = 10.dp))
+                                PenOtherUser(nickname = friendlist[it].nickname, modifier = Modifier.width(200.dp).padding(top = 10.dp),navController)
                             }
                         }
                                 NoShadowButton(

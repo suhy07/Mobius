@@ -3,6 +3,7 @@ package edu.fzu.mobius.compose.penpal
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -99,7 +101,13 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                             end.linkTo(parent.end, margin = 180.dp)
                             top.linkTo(parent.top, margin = 0.dp)
                             bottom.linkTo(parent.bottom, margin = 100.dp)
-                        },
+                        }.clickable(
+                            enabled = true,
+                            role = Role.Button
+                        ){
+                            navController.navigate("look_write_revert_pen_pal_screen")
+                        }
+                    ,
                     fontSize = 16.sp
                 )
                 Text(
@@ -147,7 +155,8 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
                             end.linkTo(parent.end, margin = 0.dp)
                             top.linkTo(parent.top, margin = 120.dp)
                             bottom.linkTo(parent.bottom, margin = 10.dp)
-                        }
+                        },
+                    navController
                 )
                 PenOtherUser1(
                     nickname = otherNickname,
@@ -167,7 +176,7 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
 }
 
 @Composable
-fun PenOtherUser(nickname:String,modifier: Modifier=Modifier){
+fun PenOtherUser(nickname:String,modifier: Modifier=Modifier,navController: NavController){
     ConstraintLayout(
         modifier = modifier.width(200.dp)
     ) {
@@ -182,6 +191,11 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier){
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin =0.dp)
+                }.clickable(
+                    enabled = true,
+                    role = Role.Button
+                ){
+                    navController.navigate("revert_pen_pal_screen")
                 },
             fontSize = 20.sp,
             textAlign = TextAlign.Center
@@ -216,7 +230,14 @@ fun PenOtherUser1(nickname:String,modifier: Modifier=Modifier,navController: Nav
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin =0.dp)
-                },
+                }
+                .clickable(
+                enabled = true,
+                role = Role.Button
+            ){
+                        navController.navigate("revert_pen_pal_screen")
+            }
+            ,
             fontSize = 20.sp,
             textAlign = TextAlign.Center
         )
@@ -230,7 +251,12 @@ fun PenOtherUser1(nickname:String,modifier: Modifier=Modifier,navController: Nav
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin = 0.dp)
-                }
+                }.clickable(
+                enabled = true,
+                role = Role.Button
+            ){
+                navController.navigate("revert_pen_pal_screen")
+            }
         )
         NoShadowButton(
             onClick = { /* TODO 弹出添加笔友信息 */
