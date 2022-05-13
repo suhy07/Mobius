@@ -12,7 +12,7 @@ class WriteMailViewModel : ViewModel() {
 
     private var currentEditPosition by mutableStateOf(0)
 
-    var letterValue by mutableStateOf("          这里是我自己写的信,收取邮票发出去")
+    val letterValue = mutableStateOf("")
 
     var otherNickName by mutableStateOf("陌生人")
         private set
@@ -42,7 +42,7 @@ class WriteMailViewModel : ViewModel() {
     private fun cutLine(){
         lineItems.clear()
         var t = ""
-        for (i in letterValue) {
+        for (i in letterValue.value) {
             val pFont = Paint()
             val rect = Rect()
             t += i
@@ -66,7 +66,7 @@ class WriteMailViewModel : ViewModel() {
         for(i in lineItems){
             t+=i.value
         }
-        letterValue = t
+        letterValue.value = String(t.toCharArray())
     }
 
     fun onEditItemChange(item: lineItem) {

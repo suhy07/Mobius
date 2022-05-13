@@ -207,7 +207,8 @@ fun NavigationScreen() {
                 sure = true,
                 return1 = false,
                 sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
-                writeCapsuleViewModel = writeCapsuleViewModel
+                writeCapsuleViewModel = writeCapsuleViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
         composable("capsule_success_screen"){
@@ -223,7 +224,8 @@ fun NavigationScreen() {
                 sure = false,
                 return1 = true,
                 sendWriteCapsule = writeCapsuleViewModel::sendWriteCapsule,
-                writeCapsuleViewModel = writeCapsuleViewModel
+                writeCapsuleViewModel = writeCapsuleViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
         composable("mine_screen"){

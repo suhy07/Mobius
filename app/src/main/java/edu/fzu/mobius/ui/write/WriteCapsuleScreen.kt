@@ -60,9 +60,9 @@ fun WriteCapsuleScreen(
     sure:Boolean,
     return1:Boolean,
     sendWriteCapsule: (NavController)->Unit,
-    writeCapsuleViewModel:WriteCapsuleViewModel
+    writeCapsuleViewModel:WriteCapsuleViewModel,
+    value: MutableState<String> = mutableStateOf("test"),
 ) {
-    var letterValue = (viewModel() as WriteMailViewModel).letterValue
     val mDate = remember { mutableStateOf("") }
     val isClick = rememberSaveable  { mutableStateOf(false) }
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
@@ -257,9 +257,8 @@ fun WriteCapsuleScreen(
                             color = bluetext,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
+                                writeCapsuleViewModel.content.value = value.value
                                 writeCapsuleViewModel.arriveTime.value = mDate.value
-                                writeCapsuleViewModel.content.value = letterValue
-
                                 Log.e("AAAAAA",writeCapsuleViewModel.arriveTime.value)
                                 Log.e("AAAAAA",writeCapsuleViewModel.content.value)
                                 Log.e("AAAAAA",writeCapsuleViewModel.receiverId.value.toString())
