@@ -2,6 +2,7 @@ package edu.fzu.mobius.network
 
 import ToastMsg
 import edu.fzu.mobius.entity.TestData
+import edu.fzu.mobius.global.GlobalMem
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -14,6 +15,21 @@ import java.util.concurrent.TimeUnit
 import kotlin.reflect.KFunction1
 
 interface RequestService {
+
+    @GET(value = "/anon/random/"+GlobalMem.ANON_NUM)
+    fun randomAnonList(
+        @Query ("") empty: Any
+    ):Call<LogInBackDataString>
+
+    @GET(value = "/anon/getCurrentPossessAnons")
+    fun getAnonList(
+        @Query ("") empty: Any
+    ):Call<LogInBackData>
+
+    @POST(value = "/anon/save")
+    fun postAnonLetter(
+        @Body postAnonForm: Any
+    ): Call<LogInBackData>
 
     @POST(value = "/user/login")
     fun logInByPassword(
@@ -30,15 +46,26 @@ interface RequestService {
         @Body verificationCodeForm: Any
     ): Call<LogInBackDataString>
 
+    @POST(value = "/code/rePassword")
+    fun changePasswordSendVerificationCode(
+        @Body verificationCodeForm: Any
+    ): Call<LogInBackDataString>
+
     @POST(value = "/code/reg")
     fun registerSendVerificationCode(
         @Body verificationCodeForm: Any
     ): Call<LogInBackDataString>
 
+
     @GET(value = "/user/info")
     fun getUserInfo(
         @Query ("") empty: Any
     ):Call<LogInBackData>
+
+    @POST(value = "/user/rePassword")
+    fun change(
+        @Body changePasswordForm: Any
+    ): Call<LogInBackDataString>
 
     @POST(value = "/user/register")
     fun register(
@@ -50,29 +77,35 @@ interface RequestService {
         @Body setNicknameForm: Any
     ): Call<LogInBackDataString>
 
-    @GET(value = "/anon/random/5")
-    fun getAnonList(
-        @Query ("") empty: Any
-    ):Call<LogInBackData>
-
-    @POST(value = "/anon/save")
-    fun postAnonLetter(
-        @Body postAnonForm: Any
-    ): Call<LogInBackData>
-
-    @GET(value = "ums/friend/list/")
+    @GET(value = "/ums/friend/list/")
     fun setFriendlist(
         @Query("nickname") nickname: Any,
     ): Call<LogInBackData>
 
-    @GET(value = "ums/friend/apply")
+    @GET(value = "/ums/friend/apply")
     fun applyFriend(
-        @Body applyfriendForm: Any
+        @Body applyFriendForm: Any
     ): Call<LogInBackData>
 
     @POST(value = "/capsule")
     fun sendCapsule(
         @Body sendCapsuleForm: Any
+    ): Call<LogInBackDataString>
+
+    @GET(value = "/draft/list")
+    fun getDraftList(
+        @Query ("pageNum") pageNum: Int,
+//        @Query ("pageSize") pageSize: Int = 100
+    ): Call<LogInBackData>
+
+    @GET(value = "/draft/{contentId}")
+    fun getDraftValue(
+        @Query ("contentId") contentId: Int,
+    ): Call<LogInBackData>
+
+    @POST(value = "/draft/save")
+    fun saveDraft(
+        @Body saveDraftForm: Any
     ): Call<LogInBackDataString>
 
 }
@@ -105,7 +138,7 @@ class Network {
 
 
         private var retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("http://101.132.99.44:8998")
+            .baseUrl(GlobalMem.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client.build())
             .build()
@@ -224,7 +257,7 @@ class Network {
             }.start()
         }
 
-        fun networkThreadget(
+        fun networkThreadGet(
             requestService: (Any)->Call<LogInBackData>,
             param: Any,
             code200:(LogInBackData)->Unit = {},
@@ -233,7 +266,7 @@ class Network {
             other: (LogInBackData)->Unit = {}
         ){
             Thread{
-                requestService(param as String).enqueue(object : Callback<LogInBackData> {
+                requestService(param).enqueue(object : Callback<LogInBackData> {
                     override fun onResponse(
                         call: Call<LogInBackData>,
                         response: Response<LogInBackData>
@@ -265,7 +298,7 @@ data class SendCapsuleForm(
     val title:String
 )
 
-data class ApplyFriendFrom(
+data class applyFriendFrom(
     val applyUserId: Int,
 )
 data class LogInBackData(
@@ -304,9 +337,20 @@ data class SetNicknameForm(
     val nickName: String,
 )
 
+data class ChangePasswordForm(
+    val code: String,
+    val password: String,
+    val phone: String
+)
+
 data class PostAnonForm(
     val content: String,
     val contentId: Int = 0,
     val moodLevel: Int,
+)
 
+data class SaveDraftForm(
+    val content: String ,
+    val title: String,
+    val contentId: Nothing? = null,
 )

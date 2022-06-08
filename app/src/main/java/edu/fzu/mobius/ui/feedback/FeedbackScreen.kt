@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
@@ -24,24 +25,24 @@ import edu.fzu.mobius.compose.EmptyTextField
 @Composable
 fun FeedbackScreen(
     navController: NavController,
-    feedback: String
+    feedbackValue: MutableState<String>,
+    feedback: ()->Unit,
 ) {
     Scaffold(
         topBar = {
             BaseTitleTop(
                 navController = navController,
-                router = "drafts_screen",
-                title = "编辑"
+                router = "mine_screen",
+                title = "反馈"
             )
         },
         bottomBar = {
             ButtonBottom(
-                onClick = { /*TODO*/ },
+                onClick = { feedback},
                 title = "确定"
             )
         }
     ) {
-        var _feedback by remember { mutableStateOf(feedback) }
         Card(
             modifier = Modifier
                 .fillMaxSize()
@@ -50,10 +51,8 @@ fun FeedbackScreen(
             elevation = 5.dp
         ) {
             EmptyTextField(
-                value = _feedback,
-                onValueChange = {
-                    _feedback = it
-                },
+                value = feedbackValue.value,
+                onValueChange = feedbackValue.component2(),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Unspecified,
                     focusedIndicatorColor = Color.Unspecified,
@@ -75,8 +74,10 @@ fun FeedbackScreen(
 @Preview
 @Composable
 fun PreviewFeedback(){
+    val feedbackViewModel: FeedbackViewModel = viewModel()
     FeedbackScreen(
         navController = rememberNavController(),
-        feedback = ""
+        feedbackValue = feedbackViewModel.feedbackValue,
+        feedback = feedbackViewModel::feedback
     )
 }

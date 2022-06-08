@@ -28,6 +28,8 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.compose.CloseButton
+import edu.fzu.mobius.global.GlobalMem
+import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
@@ -151,7 +153,9 @@ fun MailBoxScreen(navController: NavController){
             // Create references for the composables to constrain
             val (image,text1,text2,card,button,signIn) = createRefs()
             NoShadowButton(
-                onClick = { navController.navigate("anon_mailbox_screen") },
+                onClick = {
+                    singleTaskNav(navController,"anon_mailbox_screen")
+                },
                 modifier = Modifier
                     .width(150.dp)
                     .height(90.dp)
@@ -237,8 +241,7 @@ fun SetTimePop(
     var cardVisible = mailBoxViewModel.cardVisible
     var floatingVisible = mailBoxViewModel.floatingVisible
     var expanded = mailBoxViewModel.expanded
-    var time = mailBoxViewModel.time
-    val items = mailBoxViewModel.items
+    val items = GlobalMem.ANON_TIME_LIST
 
     Card(
         shape = RoundedCornerShape(topStart = 20.dp,topEnd = 20.dp),
@@ -294,7 +297,7 @@ fun SetTimePop(
                     }
             ) {
                 Text(
-                    text = "    每天" + time.value + "  ∨",
+                    text = "    每天" + GlobalMem.ANON_TIME + "  ∨",
                     textAlign = TextAlign.Center
                 )
                 DropdownMenu(
@@ -308,7 +311,7 @@ fun SetTimePop(
                     items.forEachIndexed { _, s ->
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            time.value = s
+                            GlobalMem.ANON_TIME = s
                         }) {
                             Text(text = "$s        -")
                         }

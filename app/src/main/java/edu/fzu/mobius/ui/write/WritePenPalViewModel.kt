@@ -14,7 +14,7 @@ class WritePenPalViewModel:ViewModel() {
     fun WritePenPalApply(navController: NavController){
             Network.networkThread(
                 requestService = Network.service::applyFriend,
-                body = ApplyFriendFrom(applyUserId =applyUserId.value),
+                body = applyFriendFrom(applyUserId =applyUserId.value),
                 code200 = {
                     friendlist = it.data["list"] as MutableList<TestData.Data.Project>
 //                    Network.token = it.data["token"] as String

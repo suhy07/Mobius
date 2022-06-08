@@ -20,7 +20,7 @@ class PenPalViewModel:ViewModel() {
 
     fun PenPalList(navController: NavController){
             friendlist=Penpal.friendlist
-            Network.networkThreadget(
+            Network.networkThreadGet(
                 requestService = Network.service::setFriendlist,
                 param = nickname.value,
                 code200 = {

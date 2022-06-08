@@ -21,7 +21,7 @@ import edu.fzu.mobius.compose.SignInBigItemScreen
 import edu.fzu.mobius.compose.SignInItemScreen
 import edu.fzu.mobius.entity.SignInItem
 import edu.fzu.mobius.ui.mailbox.MailBoxViewModel
-import edu.fzu.mobius.util.TimeUtils
+import edu.fzu.mobius.util.TimeUtil
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -80,8 +80,8 @@ fun SignInPop(modifier: Modifier = Modifier) {
                 items(items) {
                     when {
                         it.day != 7 -> {
-                            if (TimeUtils.getTodayWeek() == it.day) {
-                                Log.d("TAGTAG", TimeUtils.getTodayWeek().toString()+":"+it.day)
+                            if (TimeUtil.getTodayWeek() == it.day) {
+                                Log.d("TAGTAG", TimeUtil.getTodayWeek().toString()+":"+it.day)
                                 SignInItemScreen(gift = it.gift, state = it.state, true)
                             }
                             else
@@ -92,7 +92,7 @@ fun SignInPop(modifier: Modifier = Modifier) {
                 }
                 item {
                     val item = signInViewModel.getBigItem()
-                    if (TimeUtils.getTodayWeek() == item.day)
+                    if (TimeUtil.getTodayWeek() == item.day)
                         SignInBigItemScreen(gift = item.gift, state = item.state, true)
                     else
                         SignInBigItemScreen(gift = item.gift, state = item.state)

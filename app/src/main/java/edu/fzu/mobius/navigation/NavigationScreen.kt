@@ -16,14 +16,15 @@ import edu.fzu.mobius.ui.capsule.CapsuleSuccessScreen
 import edu.fzu.mobius.ui.draft.DraftEditScreen
 import edu.fzu.mobius.ui.draft.DraftViewModel
 import edu.fzu.mobius.ui.draft.DraftsScreen
+import edu.fzu.mobius.ui.feedback.FeedbackScreen
+import edu.fzu.mobius.ui.feedback.FeedbackViewModel
 import edu.fzu.mobius.ui.login.LoginScreen
 import edu.fzu.mobius.ui.login.LoginViewModel
-import edu.fzu.mobius.ui.mailbox.AnonMailBoxScreen
-import edu.fzu.mobius.ui.mailbox.MailBoxScreen
-import edu.fzu.mobius.ui.mailbox.MyMailBoxScreen
-import edu.fzu.mobius.ui.mailbox.SentMailBoxScreen
+import edu.fzu.mobius.ui.mailbox.*
 import edu.fzu.mobius.ui.mine.MineScreen
 import edu.fzu.mobius.ui.mine.MineViewModel
+import edu.fzu.mobius.ui.password.ChangePasswordScreen
+import edu.fzu.mobius.ui.password.ChangePasswordViewModel
 import edu.fzu.mobius.ui.penpal.*
 import edu.fzu.mobius.ui.register.RegisterScreen
 import edu.fzu.mobius.ui.register.RegisterViewModel
@@ -41,12 +42,15 @@ fun NavigationScreen() {
     val navController = rememberNavController()
     val loginViewModel: LoginViewModel = viewModel()
     val registerViewModel: RegisterViewModel = viewModel()
+    val changePasswordViewModel: ChangePasswordViewModel = viewModel()
     val penPalViewModel: PenPalViewModel = viewModel()
     val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
     val writeMailViewModel: WriteMailViewModel = viewModel()
     val mineViewModel: MineViewModel = viewModel()
     val stampViewModel: StampViewModel = viewModel()
     val draftViewModel: DraftViewModel = viewModel()
+    val feedbackViewModel: FeedbackViewModel = viewModel()
+    val anonMailBoxViewModel: AnonMailBoxViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -81,6 +85,17 @@ fun NavigationScreen() {
                 setNickname = registerViewModel::setNickname
             )
         }
+        composable("change_password_screen"){
+            ChangePasswordScreen(
+                navController = navController,
+                phoneNumber = changePasswordViewModel.phoneNumber,
+                verificationCode = changePasswordViewModel.verificationCode,
+                password = changePasswordViewModel.password,
+                passwordRepeat = changePasswordViewModel.passwordRepeat,
+                change = changePasswordViewModel::change,
+                sendVerificationCode = changePasswordViewModel::sendVerificationCode
+            )
+        }
         composable("mailbox_screen"){
             MailBoxScreen(navController = navController)
         }
@@ -88,7 +103,11 @@ fun NavigationScreen() {
             MyMailBoxScreen(navController = navController)
         }
         composable("anon_mailbox_screen"){
-            AnonMailBoxScreen(navController = navController)
+            AnonMailBoxScreen(
+                navController = navController,
+                letters = anonMailBoxViewModel.anonList,
+                getAnonList = anonMailBoxViewModel::getAnonList
+            )
         }
         composable("sent_mailbox_screen"){
             SentMailBoxScreen(navController = navController)
@@ -239,6 +258,13 @@ fun NavigationScreen() {
                 stamps = stampViewModel.stamps
             )
         }
+        composable("feedback_screen"){
+            FeedbackScreen(
+                navController = navController,
+                feedbackValue = feedbackViewModel.feedbackValue,
+                feedback = feedbackViewModel::feedback
+            )
+        }
         composable("drafts_screen"){
             DraftsScreen(
                 navController = navController,
@@ -261,7 +287,6 @@ fun NavigationScreen() {
 @Composable
 fun PreviewNavigation() {
     NavigationScreen()
-
 }
 
 fun singleTaskNav(navController: NavController, router: String){

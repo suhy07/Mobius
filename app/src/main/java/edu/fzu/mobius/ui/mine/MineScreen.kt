@@ -19,6 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
+import edu.fzu.mobius.navigation.NavigationScreen
+import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
@@ -85,7 +87,8 @@ fun MineScreen(
                         top.linkTo(parent.top, margin = 0.dp)
                         bottom.linkTo(parent.bottom, margin = 585.dp)
                         start.linkTo(editHead.end, margin = 40.dp)
-                    }.clickable {
+                    }
+                    .clickable {
                         nickname.value += "123"
                     },
                 fontSize = 20.sp,
@@ -166,10 +169,10 @@ fun MineScreen(
             }
             Card(
                 modifier = Modifier
-                    .height(180.dp)
+                    .height(300.dp)
                     .width(350.dp)
                     .constrainAs(card2) {
-                        top.linkTo(parent.top, margin = 20.dp)
+                        top.linkTo(parent.top, margin = 120.dp)
                         bottom.linkTo(parent.bottom, margin = 0.dp)
                         start.linkTo(parent.start, margin = 0.dp)
                         end.linkTo(parent.end, margin = 0.dp)
@@ -181,8 +184,10 @@ fun MineScreen(
                     modifier = Modifier
                         .padding(all = 25.dp)
                 ){
-                    Card2Item(title = "邮票收集", onClick = { navController.navigate("stamp_collect_screen") })
-                    Card2Item(title = "反馈", onClick = { /*TODO*/ })
+                    Card2Item(title = "邮票收集", onClick = { singleTaskNav(navController,"stamp_collect_screen") })
+                    Card2Item(title = "修改密码", onClick = { singleTaskNav(navController ,"change_password_screen") })
+                    Card2Item(title = "反馈", onClick = { singleTaskNav(navController ,"feedback_screen")})
+                    Card2Item(title = "退出登陆", onClick = { singleTaskNav(navController,"login_screen") })
                 }
             }
         }

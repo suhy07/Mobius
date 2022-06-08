@@ -16,7 +16,7 @@ class Penpal{
         var nickname1 = mutableStateOf<Int>(2)
         var friendlist = mutableListOf<TestData.Data.Project>()
         fun PenPalList1(navController: NavController) {
-            Network.networkThreadget(
+            Network.networkThreadGet(
                 requestService = Network.service::setFriendlist,
                 param = nickname.value,
                 code200 = {

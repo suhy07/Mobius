@@ -20,7 +20,7 @@ fun SentMailBoxScreen(
             BaseTitleTop(
                 navController = navController,
                 router = "mine_screen",
-                title = "我寄出的邮"
+                title = "我寄出的信"
             )
         }
     ){

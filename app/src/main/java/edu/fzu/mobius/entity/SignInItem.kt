@@ -1,7 +1,7 @@
 package edu.fzu.mobius.entity
 
 data class SignInItem(
-    var gift:String,
-    var state:Boolean,
+    val gift:String,
+    val state:Boolean,
     val day:Int
 )

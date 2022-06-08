@@ -30,7 +30,13 @@ import edu.fzu.mobius.theme.InviteEnvelope
 
 @ExperimentalAnimationApi
 @Composable
-fun Envelope(userNickname: String, abstract: String, otherNickname:String, type:Int , modifier: Modifier = Modifier) {
+fun Envelope(
+    userNickname: String,
+    abstract: String,
+    otherNickname:String,
+    type:Int ,
+    modifier: Modifier = Modifier
+) {
     //userHead:Bitmap
     //0匿名信 1笔友信 2邀请信 3时空胶囊 4鲜花
     if(type == 4){
