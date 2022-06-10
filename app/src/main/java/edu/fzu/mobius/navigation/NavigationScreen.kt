@@ -45,13 +45,14 @@ fun NavigationScreen() {
     val changePasswordViewModel: ChangePasswordViewModel = viewModel()
     val penPalViewModel: PenPalViewModel = viewModel()
     val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
     val writeMailViewModel: WriteMailViewModel = viewModel()
     val mineViewModel: MineViewModel = viewModel()
     val stampViewModel: StampViewModel = viewModel()
     val draftViewModel: DraftViewModel = viewModel()
     val feedbackViewModel: FeedbackViewModel = viewModel()
     val anonMailBoxViewModel: AnonMailBoxViewModel = viewModel()
-
+    val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     NavHost(
         navController = navController,
         startDestination = STARTNAV
@@ -124,11 +125,14 @@ fun NavigationScreen() {
             PenPalScreen(
                 navController = navController,
                 friendlist = penPalViewModel.friendlist,
+                strangelist = penPalViewModel.strangelist,
+                strangeNickName = penPalViewModel.strangenickname,
                 penPalList = penPalViewModel::PenPalList,
-                penPalViewModel = penPalViewModel
+                addPenPalList = penPalViewModel::AddPenPalList
             )
         }
         composable("write_pen_pal_screen"){
+            writeMailViewModel.letterValue.value=""
             WritePenPalScreen(
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
@@ -139,7 +143,10 @@ fun NavigationScreen() {
                 topcard = false,
                 topsure = true,
                 cut = false,
-                nav = "pen_pal_invite_screen"
+                nav = "pen_pal_invite_screen",
+                sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+                writePenPalViewModel = writePenPalViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
         composable("pen_pal_invite_screen"){
@@ -156,7 +163,10 @@ fun NavigationScreen() {
                 topcard = false,
                 topsure = true,
                 cut = false,
-                nav = "pen_pal_invite_screen"
+                nav = "pen_pal_invite_screen",
+                sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+                writePenPalViewModel = writePenPalViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
         composable("revert_pen_pal_screen"){
@@ -165,6 +175,7 @@ fun NavigationScreen() {
                 items = writeMailViewModel.lineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "笔友一号",
+                returnWritePenPalViewModel = returnWritePenPalViewModel
             )
         }
         composable("write_revert_pen_pal_screen"){
@@ -178,7 +189,10 @@ fun NavigationScreen() {
                 topcard = true,
                 topsure = false,
                 cut = false,
-                nav = "send_penpal_success_screen"
+                nav = "send_penpal_success_screen",
+                sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+                writePenPalViewModel = writePenPalViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
         composable("cut_write_revert_pen_pal_screen"){
@@ -192,7 +206,10 @@ fun NavigationScreen() {
                 topcard = true,
                 topsure = false,
                 cut = true,
-                nav = "pen_pal_invite_screen"
+                nav = "pen_pal_invite_screen",
+                sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+                writePenPalViewModel = writePenPalViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
 
@@ -207,7 +224,10 @@ fun NavigationScreen() {
                 topcard = false,
                 topsure = true,
                 cut = false,
-                nav = "pen_pal_invite_screen"
+                nav = "pen_pal_invite_screen",
+                sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+                writePenPalViewModel = writePenPalViewModel,
+                value = writeMailViewModel.letterValue
             )
         }
         composable("send_penpal_success_screen"){
@@ -217,6 +237,7 @@ fun NavigationScreen() {
             CapsuleScreen(navController = navController)
         }
         composable("write_capsule_screen"){
+            writeMailViewModel.letterValue.value=""
             WriteCapsuleScreen(
                 navController = navController,
                 items = writeMailViewModel.lineItems ,
@@ -231,7 +252,10 @@ fun NavigationScreen() {
             )
         }
         composable("capsule_success_screen"){
-            CapsuleSuccessScreen(navController = navController)
+            CapsuleSuccessScreen(
+                navController = navController,
+                writeCapsuleViewModel = writeCapsuleViewModel,
+            )
         }
         composable("return_write_capsule_screen"){
             WriteCapsuleScreen(

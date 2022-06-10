@@ -1,6 +1,7 @@
 package edu.fzu.mobius.network
 
 import ToastMsg
+import androidx.compose.runtime.MutableState
 import edu.fzu.mobius.entity.TestData
 import edu.fzu.mobius.global.GlobalMem
 import okhttp3.Interceptor
@@ -77,20 +78,38 @@ interface RequestService {
         @Body setNicknameForm: Any
     ): Call<LogInBackDataString>
 
-    @GET(value = "/ums/friend/list/")
+
+    //获取好友列表
+    @GET(value = "ums/friend/list")
     fun setFriendlist(
         @Query("nickname") nickname: Any,
     ): Call<LogInBackData>
 
-    @GET(value = "/ums/friend/apply")
+    //申请添加好友
+    @GET(value = "ums/friend/apply")
     fun applyFriend(
-        @Body applyFriendForm: Any
+        @Query("applyUserId") applyUserId: Any,
     ): Call<LogInBackData>
-
+    //删除好友
+    @GET(value = "ums/friend/delete")
+    fun deleteFriend(
+        @Body deletefriendForm: Any
+    ): Call<LogInBackDataString>
+    //发送胶囊信
     @POST(value = "/capsule")
     fun sendCapsule(
         @Body sendCapsuleForm: Any
     ): Call<LogInBackDataString>
+    //发送笔友信
+    @POST(value = "/pen")
+    fun sendPen(
+        @Body sendPenForm: Any
+    ): Call<LogInBackDataString>
+    //获取陌生人列表
+    @GET(value = "ums/friend/search")
+    fun setStrangelist(
+        @Query("nickname") nickname: Any,
+    ): Call<LogInBackData>
 
     @GET(value = "/draft/list")
     fun getDraftList(
@@ -291,14 +310,28 @@ class Network {
         }
     }
 }
+
+
+//发送笔友信件
+data class SendPenForm(
+    val receiverId:Int,
+    val content:String,
+    val title:String
+)
+
+//发送胶囊信件
 data class SendCapsuleForm(
     val arriveTime:String,
     val content:String,
     val receiverId:Int,
     val title:String
 )
-
-data class applyFriendFrom(
+//删除好友
+data class DeleteFriendFrom(
+    val applyUserId: Int,
+)
+//申请添加好友
+data class ApplyFriendFrom(
     val applyUserId: Int,
 )
 data class LogInBackData(

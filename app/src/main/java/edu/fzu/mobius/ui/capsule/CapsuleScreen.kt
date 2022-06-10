@@ -14,16 +14,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.ui.common.nav.bottom.NavBottom
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
 import edu.fzu.mobius.theme.BlueBackground
+import edu.fzu.mobius.ui.write.WriteMailViewModel
 
 @Composable
 fun CapsuleScreen(navController: NavController){
     var floatingVisible by remember { mutableStateOf(true) }
+
     Scaffold(
         topBar = {
             },
@@ -35,6 +38,7 @@ fun CapsuleScreen(navController: NavController){
             AnimatedVisibility(visible =floatingVisible ) {
                 NavFloatButton {
                     /* onClick */
+
                     navController.navigate("write_capsule_screen")
                 }
             }

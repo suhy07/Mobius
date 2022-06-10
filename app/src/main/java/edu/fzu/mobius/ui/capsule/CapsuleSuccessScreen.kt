@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
@@ -23,10 +24,12 @@ import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
+import edu.fzu.mobius.ui.write.WriteCapsuleViewModel
 
 @Composable
 fun CapsuleSuccessScreen(
     navController: NavController,
+    writeCapsuleViewModel: WriteCapsuleViewModel,
 ) {
     Scaffold(
         backgroundColor = Color(0xFFF0EFF3),
@@ -74,7 +77,7 @@ fun CapsuleSuccessScreen(
                 color = Color.Blue
             )
             Text(
-                text = "将于4月1日到达!",
+                text = writeCapsuleViewModel.return_mDate.value,
                 modifier = Modifier
                     .padding(start = 120.dp, top = 90.dp),
                 fontSize = 20.sp,
@@ -102,10 +105,13 @@ fun CapsuleSuccessScreen(
         }
     }
 }
+
 @Preview
 @Composable
 fun CapsulePreviewInvite(){
+    val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
     CapsuleSuccessScreen(
         navController = rememberNavController(),
+        writeCapsuleViewModel = writeCapsuleViewModel
     )
 }

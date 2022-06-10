@@ -2,7 +2,7 @@ package edu.fzu.mobius.util
 
 import java.util.*
 
-class TimeUtils {
+class TimeUtil {
     companion object{
         @JvmStatic
         fun getTodayWeek():Int{

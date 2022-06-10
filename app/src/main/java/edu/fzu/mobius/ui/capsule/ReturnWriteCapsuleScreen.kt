@@ -23,6 +23,7 @@ import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.compose.penpal.PenOtherUser
+import edu.fzu.mobius.compose.penpal.PenOtherUser2
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
@@ -59,10 +60,10 @@ fun ReturnWriteCapsuleScreen(
                             .padding(start = 200.dp, top = 0.dp)
                     ) {
                         items(1) {
-                            PenOtherUser(
+                            PenOtherUser2(
                                 nickname = "黄埔铁牛",
                                 modifier = Modifier.animateItemPlacement(),
-                                navController
+
                             )
                         }
                     }
