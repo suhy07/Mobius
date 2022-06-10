@@ -1,5 +1,6 @@
 package edu.fzu.mobius.compose.penpal
 
+import ToastMsg
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
@@ -32,6 +34,9 @@ import edu.fzu.mobius.theme.AnonEnvelope
 import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.theme.CapsuleEnvelope
 import edu.fzu.mobius.theme.InviteEnvelope
+import edu.fzu.mobius.ui.penpal.PenPalViewModel
+import edu.fzu.mobius.ui.penpal.ReturnWritePenPalViewModel
+import edu.fzu.mobius.ui.write.WritePenPalViewModel
 
 @ExperimentalAnimationApi
 @Composable
@@ -166,7 +171,10 @@ fun PenItem(userNickname: String, abstract: String, otherNickname:String, type:I
 }
 
 @Composable
-fun PenOtherUser(nickname:String,modifier: Modifier=Modifier,navController: NavController){
+fun PenOtherUser(nickname:String,id:Int,modifier: Modifier=Modifier,navController: NavController){
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
+
+    val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     ConstraintLayout(
         modifier = modifier.width(200.dp)
     ) {
@@ -185,6 +193,84 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier,navController: NavC
                     enabled = true,
                     role = Role.Button
                 ){
+                    returnWritePenPalViewModel.penpalId.value=id
+                    returnWritePenPalViewModel.penpalnikename.value=nickname
+                    navController.navigate("revert_pen_pal_screen")
+
+                },
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center
+        )
+        UnspecifiedIcon(
+            painter = painterResource(id = R.mipmap.head_girl),
+            modifier = Modifier
+                .height(45.dp)
+                .padding(end = 140.dp)
+                .constrainAs(head) {
+                    start.linkTo(parent.start, margin = 0.dp)
+                    end.linkTo(parent.end, margin = 0.dp)
+                    top.linkTo(parent.top, margin = 0.dp)
+                    bottom.linkTo(parent.bottom, margin = 0.dp)
+                }.clickable(
+                    enabled = true,
+                    role = Role.Button
+                ){
+                    returnWritePenPalViewModel.penpalId.value=id
+                    returnWritePenPalViewModel.penpalnikename.value=nickname
+                    navController.navigate("revert_pen_pal_screen")
+                },
+        )
+        NoShadowButton(
+            onClick = { /* TODO 给笔友写信笔友信息 */
+                writePenPalViewModel.receiverId.value = id
+                navController.navigate("write_pen_pal_screen")
+            },
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp)
+                .padding(start = 0.dp,top = 0.dp)
+                .constrainAs(rear) {
+                    end.linkTo(parent.end, margin = 0.dp)
+                    bottom.linkTo(parent.bottom, margin = 0.dp)
+                }
+        ){
+            UnspecifiedIcon(
+                painter = painterResource(R.mipmap.add_icon)
+            )
+        }
+
+    }
+}
+@Composable
+fun AddPenOtherUser(
+    nickname:String,
+    id:Int,
+    modifier: Modifier=Modifier,
+    navController: NavController
+){
+
+    val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
+    val PenPalViewModel: PenPalViewModel = viewModel()
+    ConstraintLayout(
+        modifier = modifier.width(200.dp)
+    ) {
+        val (name,head,rear) = createRefs()
+        Text(
+            text = nickname,
+            color = Color.Black,
+            modifier = Modifier
+                .width(100.dp)
+                .constrainAs(name){
+                    start.linkTo(parent.start, margin = 45.dp)
+                    end.linkTo(parent.end, margin = 0.dp)
+                    top.linkTo(parent.top, margin = 0.dp)
+                    bottom.linkTo(parent.bottom, margin =0.dp)
+                }.clickable(
+                    enabled = true,
+                    role = Role.Button
+                ){
+                    returnWritePenPalViewModel.penpalId.value=id
+                    returnWritePenPalViewModel.penpalnikename.value=nickname
                     navController.navigate("revert_pen_pal_screen")
                 },
             fontSize = 20.sp,
@@ -200,8 +286,34 @@ fun PenOtherUser(nickname:String,modifier: Modifier=Modifier,navController: NavC
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
                     bottom.linkTo(parent.bottom, margin = 0.dp)
-                }
+                }.clickable(
+                    enabled = true,
+                    role = Role.Button
+                ){
+                    returnWritePenPalViewModel.penpalId.value=id
+                    returnWritePenPalViewModel.penpalnikename.value=nickname
+                    navController.navigate("revert_pen_pal_screen")
+                },
         )
+        NoShadowButton(
+            onClick = { /* TODO 添加好友 */
+//                navController.navigate("write_pen_pal_screen")
+                PenPalViewModel.strangeId.value = id
+                PenPalViewModel.AddStranger(navController)
+            },
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp)
+                .padding(start = 0.dp,top = 0.dp)
+                .constrainAs(rear) {
+                    end.linkTo(parent.end, margin = 0.dp)
+                    bottom.linkTo(parent.bottom, margin = 0.dp)
+                }
+        ){
+            UnspecifiedIcon(
+                painter = painterResource(R.mipmap.add_icon)
+            )
+        }
     }
 }
 @Composable

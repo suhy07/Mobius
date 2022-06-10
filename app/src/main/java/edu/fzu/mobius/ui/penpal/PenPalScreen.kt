@@ -10,6 +10,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -34,8 +35,10 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
 import edu.fzu.mobius.compose.mailbox.item.OtherUser
+import edu.fzu.mobius.compose.penpal.AddPenOtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser1
+import edu.fzu.mobius.entity.StrangeDataProject
 import edu.fzu.mobius.entity.TestData
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
@@ -49,11 +52,15 @@ import edu.fzu.mobius.ui.login.LoginViewModel
 @Composable
 fun PenPalScreen(
     navController: NavController,
-    friendlist: MutableList<TestData.Data.Project> = mutableListOf<TestData.Data.Project>(),
-    penPalList: (NavController)->Unit,
-    penPalViewModel: PenPalViewModel
+    friendlist: MutableState<List<TestData.Data.Project>>,
+    strangelist: MutableState<List<StrangeDataProject>>,
+    strangeNickName: MutableState<String>,
+    penPalList: ()->Unit,
+    addPenPalList: ()->Unit,
+//    penPalViewModel: PenPalViewModel
 ){
-    Log.e("AAAAAAAAAAAAA",friendlist.toString())
+//    Log.e("AAAAAAAAAAAAA",friendlist.toString())
+//    val penPalViewModel: PenPalViewModel = viewModel()
     var cardVisible by remember { mutableStateOf(false) }
     var popVisible by remember { mutableStateOf(false) }
 //    var text by remember { mutableStateOf("") }
@@ -68,7 +75,8 @@ fun PenPalScreen(
                         onClick = { /* TODO 弹出笔友选项卡 */
                             cardVisible = !cardVisible
                             popVisible = false
-                            penPalList(navController)
+                            penPalList()
+                            addPenPalList()
 //                            Log.e("ACDD",friendlist[0].nickname)
                                   },
 
@@ -258,8 +266,13 @@ fun PenPalScreen(
                                 }
                         ) {
 
-                            items(penPalViewModel.friendlist.size) {
-                                PenOtherUser(nickname = penPalViewModel.friendlist[it].nickname, modifier = Modifier.width(200.dp).padding(top = 10.dp),navController)
+                            items(friendlist.value.size) {
+                                PenOtherUser(
+                                    nickname = friendlist.value[it].nickname,
+                                    id = friendlist.value[it].id,
+                                    modifier = Modifier.width(200.dp).padding(top = 10.dp),
+                                    navController
+                                )
                             }
                         }
                                 NoShadowButton(
@@ -318,7 +331,7 @@ fun PenPalScreen(
                         val (cardtext2, close2, row2, list2,add2) = createRefs()
                         var text by remember { mutableStateOf("") }
                         Text(
-                            text = "笔友列表",
+                            text = "添加笔友列表",
                             modifier = Modifier
                                 .constrainAs(cardtext2) {
                                     start.linkTo(parent.start, margin = 140.dp)
@@ -364,7 +377,8 @@ fun PenPalScreen(
                                     imageVector = Icons.Filled.Search,
                                     contentDescription = "search",
                                     modifier = Modifier.clickable {
-
+                                        strangeNickName.value=text
+                                        addPenPalList()
                                     }
                                 )
                             },
@@ -394,8 +408,13 @@ fun PenPalScreen(
                                     top.linkTo(parent.top, margin = 140.dp)
                                 }
                         ) {
-                            items(penPalViewModel.friendlist.size) {
-                                PenOtherUser1(nickname = penPalViewModel.friendlist[it].nickname, modifier = Modifier.animateItemPlacement(),navController)
+                            items(strangelist.value){
+                                AddPenOtherUser(
+                                    nickname = it.nickname,
+                                    id = it.id,
+                                    modifier = Modifier.animateItemPlacement(),
+                                    navController
+                                )
                             }
                         }
 //                        NoShadowButton(
@@ -431,11 +450,13 @@ fun PreviewPenPal() {
     val navController = rememberNavController()
     val penPalViewModel: PenPalViewModel = viewModel()
 
-    penPalViewModel.PenPalList(navController)
 
-    PenPalScreen(navController = navController,
+    PenPalScreen(
+        navController = navController,
         friendlist = penPalViewModel.friendlist,
+        strangelist = penPalViewModel.strangelist,
+        strangeNickName = penPalViewModel.strangenickname,
         penPalList = penPalViewModel::PenPalList,
-        penPalViewModel = penPalViewModel
+        addPenPalList = penPalViewModel::AddPenPalList
     )
 }

@@ -1,5 +1,6 @@
 package edu.fzu.mobius.ui.write
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -34,6 +35,7 @@ import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.compose.penpal.PenOtherUser
+import edu.fzu.mobius.compose.penpal.PenOtherUser2
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.theme.BlueButton
@@ -56,7 +58,10 @@ fun WritePenPalScreen(
     topcard:Boolean,
     topsure:Boolean,
     cut:Boolean,
-    nav:String
+    nav:String,
+    sendPenPalMail: (NavController)->Unit,
+    writePenPalViewModel:WritePenPalViewModel,
+    value: MutableState<String> = mutableStateOf("test"),
 ) {
 
     var cardVisible by remember { mutableStateOf(false) }
@@ -201,8 +206,8 @@ fun WritePenPalScreen(
                                 .padding(start = 200.dp, top = 0.dp)
                         ) {
                             items(1) {
-                                PenOtherUser(nickname = "黄埔铁牛",
-                                    modifier = Modifier.animateItemPlacement(),navController)
+                                PenOtherUser2(nickname = "黄埔铁牛",
+                                    modifier = Modifier.animateItemPlacement())
                             }
                         }
 
@@ -292,9 +297,17 @@ fun WritePenPalScreen(
                             color = bluetext,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
+                                //跳转成功页面
+//                                navController.navigate(nav)
 
-                                navController.navigate(nav)
+                                writePenPalViewModel.title.value = "给笔友的信"
+                                writePenPalViewModel.content.value = value.value
+//                                Log.e("AAAAAA",writePenPalViewModel.content.value)
+//                                Log.e("AAAAAA",writePenPalViewModel.receiverId.value.toString())
+//                                Log.e("AAAAAA",writePenPalViewModel.title.value)
+                                sendPenPalMail(navController)
                             },
+
                             shape = RoundedCornerShape(20.dp),
                             elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
                             colors = ButtonDefaults.textButtonColors(
@@ -343,8 +356,8 @@ fun WritePenPalScreen(
                                 .padding(start = 200.dp, top = 0.dp)
                         ) {
                             items(1) {
-                                PenOtherUser(nickname = "黄埔铁牛",
-                                    modifier = Modifier.animateItemPlacement(),navController)
+                                PenOtherUser2(nickname = "黄埔铁牛",
+                                    modifier = Modifier.animateItemPlacement())
                             }
                         }
 
@@ -397,11 +410,79 @@ fun WritePenPalScreen(
     }
 }
 
-
+// 04为邀请笔友的信  123为笔友页面的信件
 @ExperimentalFoundationApi
 @Preview
 @Composable
 fun PenPreviewWriteMail(){
+    val lists = listOf(lineItem(""), lineItem(""))
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
+
+    WritePenPalScreen(
+        navController = rememberNavController(),
+        items = lists,
+        onEditItemChange = {(lineItem)->{}},
+        otherNickname ="笔友一号",
+        card=false,
+        sure=true,
+        topcard = false,
+        topsure = true,
+        cut = false,
+        nav = "pen_pal_invite_screen",
+        sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+        writePenPalViewModel = writePenPalViewModel
+    )
+}
+@ExperimentalFoundationApi
+@Preview
+@Composable
+fun PenPreviewWriteMail1(){
+    val lists = listOf(lineItem(""), lineItem(""))
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
+
+    val penPalViewModel: PenPalViewModel = viewModel()
+    WritePenPalScreen(
+        navController = rememberNavController(),
+        items = lists,
+        onEditItemChange = {(lineItem)->{}},
+        otherNickname ="笔友一号",
+        card=false,
+        sure=false,
+        topcard = false,
+        topsure = true,
+        cut = false,
+        nav = "pen_pal_invite_screen",
+        sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+        writePenPalViewModel = writePenPalViewModel
+    )
+}
+@ExperimentalFoundationApi
+@Preview
+@Composable
+fun PenPreviewWriteMail2(){
+    val lists = listOf(lineItem(""), lineItem(""))
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
+
+    val penPalViewModel: PenPalViewModel = viewModel()
+    WritePenPalScreen(
+        navController = rememberNavController(),
+        items = lists,
+        onEditItemChange = {(lineItem)->{}},
+        otherNickname ="笔友一号",
+        card=false,
+        sure=true,
+        topcard = true,
+        topsure = false,
+        cut = false,
+        nav = "pen_pal_invite_screen",
+        sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+        writePenPalViewModel = writePenPalViewModel
+    )
+}
+@ExperimentalFoundationApi
+@Preview
+@Composable
+fun PenPreviewWriteMail3(){
     val lists = listOf(lineItem(""), lineItem(""))
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
 
@@ -416,6 +497,31 @@ fun PenPreviewWriteMail(){
         topcard = true,
         topsure = false,
         cut = true,
-        nav = "pen_pal_invite_screen"
+        nav = "pen_pal_invite_screen",
+        sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+        writePenPalViewModel = writePenPalViewModel
+    )
+}
+@ExperimentalFoundationApi
+@Preview
+@Composable
+fun PenPreviewWriteMail4(){
+    val lists = listOf(lineItem(""), lineItem(""))
+    val writePenPalViewModel: WritePenPalViewModel = viewModel()
+
+    val penPalViewModel: PenPalViewModel = viewModel()
+    WritePenPalScreen(
+        navController = rememberNavController(),
+        items = lists,
+        onEditItemChange = {(lineItem)->{}},
+        otherNickname ="笔友一号",
+        card=false,
+        sure=false,
+        topcard = false,
+        topsure = true,
+        cut = false,
+        nav = "pen_pal_invite_screen",
+        sendPenPalMail = writePenPalViewModel::sendPenPalMail,
+        writePenPalViewModel = writePenPalViewModel
     )
 }

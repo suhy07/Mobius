@@ -8,6 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,7 +57,8 @@ fun ReturnWritePenpalScreen(
     navController: NavController,
     items:List<lineItem>,
     onEditItemChange: (lineItem) -> Unit,
-    otherNickname: String
+    otherNickname: String,
+    returnWritePenPalViewModel: ReturnWritePenPalViewModel
 ) {
     val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     var floatingVisible = returnWritePenPalViewModel.floatingVisible
@@ -95,7 +98,13 @@ fun ReturnWritePenpalScreen(
                                 start.linkTo(parent.start, margin = 310.dp)
                                 end.linkTo(parent.end, margin = 0.dp)
                                 bottom.linkTo(parent.bottom, margin = 170.dp)
-                            },
+                            }.clickable(
+                                enabled = true,
+                                role = Role.Button
+                            ){
+                                returnWritePenPalViewModel.DeleteStranger(navController)
+                            }
+                        ,
                         textAlign = TextAlign.Right,
                         color = Color(0xFF17418B),
                         fontSize = 18.sp,
@@ -206,10 +215,12 @@ fun ReturnWritePenpalScreen(
 fun PreviewReturn(){
     val lists = listOf(lineItem(""), lineItem(""))
 
+    val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     ReturnWritePenpalScreen(
         navController = rememberNavController(),
         items = lists,
         onEditItemChange = {(lineItem)->{}},
-        otherNickname ="笔友一号"
+        otherNickname ="笔友一号",
+        returnWritePenPalViewModel = returnWritePenPalViewModel
     )
 }

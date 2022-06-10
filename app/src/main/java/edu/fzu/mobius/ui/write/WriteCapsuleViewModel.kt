@@ -2,6 +2,7 @@ package edu.fzu.mobius.ui.write
 
 import ToastMsg
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
@@ -12,11 +13,12 @@ import edu.fzu.mobius.ui.penpal.Penpal
 class WriteCapsuleViewModel:ViewModel() {
     var arriveTime = mutableStateOf("1")
     var content = mutableStateOf("")
-    var contentId = mutableStateOf(2)
     var receiverId = mutableStateOf(0)
     var title = mutableStateOf("")
     var selectList: MutableList<String> = mutableListOf("我自己")
     var selectIdList: MutableList<Int> = mutableListOf(0)
+    //存储信件到达时间
+    val return_mDate = mutableStateOf("")
 
     fun sendWriteCapsule(navController: NavController){
             Network.networkThreadString(
