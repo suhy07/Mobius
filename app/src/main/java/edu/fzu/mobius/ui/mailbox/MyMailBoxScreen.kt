@@ -30,21 +30,21 @@ fun MyMailBoxScreen(navController: NavController){
         }
     ){
         LazyColumn {
-            item {
-                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1111111", type = 1, modifier = Modifier.animateItemPlacement())
-            }
 //            item {
-//                OtherUser(nickname = "皇埔铁牛", modifier = Modifier.animateItemPlacement())
+//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1111111", type = 1, modifier = Modifier.animateItemPlacement())
 //            }
-            items(5) {
-                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
-            }
-            items(2) {
-                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 3)
-            }
-            item {
-                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
-            }
+////            item {
+////                OtherUser(nickname = "皇埔铁牛", modifier = Modifier.animateItemPlacement())
+////            }
+//            items(5) {
+//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
+//            }
+//            items(2) {
+//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 3)
+//            }
+//            item {
+//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
+//            }
         }
     }
 }

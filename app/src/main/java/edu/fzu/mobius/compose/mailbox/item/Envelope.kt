@@ -1,8 +1,10 @@
 package edu.fzu.mobius.compose.mailbox.item
 
+import ToastMsg
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import edu.fzu.mobius.R
+import edu.fzu.mobius.entity.LetterType
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.theme.AnonEnvelope
 import edu.fzu.mobius.theme.BlueText
@@ -33,13 +36,13 @@ import edu.fzu.mobius.theme.InviteEnvelope
 fun Envelope(
     userNickname: String,
     abstract: String,
-    otherNickname:String,
-    type:Int ,
+    otherNickname: String,
+    type: LetterType,
     modifier: Modifier = Modifier
 ) {
     //userHead:Bitmap
     //0匿名信 1笔友信 2邀请信 3时空胶囊 4鲜花
-    if(type == 4){
+    if(type == LetterType.FLOWER){
         Card(
             modifier = modifier
                 .height(54.dp)
@@ -68,13 +71,13 @@ fun Envelope(
         var background = AnonEnvelope
         var visible = false
         var envelopeName = ""
-        when{
-            type == 2 -> {
+        when(type){
+            LetterType.INVITE -> {
                 visible=true
                 background = InviteEnvelope
                 envelopeName = "邀请信"
             }
-            type == 3 ->{
+            LetterType.TIME ->{
                 visible=true
                 background = CapsuleEnvelope
                 envelopeName = "时空胶囊"
@@ -83,6 +86,14 @@ fun Envelope(
         Card(
             modifier = modifier
                 .fillMaxWidth()
+                .clickable {
+                    PopWindows.postValue(
+                        ToastMsg(
+                            value = "it.code.toString() + + it.message",
+                            type = ToastType.SUCCESS
+                        )
+                    )
+                }
                 .height(174.dp)
                 .padding(start = 18.dp,end = 18.dp,bottom = 10.dp)
                 .background(color = Color.Unspecified),
@@ -200,26 +211,26 @@ fun PreviewOtherUser(){
 @Preview
 @Composable
 fun PreviewEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 0)
+    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.ANON)
 }
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewInventEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 2)
+    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.PEN)
 }
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewCapsuleEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 3)
+    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.INVITE)
 }
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewFlowerEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
+    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.FLOWER)
 }

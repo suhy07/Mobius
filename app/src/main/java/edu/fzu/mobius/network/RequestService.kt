@@ -16,15 +16,20 @@ import kotlin.reflect.KFunction1
 
 interface RequestService {
 
+    @GET(value = "/anon/{anonId}")
+    fun getAnonValue(
+        @Query ("anonId") anonId: Any
+    ):Call<LogInBackData>
+
     @GET(value = "/anon/random/"+GlobalMem.ANON_NUM)
     fun randomAnonList(
         @Query ("") empty: Any
-    ):Call<LogInBackDataString>
+    ):Call<LogInBackDataArray>
 
     @GET(value = "/anon/getCurrentPossessAnons")
     fun getAnonList(
         @Query ("") empty: Any
-    ):Call<LogInBackData>
+    ):Call<LogInBackDataArray>
 
     @POST(value = "/anon/save")
     fun postAnonLetter(
@@ -115,7 +120,6 @@ class Network {
         @JvmStatic
         var token = ""
 
-        var friendlist = mutableListOf<TestData.Data.Project>()
         //创建拦截器
         private val interceptor = Interceptor { chain ->
             val request = chain.request()
@@ -257,6 +261,62 @@ class Network {
             }.start()
         }
 
+        fun networkThreadArray(
+            requestService: (Any)->Call<LogInBackDataArray>,
+            body: Any,
+            code200: (LogInBackDataArray)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString() + " " + it.message,
+                        type = ToastType.SUCCESS
+                    )
+                )
+            },
+            router: (LogInBackDataArray)->Unit = {},
+            codeElse: (LogInBackDataArray)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            fail: (Throwable)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.localizedMessage,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            other: (LogInBackDataArray)->Unit = {}
+        ){
+            Thread{
+                requestService(body).enqueue(object : Callback<LogInBackDataArray> {
+                    override fun onResponse(
+                        call: Call<LogInBackDataArray>,
+                        response: Response<LogInBackDataArray>
+                    ) {
+                        response.body()?.let { it ->
+                            other(it)
+                            when (it.code) {
+                                200 -> {
+                                    code200(it)
+                                    router(it)
+                                }
+                                else -> {
+                                    codeElse(it)
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<LogInBackDataArray>, t: Throwable) {
+                        fail(t)
+                    }
+                })
+            }.start()
+        }
+
         fun networkThreadGet(
             requestService: (Any)->Call<LogInBackData>,
             param: Any,
@@ -291,16 +351,6 @@ class Network {
         }
     }
 }
-data class SendCapsuleForm(
-    val arriveTime:String,
-    val content:String,
-    val receiverId:Int,
-    val title:String
-)
-
-data class applyFriendFrom(
-    val applyUserId: Int,
-)
 data class LogInBackData(
     val message: String,
     val code: Int,
@@ -311,6 +361,43 @@ data class LogInBackDataString(
     val message: String,
     val code: Int,
     val data: String
+)
+
+data class LogInBackDataArray(
+    val message: String,
+    val code: Int,
+    val data: Array<Map<String, Any>>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as LogInBackDataArray
+
+        if (message != other.message) return false
+        if (code != other.code) return false
+        if (!data.contentEquals(other.data)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = message.hashCode()
+        result = 31 * result + code
+        result = 31 * result + data.contentHashCode()
+        return result
+    }
+}
+
+data class SendCapsuleForm(
+    val arriveTime:String,
+    val content:String,
+    val receiverId:Int,
+    val title:String
+)
+
+data class applyFriendFrom(
+    val applyUserId: Int,
 )
 
 data class LoginPasswordForm(

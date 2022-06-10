@@ -2,6 +2,8 @@ package edu.fzu.mobius.global
 
 class GlobalMem {
     companion object {
+        //起始页面
+        const val START_NAV = "login_screen"
         // 接口根地址
         const val BASE_URL = "http://101.132.99.44:8998"
         // 匿名信数量
@@ -11,5 +13,7 @@ class GlobalMem {
         var ANON_TIME = "22:00"
         // 心情值
         var MOOD = 1
+        //昵称
+        var NICK_NAME = "黄埔牛牛"
     }
 }

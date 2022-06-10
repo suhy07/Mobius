@@ -26,7 +26,7 @@ fun SentMailBoxScreen(
     ){
         LazyColumn(){
             items(15) {
-                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 2)
+//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 2)
             }
         }
     }

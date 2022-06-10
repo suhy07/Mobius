@@ -21,9 +21,7 @@ import edu.fzu.mobius.theme.BlueBackground
 fun AnonMailBoxScreen(
     navController: NavController,
     letters: List<Letter>,
-    getAnonList: ()->Unit
 ){
-    getAnonList()
     Scaffold(
         backgroundColor = BlueBackground,
         topBar = {
@@ -56,6 +54,5 @@ fun PreviewAnonMailBox() {
     AnonMailBoxScreen(
         navController = navController,
         letters = anonMailBoxViewModel.anonList,
-        getAnonList = anonMailBoxViewModel::getAnonList
     )
 }

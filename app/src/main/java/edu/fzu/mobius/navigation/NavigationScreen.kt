@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.entity.Draft
+import edu.fzu.mobius.global.GlobalMem
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
 import edu.fzu.mobius.ui.capsule.CapsuleSuccessScreen
 import edu.fzu.mobius.ui.draft.DraftEditScreen
@@ -33,12 +34,12 @@ import edu.fzu.mobius.ui.stamp.StampCollectScreen
 import edu.fzu.mobius.ui.stamp.StampViewModel
 import edu.fzu.mobius.ui.write.*
 
-val STARTNAV = "login_screen"
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun NavigationScreen() {
+
     val navController = rememberNavController()
     val loginViewModel: LoginViewModel = viewModel()
     val registerViewModel: RegisterViewModel = viewModel()
@@ -54,7 +55,7 @@ fun NavigationScreen() {
 
     NavHost(
         navController = navController,
-        startDestination = STARTNAV
+        startDestination = GlobalMem.START_NAV
     ) {
         composable("login_screen"){
             LoginScreen(
@@ -106,7 +107,6 @@ fun NavigationScreen() {
             AnonMailBoxScreen(
                 navController = navController,
                 letters = anonMailBoxViewModel.anonList,
-                getAnonList = anonMailBoxViewModel::getAnonList
             )
         }
         composable("sent_mailbox_screen"){
@@ -278,6 +278,7 @@ fun NavigationScreen() {
             )
         }
     }
+
 }
 
 @ExperimentalMaterialApi
@@ -291,7 +292,15 @@ fun PreviewNavigation() {
 
 fun singleTaskNav(navController: NavController, router: String){
     navController.navigate(router){
-        popUpTo(STARTNAV){ inclusive = true }
+        popUpTo(GlobalMem.START_NAV){ inclusive = true }
         launchSingleTop = true
+    }
+    when(router){
+        "anon_mailbox_screen"->{
+            AnonMailBoxViewModel.getAnonList()
+        }
+        "mailbox_screen"->{
+            MineViewModel.getUserInfo()
+        }
     }
 }

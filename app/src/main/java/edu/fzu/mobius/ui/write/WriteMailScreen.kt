@@ -168,7 +168,7 @@ fun WriteMailScreen(
             )
         }
     ) {
-        ConstraintLayout() {
+        ConstraintLayout {
             val (icon,edit) = createRefs()
             UnspecifiedIcon(
                 painter = painterResource(id = R.drawable.letter1),
