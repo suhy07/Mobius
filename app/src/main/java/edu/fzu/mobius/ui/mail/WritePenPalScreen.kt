@@ -1,6 +1,5 @@
-package edu.fzu.mobius.ui.write
+package edu.fzu.mobius.ui.mail
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -11,7 +10,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -34,24 +32,19 @@ import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser2
 import edu.fzu.mobius.navigation.singleTaskNav
-import edu.fzu.mobius.theme.BlueBackground
 import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.PrimaryVariant
 import edu.fzu.mobius.theme.bluetext
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
-import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
 import edu.fzu.mobius.ui.penpal.PenPalViewModel
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 @ExperimentalFoundationApi
 @Composable
 fun WritePenPalScreen(
     navController: NavController,
-    items:List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
+    items:List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
     otherNickname: String,
     card:Boolean,
     sure:Boolean,
@@ -415,13 +408,13 @@ fun WritePenPalScreen(
 @Preview
 @Composable
 fun PenPreviewWriteMail(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
 
     WritePenPalScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
         card=false,
         sure=true,
@@ -437,14 +430,14 @@ fun PenPreviewWriteMail(){
 @Preview
 @Composable
 fun PenPreviewWriteMail1(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
 
     val penPalViewModel: PenPalViewModel = viewModel()
     WritePenPalScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
         card=false,
         sure=false,
@@ -460,14 +453,14 @@ fun PenPreviewWriteMail1(){
 @Preview
 @Composable
 fun PenPreviewWriteMail2(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
 
     val penPalViewModel: PenPalViewModel = viewModel()
     WritePenPalScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
         card=false,
         sure=true,
@@ -483,14 +476,14 @@ fun PenPreviewWriteMail2(){
 @Preview
 @Composable
 fun PenPreviewWriteMail3(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
 
     val penPalViewModel: PenPalViewModel = viewModel()
     WritePenPalScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
         card=false,
         sure=false,
@@ -506,14 +499,14 @@ fun PenPreviewWriteMail3(){
 @Preview
 @Composable
 fun PenPreviewWriteMail4(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
 
     val penPalViewModel: PenPalViewModel = viewModel()
     WritePenPalScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
         card=false,
         sure=false,

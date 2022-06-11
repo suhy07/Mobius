@@ -32,7 +32,7 @@ import edu.fzu.mobius.ui.register.RegisterViewModel
 import edu.fzu.mobius.ui.register.SetNicknameScreen
 import edu.fzu.mobius.ui.stamp.StampCollectScreen
 import edu.fzu.mobius.ui.stamp.StampViewModel
-import edu.fzu.mobius.ui.write.*
+import edu.fzu.mobius.ui.mail.*
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -116,7 +116,7 @@ fun NavigationScreen() {
         composable("write_mail_screen"){
             WriteMailScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "陌生人"
             )
@@ -135,7 +135,7 @@ fun NavigationScreen() {
             writeMailViewModel.letterValue.value=""
             WritePenPalScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "笔友一号",
                 card=false,
@@ -155,7 +155,7 @@ fun NavigationScreen() {
         composable("return_write_pen_pal_screen"){
             WritePenPalScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "笔友一号",
                 card=false,
@@ -172,7 +172,7 @@ fun NavigationScreen() {
         composable("revert_pen_pal_screen"){
             ReturnWritePenpalScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "笔友一号",
                 returnWritePenPalViewModel = returnWritePenPalViewModel
@@ -181,7 +181,7 @@ fun NavigationScreen() {
         composable("write_revert_pen_pal_screen"){
             WritePenPalScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "hzd",
                 card=false,
@@ -198,7 +198,7 @@ fun NavigationScreen() {
         composable("cut_write_revert_pen_pal_screen"){
             WritePenPalScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "hzd",
                 card=false,
@@ -216,7 +216,7 @@ fun NavigationScreen() {
         composable("look_write_revert_pen_pal_screen"){
             WritePenPalScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "hzd",
                 card=false,
@@ -240,7 +240,7 @@ fun NavigationScreen() {
             writeMailViewModel.letterValue.value=""
             WriteCapsuleScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "",
                 card = false,
@@ -260,7 +260,7 @@ fun NavigationScreen() {
         composable("return_write_capsule_screen"){
             WriteCapsuleScreen(
                 navController = navController,
-                items = writeMailViewModel.lineItems ,
+                items = writeMailViewModel.LineItems ,
                 onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname ="你自己",
                 card = false,

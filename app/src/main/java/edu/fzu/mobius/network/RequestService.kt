@@ -379,13 +379,6 @@ data class SendPenForm(
     val title:String
 )
 
-//发送胶囊信件
-data class SendCapsuleForm(
-    val arriveTime:String,
-    val content:String,
-    val receiverId:Int,
-    val title:String
-)
 //删除好友
 data class DeleteFriendFrom(
     val applyUserId: Int,

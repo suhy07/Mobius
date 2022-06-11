@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.write
+package edu.fzu.mobius.ui.mail
 
 import android.app.DatePickerDialog
 import android.util.Log
@@ -35,18 +35,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
-import edu.fzu.mobius.compose.ButtonBottom
 import edu.fzu.mobius.compose.LineInput
-import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser2
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.theme.bluetext
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
-import edu.fzu.mobius.ui.penpal.PenPalViewModel
 import edu.fzu.mobius.ui.penpal.Penpal
 import java.util.*
-import kotlin.reflect.KMutableProperty0
 
 
 @ExperimentalAnimationApi
@@ -54,8 +49,8 @@ import kotlin.reflect.KMutableProperty0
 @Composable
 fun WriteCapsuleScreen(
     navController: NavController,
-    items:List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
+    items:List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
     otherNickname: String,
     card:Boolean,
     sure:Boolean,
@@ -434,13 +429,13 @@ fun WriteCapsuleScreen(
 @Preview
 @Composable
 fun CapsulePreviewWriteMail(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
 
     WriteCapsuleScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = { (lineItem)->{}},
+        onEditItemChange = { (LineItem)->{}},
         otherNickname ="",
         card = true,
         sure = false,

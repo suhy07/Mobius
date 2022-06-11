@@ -1,4 +1,4 @@
-package edu.fzu.mobius.ui.write
+package edu.fzu.mobius.ui.mail
 
 import android.graphics.Paint
 import android.graphics.Rect
@@ -22,25 +22,25 @@ class WriteMailViewModel : ViewModel() {
     private val maxLen = 280
 
 
-    var lineItems = mutableStateListOf<lineItem>()
+    var LineItems = mutableStateListOf<LineItem>()
         private set
 
     init {
         repeat(defaultLen){
-            lineItems.add(lineItem(""))
+            LineItems.add(LineItem(""))
         }
     }
 
-    private fun setCurrentIndex(item: lineItem){
-        for ( i in lineItems){
+    private fun setCurrentIndex(item: LineItem){
+        for ( i in LineItems){
             if(i.id == item.id)
-                currentEditPosition = lineItems.indexOf(i)
+                currentEditPosition = LineItems.indexOf(i)
         }
     }
 
 
     private fun cutLine(){
-        lineItems.clear()
+        LineItems.clear()
         var t = ""
         for (i in letterValue.value) {
             val pFont = Paint()
@@ -48,30 +48,30 @@ class WriteMailViewModel : ViewModel() {
             t += i
             pFont.getTextBounds(t, 0, t.length, rect)
             if (rect.width() > maxLen) {
-                lineItems.add(lineItem(t))
+                LineItems.add(LineItem(t))
                 t = ""
             }
         }
-        lineItems.add(lineItem(t))
-        val diff = defaultLen - lineItems.size
+        LineItems.add(LineItem(t))
+        val diff = defaultLen - LineItems.size
         when{
             diff > 0 -> repeat(diff){
-                lineItems.add(lineItem(""))
+                LineItems.add(LineItem(""))
             }
         }
     }
 
     private fun setLetterValueFromRemember() {
         var t = ""
-        for(i in lineItems){
+        for(i in LineItems){
             t+=i.value
         }
         letterValue.value = String(t.toCharArray())
     }
 
-    fun onEditItemChange(item: lineItem) {
+    fun onEditItemChange(item: LineItem) {
         setCurrentIndex(item)
-        lineItems[currentEditPosition] = item
+        LineItems[currentEditPosition] = item
         setLetterValueFromRemember()
         cutLine()
     }
@@ -79,7 +79,7 @@ class WriteMailViewModel : ViewModel() {
 
 
 
-    //    fun onEditItemChange(item: lineItem) {
+    //    fun onEditItemChange(item: LineItem) {
 //
 //        Log.d("TAGTAG","edit")
 ////        val currentItem = requireNotNull(currentEditItem)
@@ -92,27 +92,27 @@ class WriteMailViewModel : ViewModel() {
 //            val index = currentEditPosition
 //            Log.d("TAGTAG","value:"+value)
 //            if(value.isEmpty() && index!=0) {
-//                lineItems[currentEditPosition] = item
+//                LineItems[currentEditPosition] = item
 //                changeOnlyRead(index-1 ,false)
 ////                                onRemoveItem(items[index])
 //                count--
-//                removeItem(lineItems[index])
-//                Log.d("TAGTAG", (index-1).toString()+lineItems[index-1].readonly)
+//                removeItem(LineItems[index])
+//                Log.d("TAGTAG", (index-1).toString()+LineItems[index-1].readonly)
 //            }
 //            else if(value.length>20) {
 //                if(index == count){
 //                    count++
-//                    addItem(lineItem("",false, UUID.randomUUID(),count))
+//                    addItem(LineItem("",false, UUID.randomUUID(),count))
 //                }
 //                Log.d("TAGTAG", value.length.toString())
-//                lineItems[currentEditPosition].value = item.value.substring(0,20)
-//                val nextItem = lineItems[currentEditPosition + 1].copy()
+//                LineItems[currentEditPosition].value = item.value.substring(0,20)
+//                val nextItem = LineItems[currentEditPosition + 1].copy()
 //                nextItem.value = item.value[20].toString() +nextItem.value
-////                lineItems.set(currentEditPosition+1,nextItem)
+////                LineItems.set(currentEditPosition+1,nextItem)
 //                onEditItemChange(nextItem)
 //                changeOnlyRead(index ,true)
 //            }else{
-//                lineItems[currentEditPosition] = item
+//                LineItems[currentEditPosition] = item
 //            }
 ////        }
 //

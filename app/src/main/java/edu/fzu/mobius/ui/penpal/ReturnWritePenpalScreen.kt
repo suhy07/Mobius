@@ -14,11 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,27 +33,20 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
-import edu.fzu.mobius.compose.BaseTitleTop
-import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.compose.mailbox.item.Envelope
 import edu.fzu.mobius.compose.penpal.PenItem
 import edu.fzu.mobius.navigation.singleTaskNav
-import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.ui.common.nav.float.NavFloatButton
-import edu.fzu.mobius.ui.mailbox.MailBoxViewModel
-import edu.fzu.mobius.ui.write.WritePenPalScreen
-import edu.fzu.mobius.ui.write.lineItem
+import edu.fzu.mobius.ui.mail.LineItem
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun ReturnWritePenpalScreen(
     navController: NavController,
-    items:List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
+    items:List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
     otherNickname: String,
     returnWritePenPalViewModel: ReturnWritePenPalViewModel
 ) {
@@ -213,13 +203,13 @@ fun ReturnWritePenpalScreen(
 @Preview
 @Composable
 fun PreviewReturn(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
 
     val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     ReturnWritePenpalScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
         returnWritePenPalViewModel = returnWritePenPalViewModel
     )

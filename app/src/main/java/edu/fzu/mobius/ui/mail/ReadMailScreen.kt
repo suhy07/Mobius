@@ -1,24 +1,12 @@
-package edu.fzu.mobius.ui.write
+package edu.fzu.mobius.ui.mail
 
-
-import android.util.Log
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -26,24 +14,36 @@ import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.ButtonBottom
 import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.PrimaryVariant
 
-@ExperimentalMaterialApi
 @Composable
-fun WriteMailScreen(
-    navController: NavController,
-    items:List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
-    otherNickname: String
+fun ReadMailScreen(
+    otherNickname: String,
+    icon: String,
+    content: String,
+    flower: (NavController)->Unit,
+    reply: (NavController)->Unit,
+    items:List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
+            ConstraintLayout {
+                val (report) = createRefs()
+                UnspecifiedIcon(
+                    painter = painterResource(id = R.mipmap.report_icon),
+                    modifier = Modifier
+                        .height(30.dp)
+                        .constrainAs(report) {
+                            end.linkTo(parent.end, margin = 20.dp)
+                            top.linkTo(parent.top, margin = 0.dp)
+                        }
+                )
+            }
             BaseTitleTop(
                 navController = navController,
-                router = "mailbox_screen"
+                router = "anon_mailbox_screen"
             ) },
         bottomBar = {
 //            AnimatedVisibility(
@@ -169,16 +169,7 @@ fun WriteMailScreen(
         }
     ) {
         ConstraintLayout {
-            val (icon,edit) = createRefs()
-            UnspecifiedIcon(
-                painter = painterResource(id = R.drawable.letter1),
-                modifier = Modifier
-                    .height(60.dp)
-                    .constrainAs(icon) {
-                        end.linkTo(parent.end, margin = 20.dp)
-                        top.linkTo(parent.top, margin = 0.dp)
-                    }
-            )
+            val (report,edit) = createRefs()
             MailEditor(
                 otherNickname = otherNickname,
                 items = items,
@@ -192,19 +183,18 @@ fun WriteMailScreen(
     }
 }
 
-
-
-@ExperimentalMaterialApi
 @Preview
 @Composable
-fun PreviewWriteMail(){
-    val lists = listOf(lineItem(""), lineItem(""))
-    WriteMailScreen(
-        navController = rememberNavController(),
-        items = lists,
-        onEditItemChange = {(lineItem)-> run {} },
-        otherNickname ="陌生人"
+fun PreviewRead(){
+    val navController = rememberNavController()
+    ReadMailScreen(
+        otherNickname = "",
+        icon = "",
+        content = "",
+        flower = {},
+        reply = {},
+        items = listOf(),
+        onEditItemChange = {},
+        navController = navController
     )
 }
-
-

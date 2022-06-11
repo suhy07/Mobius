@@ -1,8 +1,6 @@
 package edu.fzu.mobius.compose
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,13 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.fzu.mobius.theme.PrimaryVariant
-import edu.fzu.mobius.ui.write.lineItem
+import edu.fzu.mobius.ui.mail.LineItem
 
 @Composable
 fun MailEditor(
     otherNickname:String,
-    items: List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
+    items: List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
     modifier: Modifier = Modifier,
 ){
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
@@ -149,10 +147,10 @@ fun LineInput(
 @Preview
 @Composable
 fun PreviewMailEditor(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     MailEditor(
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname = "陌生人",
     )
 }

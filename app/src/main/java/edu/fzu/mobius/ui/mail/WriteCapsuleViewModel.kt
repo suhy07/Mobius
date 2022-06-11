@@ -1,13 +1,11 @@
-package edu.fzu.mobius.ui.write
+package edu.fzu.mobius.ui.mail
 
 import ToastMsg
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.network.*
-import edu.fzu.mobius.ui.penpal.Penpal
 
 
 class WriteCapsuleViewModel:ViewModel() {
