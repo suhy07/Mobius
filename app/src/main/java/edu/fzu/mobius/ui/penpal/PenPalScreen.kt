@@ -305,7 +305,7 @@ fun PenPalScreen(
                 modifier= Modifier
                     .constrainAs(card2) {
                         start.linkTo(parent.start, margin = 0.dp)
-                        bottom.linkTo(parent.bottom, margin = 280.dp)
+                        bottom.linkTo(parent.bottom, margin = 180.dp)
                     }
                     .background(Color.Unspecified),
                 enter = slideInVertically(
@@ -324,7 +324,7 @@ fun PenPalScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp)
-                        .height(350.dp)
+                        .height(450.dp)
                         .background(Color.Unspecified)
                 ){
                     ConstraintLayout() {
