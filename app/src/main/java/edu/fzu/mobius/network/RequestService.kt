@@ -86,10 +86,10 @@ interface RequestService {
     ): Call<LogInBackData>
 
     //申请添加好友
-    @GET(value = "ums/friend/apply")
+    @GET(value = "/ums/friend/apply")
     fun applyFriend(
         @Query("applyUserId") applyUserId: Any,
-    ): Call<LogInBackData>
+    ): Call<LogInBackDataString>
     //删除好友
     @GET(value = "ums/friend/delete")
     fun deleteFriend(
@@ -106,7 +106,7 @@ interface RequestService {
         @Body sendPenForm: Any
     ): Call<LogInBackDataString>
     //获取陌生人列表
-    @GET(value = "ums/friend/search")
+    @GET(value = "/ums/friend/search")
     fun setStrangelist(
         @Query("nickname") nickname: Any,
     ): Call<LogInBackData>
@@ -279,9 +279,30 @@ class Network {
         fun networkThreadGet(
             requestService: (Any)->Call<LogInBackData>,
             param: Any,
-            code200:(LogInBackData)->Unit = {},
-            codeElse:(LogInBackData)->Unit = {},
-            fail: (Throwable)->Unit = {},
+            code200:(LogInBackData)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.SUCCESS
+                    )
+                )
+            },
+            codeElse:(LogInBackData)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            fail: (Throwable)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.localizedMessage,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
             other: (LogInBackData)->Unit = {}
         ){
             Thread{
@@ -303,6 +324,59 @@ class Network {
                         }
                     }
                     override fun onFailure(call: Call<LogInBackData>, t: Throwable) {
+                        fail(t)
+                    }
+                })
+            }.start()
+        }
+        fun networkThreadGetString(
+            requestService: (Any)->Call<LogInBackDataString>,
+            param: Any,
+            code200:(LogInBackDataString)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.SUCCESS
+                    )
+                )
+            },
+            codeElse:(LogInBackDataString)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            fail: (Throwable)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.localizedMessage,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            other: (LogInBackDataString)->Unit = {}
+        ){
+            Thread{
+                requestService(param).enqueue(object : Callback<LogInBackDataString> {
+                    override fun onResponse(
+                        call: Call<LogInBackDataString>,
+                        response: Response<LogInBackDataString>
+                    ) {
+                        response.body()?.let { it ->
+                            other(it)
+                            when (it.code) {
+                                200 -> {
+                                    code200(it)
+                                }
+                                else -> {
+                                    codeElse(it)
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<LogInBackDataString>, t: Throwable) {
                         fail(t)
                     }
                 })

@@ -14,7 +14,7 @@ class ReturnWritePenPalViewModel: ViewModel() {
     var penpalId = mutableStateOf<Int>(2)
     var penpalnikename = mutableStateOf("笔友一号")
     fun DeleteStranger(navController: NavController){
-        Network.networkThreadGet(
+        Network.networkThreadGetString(
             requestService = Network.service::applyFriend,
             param =  penpalId.value,
             code200 = {

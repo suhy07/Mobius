@@ -11,12 +11,13 @@ import com.google.gson.JsonParser
 import edu.fzu.mobius.entity.StrangeDataProject
 import edu.fzu.mobius.entity.TestData
 import edu.fzu.mobius.network.*
+import edu.fzu.mobius.network.Network.Companion.token
 
 
 class PenPalViewModel:ViewModel() {
     var nickname = mutableStateOf("")
     var strangenickname = mutableStateOf("")
-    var strangeId = mutableStateOf<Int>(2)
+    var strangeId = mutableStateOf<Int>(3)
     var nickname1 = mutableStateOf<Int>(2)//测试
 
     val friendlist = mutableStateOf(listOf<TestData.Data.Project>())
@@ -80,9 +81,10 @@ class PenPalViewModel:ViewModel() {
         )
     }
     fun AddStranger(navController: NavController){
-        Network.networkThreadGet(
+        Log.e("SDDDD",strangeId.value.toString()+" "+token)
+        Network.networkThreadGetString(
             requestService = Network.service::applyFriend,
-            param =  strangeId.value,
+            param =  3,
             code200 = {
 
                 PopWindows.postValue(
@@ -91,6 +93,7 @@ class PenPalViewModel:ViewModel() {
                         type = ToastType.SUCCESS
                     )
                 )
+                Log.e("SDDDD",it.data.toString()+"666666")
             },
             codeElse = {
                 PopWindows.postValue(
@@ -99,7 +102,9 @@ class PenPalViewModel:ViewModel() {
                         type = ToastType.ERROR
                     )
                 )
+                Log.e("SDDDD",it.data.toString()+"61166666")
             },
+
         )
 
     }
