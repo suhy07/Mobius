@@ -18,7 +18,7 @@ class AnonMailBoxViewModel: ViewModel(){
 //                requestService =  Network.service::randomAnonList,
 //                body = ""
 //            )
-//        }else
+//         }else
             Network.networkThreadArray(
                 requestService =  Network.service::getAnonList,
                 body = "",
