@@ -38,7 +38,9 @@ fun Envelope(
     abstract: String,
     otherNickname: String,
     type: LetterType,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: ()->Unit = { },
+    clickable: Boolean = false
 ) {
     //userHead:Bitmap
     //0匿名信 1笔友信 2邀请信 3时空胶囊 4鲜花
@@ -86,14 +88,10 @@ fun Envelope(
         Card(
             modifier = modifier
                 .fillMaxWidth()
-                .clickable {
-                    PopWindows.postValue(
-                        ToastMsg(
-                            value = "it.code.toString() + + it.message",
-                            type = ToastType.SUCCESS
-                        )
-                    )
-                }
+                .clickable(
+                    enabled = clickable,
+                    onClick = onClick
+                )
                 .height(174.dp)
                 .padding(start = 18.dp,end = 18.dp,bottom = 10.dp)
                 .background(color = Color.Unspecified),

@@ -27,6 +27,7 @@ fun MailEditor(
     items: List<LineItem>,
     onEditItemChange: (LineItem) -> Unit,
     modifier: Modifier = Modifier,
+    isPanPal: Boolean = true,
 ){
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
 
@@ -40,8 +41,8 @@ fun MailEditor(
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            if (otherNickname.equals("")){
-                item() {
+            if (otherNickname.equals("") && isPanPal){
+                item {
                     Row {
 
                     Text(
@@ -89,7 +90,7 @@ fun MailEditor(
                 }
             }
             else {
-                item() {
+                item {
                     LineInput(
                         text = "To:$otherNickname",
                         onTextChange = {},

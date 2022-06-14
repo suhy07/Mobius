@@ -7,8 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.entity.Draft
 import edu.fzu.mobius.global.GlobalMem
@@ -48,6 +50,7 @@ fun NavigationScreen() {
     val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
     val writeMailViewModel: WriteMailViewModel = viewModel()
+    val readMailViewModel: ReadMailViewModel = viewModel()
     val mineViewModel: MineViewModel = viewModel()
     val stampViewModel: StampViewModel = viewModel()
     val draftViewModel: DraftViewModel = viewModel()
@@ -116,10 +119,20 @@ fun NavigationScreen() {
         composable("write_mail_screen"){
             WriteMailScreen(
                 navController = navController,
-                items = writeMailViewModel.LineItems ,
-                onEditItemChange = writeMailViewModel::onEditItemChange,
                 otherNickname = "陌生人"
             )
+        }
+        composable("read_mail_screen/{id}"){
+            navArgument("id"){
+                type = NavType.IntType
+                defaultValue = 0
+            }
+            it.arguments?.getInt("id")?.let { it1 ->
+                ReadMailScreen(
+                    id = it1,
+                    navController = navController
+                )
+            }
         }
         composable("pen_pal_screen"){
             PenPalScreen(
