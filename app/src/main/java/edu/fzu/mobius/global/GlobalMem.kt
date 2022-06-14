@@ -14,6 +14,6 @@ class GlobalMem {
         // 心情值
         var MOOD = 1
         //昵称
-        var NICK_NAME = "黄埔牛牛"
+        var NICK_NAME = "黄埔牛牛 "
     }
 }
