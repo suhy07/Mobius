@@ -103,6 +103,13 @@ fun Envelope(
                                     args = args
                                 )
                             }
+                            LetterType.INVITE ->{
+                                val args = listOf(Pair("id", id), Pair("nickname",otherNickname))
+                                navController.navigateAndArgument(
+                                    route = "invite_screen/{id}/{nickname}",
+                                    args = args
+                                )
+                            }
                         }
 
                     }
