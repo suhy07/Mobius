@@ -37,18 +37,12 @@ fun AnonMailBoxScreen(
         LazyColumn {
             items(letters){
                 Envelope(
+                    id = it.id,
                     userNickname = it.userNickname,
                     abstract = it.abstract,
                     otherNickname = it.otherNickname,
                     type = it.type,
-                    clickable = true,
-                    onClick = {
-                        val args = listOf(Pair("id",it.id))
-                        navController.navigateAndArgument(
-                            route = "read_anon_mail_screen/{id}",
-                            args = args
-                        )
-                    }
+                    navController = navController
                 )
             }
         }

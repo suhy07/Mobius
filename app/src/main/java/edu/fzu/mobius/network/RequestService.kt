@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 interface RequestService {
 
-    @GET(value = "/anon/{anonId}}")
+    @GET(value = "/anon/{anonId}")
     fun getAnonValue(
         @Path ("anonId") anonId: Any
     ):Call<LogInBackData>

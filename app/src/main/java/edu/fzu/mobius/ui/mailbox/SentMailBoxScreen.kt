@@ -31,10 +31,12 @@ fun SentMailBoxScreen(
         LazyColumn(){
             items(mailBoxViewModel.letters){
                 Envelope(
+                    id = it.id,
                     userNickname = it.userNickname,
                     abstract = it.abstract,
                     otherNickname = it.otherNickname,
                     type = it.type,
+                    navController = navController
                 )
             }
         }

@@ -23,8 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.entity.LetterType
+import edu.fzu.mobius.navigation.navigateAndArgument
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.theme.AnonEnvelope
 import edu.fzu.mobius.theme.BlueText
@@ -34,13 +37,14 @@ import edu.fzu.mobius.theme.InviteEnvelope
 @ExperimentalAnimationApi
 @Composable
 fun Envelope(
+    navController:NavController,
+    id: Int,
     userNickname: String,
     abstract: String,
     otherNickname: String,
     type: LetterType,
     modifier: Modifier = Modifier,
-    onClick: ()->Unit = { },
-    clickable: Boolean = false
+    clickable: Boolean = true,
 ) {
     //userHead:Bitmap
     //0匿名信 1笔友信 2邀请信 3时空胶囊 4鲜花
@@ -49,7 +53,7 @@ fun Envelope(
             modifier = modifier
                 .height(54.dp)
                 .background(color = Color.Unspecified)
-                .padding(start = 18.dp,end = 18.dp,bottom = 10.dp)
+                .padding(start = 18.dp, end = 18.dp, bottom = 10.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -90,10 +94,21 @@ fun Envelope(
                 .fillMaxWidth()
                 .clickable(
                     enabled = clickable,
-                    onClick = onClick
+                    onClick = {
+                        when (type) {
+                            LetterType.ANON -> {
+                                val args = listOf(Pair("id", id))
+                                navController.navigateAndArgument(
+                                    route = "read_anon_mail_screen/{id}",
+                                    args = args
+                                )
+                            }
+                        }
+
+                    }
                 )
                 .height(174.dp)
-                .padding(start = 18.dp,end = 18.dp,bottom = 10.dp)
+                .padding(start = 18.dp, end = 18.dp, bottom = 10.dp)
                 .background(color = Color.Unspecified),
             backgroundColor = background,
             shape = RoundedCornerShape(10.dp)
@@ -175,11 +190,11 @@ fun OtherUser(nickname:String,modifier: Modifier=Modifier){
             color = Color.White,
             modifier = Modifier
                 .width(100.dp)
-                .constrainAs(name){
+                .constrainAs(name) {
                     start.linkTo(parent.start, margin = 35.dp)
                     end.linkTo(parent.end, margin = 0.dp)
                     top.linkTo(parent.top, margin = 0.dp)
-                    bottom.linkTo(parent.bottom, margin =0.dp)
+                    bottom.linkTo(parent.bottom, margin = 0.dp)
                 },
             fontSize = 16.sp,
             textAlign = TextAlign.Left
@@ -209,26 +224,26 @@ fun PreviewOtherUser(){
 @Preview
 @Composable
 fun PreviewEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.ANON)
+    Envelope(navController = rememberNavController(), id = 0, userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.ANON)
 }
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewInventEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.PEN)
+    Envelope(navController = rememberNavController(), id = 0, userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.PEN)
 }
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewCapsuleEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.INVITE)
+    Envelope(navController = rememberNavController(), id = 0, userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.INVITE)
 }
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewFlowerEnvelope(){
-    Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.FLOWER)
+    Envelope(navController = rememberNavController(), id = 0, userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = LetterType.FLOWER)
 }
