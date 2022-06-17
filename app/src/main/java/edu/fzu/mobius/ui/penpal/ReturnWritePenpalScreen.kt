@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -33,7 +35,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.base.NoShadowButton
+import edu.fzu.mobius.compose.penpal.AddPenOtherUser
 import edu.fzu.mobius.compose.penpal.PenItem
+import edu.fzu.mobius.entity.ReceiveProject
+import edu.fzu.mobius.entity.StrangeDataProject
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
@@ -48,10 +53,13 @@ fun ReturnWritePenpalScreen(
     items:List<LineItem>,
     onEditItemChange: (LineItem) -> Unit,
     otherNickname: String,
-    returnWritePenPalViewModel: ReturnWritePenPalViewModel
+    returnWritePenPalViewModel: ReturnWritePenPalViewModel,
+    receivelist: MutableState<List<ReceiveProject>>,
+    getlistReceived: ()->Unit,
 ) {
     val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     var floatingVisible = returnWritePenPalViewModel.floatingVisible
+    getlistReceived()
     Scaffold(
         topBar = {
             NoShadowTopAppBar (
@@ -187,8 +195,20 @@ fun ReturnWritePenpalScreen(
     ) {
         ConstraintLayout() {
             LazyColumn {
+                items(receivelist.value){
+                    PenItem(
+                        userNickname = it.nickName,
+                        abstract = it.contentbrief,
+                        otherNickname = it.receiverNickname,
+                        type = 1,
+                        modifier = Modifier.animateItemPlacement())
+                }
                 item {
-                    PenItem(userNickname = "hzd", abstract = "我想在这里告诉你个秘密..", otherNickname = "皇埔铁牛", type = 1, modifier = Modifier.animateItemPlacement())
+                    PenItem(userNickname = "hzd",
+                        abstract = "我想在这里告诉你个秘密..",
+                        otherNickname = "皇埔铁牛",
+                        type = 1,
+                        modifier = Modifier.animateItemPlacement())
                 }
                 item {
                     PenItem(userNickname = "皇埔铁牛", abstract = "那么问题来了是什么秘密呢", otherNickname = "hzd", type = 1, modifier = Modifier.animateItemPlacement())
@@ -213,6 +233,8 @@ fun PreviewReturn(){
         items = lists,
         onEditItemChange = {(LineItem)->{}},
         otherNickname ="笔友一号",
-        returnWritePenPalViewModel = returnWritePenPalViewModel
+        returnWritePenPalViewModel = returnWritePenPalViewModel,
+        receivelist = returnWritePenPalViewModel.receivelist,
+        getlistReceived = returnWritePenPalViewModel::getlistReceived,
     )
 }

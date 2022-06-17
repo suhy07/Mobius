@@ -142,6 +142,11 @@ interface RequestService {
         @Body sendPenForm: Any
     ): Call<LogInBackDataString>
 
+    @GET(value = "/pen/friend/{friendId}")
+    fun getlistReceived(
+        @Path ("friendId") friendId: Any
+    ): Call<LogInBackData>
+
     @GET(value = "/pen/sendList{nothing}")
     fun getPenSent(
         @Path ("nothing") nothing: Any
