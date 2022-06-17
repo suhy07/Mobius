@@ -44,6 +44,11 @@ interface RequestService {
         @Body postAnonForm: Any
     ): Call<LogInBackDataString>
 
+    @GET(value = "/anon/sentList{nothing}")
+    fun getAnonSent(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
+
     @POST(value = "/user/login")
     fun logInByPassword(
         @Body loginPasswordForm: Any
@@ -95,7 +100,6 @@ interface RequestService {
         @Body setNicknameForm: Any
     ): Call<LogInBackDataString>
 
-
     //获取好友列表
     @GET(value = "ums/friend/list")
     fun setFriendlist(
@@ -108,20 +112,40 @@ interface RequestService {
         @Query("applyUserId") applyUserId: Any,
     ): Call<LogInBackDataString>
     //删除好友
-    @GET(value = "ums/friend/delete")
+    @GET(value = "/ums/friend/delete")
     fun deleteFriend(
         @Body deletefriendForm: Any
     ): Call<LogInBackDataString>
+
+    @GET(value = "/ums/friend/listApply{nothing}")
+    fun getApplyList(
+        @Path("nothing") nothing: Any
+    ): Call<LogInBackData>
     //发送胶囊信
     @POST(value = "/capsule")
     fun sendCapsule(
         @Body sendCapsuleForm: Any
     ): Call<LogInBackDataString>
+
+    @GET(value = "/capsule/listSent{nothing}")
+    fun getCapsuleSent(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
+
+    @GET(value = "/capsule/receiveList{nothing}")
+    fun getCapsuleList(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
     //发送笔友信
     @POST(value = "/pen")
     fun sendPen(
         @Body sendPenForm: Any
     ): Call<LogInBackDataString>
+
+    @GET(value = "/pen/sendList{nothing}")
+    fun getPenSent(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
     //获取陌生人列表
     @GET(value = "/ums/friend/search")
     fun setStrangelist(
@@ -516,10 +540,6 @@ data class SendCapsuleForm(
     val content:String,
     val receiverId:Int,
     val title:String
-)
-
-data class applyFriendFrom(
-    val applyUserId: Int,
 )
 
 data class LoginPasswordForm(

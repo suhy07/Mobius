@@ -2,8 +2,10 @@ package edu.fzu.mobius.ui.mailbox
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.mailbox.item.Envelope
@@ -24,9 +26,16 @@ fun SentMailBoxScreen(
             )
         }
     ){
+        val mailBoxViewModel: MailBoxViewModel = viewModel()
+        mailBoxViewModel.getSentMailBox()
         LazyColumn(){
-            items(15) {
-//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 2)
+            items(mailBoxViewModel.letters){
+                Envelope(
+                    userNickname = it.userNickname,
+                    abstract = it.abstract,
+                    otherNickname = it.otherNickname,
+                    type = it.type,
+                )
             }
         }
     }

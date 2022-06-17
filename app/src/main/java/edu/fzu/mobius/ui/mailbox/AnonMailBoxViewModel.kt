@@ -5,6 +5,8 @@ import edu.fzu.mobius.entity.Letter
 import edu.fzu.mobius.entity.LetterType
 import edu.fzu.mobius.global.GlobalMem
 import edu.fzu.mobius.network.Network
+import java.text.SimpleDateFormat
+import kotlin.collections.ArrayList
 
 //class AnonMailBoxViewModel(application: Application) : AndroidViewModel(application) {
 class AnonMailBoxViewModel: ViewModel(){
@@ -30,7 +32,8 @@ class AnonMailBoxViewModel: ViewModel(){
                             abstract = item["contentBrief"] as String,
                             otherNickname = "陌生人",
                             type = LetterType.ANON,
-                            id = (item["id"] as Double).toInt()
+                            id = (item["id"] as Double).toInt(),
+                            time = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SS").parse(item["createTime"] as String)
                         )
                         anonList.add(letter)
                     }

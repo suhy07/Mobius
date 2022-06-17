@@ -4,10 +4,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
@@ -29,23 +31,17 @@ fun MyMailBoxScreen(navController: NavController){
             )
         }
     ){
-
+        val mailBoxViewModel: MailBoxViewModel = viewModel()
+        mailBoxViewModel.getReceivedMailBox()
         LazyColumn {
-//            item {
-//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1111111", type = 1, modifier = Modifier.animateItemPlacement())
-//            }
-////            item {
-////                OtherUser(nickname = "皇埔铁牛", modifier = Modifier.animateItemPlacement())
-////            }
-//            items(5) {
-//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
-//            }
-//            items(2) {
-//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 3)
-//            }
-//            item {
-//                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1", type = 4)
-//            }
+            items(mailBoxViewModel.letters){
+                Envelope(
+                    userNickname = it.userNickname,
+                    abstract = it.abstract,
+                    otherNickname = it.otherNickname,
+                    type = it.type,
+                )
+            }
         }
     }
 }
