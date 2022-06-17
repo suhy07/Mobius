@@ -34,11 +34,12 @@ fun CapsuleScreen(navController: NavController){
         } ,
         floatingActionButton = {
             AnimatedVisibility(visible =floatingVisible ) {
-                NavFloatButton {
-                    /* onClick */
-
-                    navController.navigate("write_capsule_screen")
-                }
+                NavFloatButton(
+                    resource = R.drawable.lnk,
+                    onClick = {
+                        navController.navigate("write_capsule_screen")
+                    }
+                )
             }
         }
     ) {

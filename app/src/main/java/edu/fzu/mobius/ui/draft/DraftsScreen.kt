@@ -21,13 +21,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.entity.Draft
+import edu.fzu.mobius.navigation.navigateAndArgument
 
 @ExperimentalMaterialApi
 @Composable
 fun DraftsScreen(
     navController: NavController,
-    drafts: List<Draft>
 ) {
+    val draftViewModel: DraftViewModel = viewModel()
+    draftViewModel.getDrafts()
     Scaffold(
         topBar = {
             BaseTitleTop(
@@ -41,7 +43,7 @@ fun DraftsScreen(
             modifier = Modifier
                 .padding(start = 30.dp,end = 30.dp)
         ){
-            items(drafts){
+            items(draftViewModel.drafts){
                 DraftItemScreen(
                     navController = navController,
                     id = it.id,
@@ -73,7 +75,8 @@ fun DraftItemScreen(
                 .fillMaxSize()
                 .padding(all = 10.dp)
                 .clickable {
-                    navController.navigate("draft_edit_screen")
+                    val args = listOf(Pair("id",id))
+                    navController.navigateAndArgument("draft_edit_screen/{id}", args)
                 },
         )
     }
@@ -105,9 +108,7 @@ fun PreviewDraftItem(){
 @ExperimentalMaterialApi
 @Composable
 fun PreviewDrafts(){
-    val draftViewModel: DraftViewModel = viewModel()
     DraftsScreen(
         navController = rememberNavController(),
-        drafts = draftViewModel.drafts
     )
 }

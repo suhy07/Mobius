@@ -176,14 +176,16 @@ fun ReturnWritePenpalScreen(
                     animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                 ),
             ) {
-                NavFloatButton {
-                    navController.navigate("write_revert_pen_pal_screen")
-                }
+                NavFloatButton(
+                    resource = R.drawable.lnk,
+                    onClick = {
+                        navController.navigate("write_capsule_screen")
+                    }
+                )
             }
         }
     ) {
         ConstraintLayout() {
-            val (edit, card) = createRefs()
             LazyColumn {
                 item {
                     PenItem(userNickname = "hzd", abstract = "我想在这里告诉你个秘密..", otherNickname = "皇埔铁牛", type = 1, modifier = Modifier.animateItemPlacement())

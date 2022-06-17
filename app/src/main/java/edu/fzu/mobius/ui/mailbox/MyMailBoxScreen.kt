@@ -29,6 +29,7 @@ fun MyMailBoxScreen(navController: NavController){
             )
         }
     ){
+
         LazyColumn {
 //            item {
 //                Envelope(userNickname = "皇埔铁牛", abstract = "我想在这里告诉你个秘密..", otherNickname = "陌生人1111111", type = 1, modifier = Modifier.animateItemPlacement())

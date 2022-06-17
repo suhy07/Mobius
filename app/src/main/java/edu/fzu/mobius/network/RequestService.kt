@@ -1,8 +1,6 @@
 package edu.fzu.mobius.network
 
 import ToastMsg
-import androidx.compose.runtime.MutableState
-import edu.fzu.mobius.entity.TestData
 import edu.fzu.mobius.global.GlobalMem
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -13,14 +11,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KFunction1
 
 interface RequestService {
 
-    @GET(value = "/anon/{anonId}")
+    @GET(value = "/anon/{anonId}}")
     fun getAnonValue(
-        @Query ("anonId") anonId: Any
+        @Path ("anonId") anonId: Any
     ):Call<LogInBackData>
+
+    @GET(value = "/anon/hasLike/{anonId}")
+    fun getHasLike(
+        @Path ("anonId") anonId: Any
+    ):Call<LogInBackDataString>
+
+    @GET(value = "/anon/addLike/{anonId}")
+    fun addLike(
+        @Path ("anonId") anonId: Any
+    ):Call<LogInBackDataString>
 
     @GET(value = "/anon/random/"+GlobalMem.ANON_NUM)
     fun randomAnonList(
@@ -35,7 +42,7 @@ interface RequestService {
     @POST(value = "/anon/save")
     fun postAnonLetter(
         @Body postAnonForm: Any
-    ): Call<LogInBackData>
+    ): Call<LogInBackDataString>
 
     @POST(value = "/user/login")
     fun logInByPassword(
@@ -46,6 +53,11 @@ interface RequestService {
     fun logInByCode(
         @Body loginCodeForm: Any
     ): Call<LogInBackData>
+
+    @POST(value = "/user/feedBack")
+    fun feedback(
+        @Body feedbackForm: Any
+    ): Call<LogInBackDataString>
 
     @POST(value = "/code/login")
     fun loginSendVerificationCode(
@@ -118,13 +130,13 @@ interface RequestService {
 
     @GET(value = "/draft/list")
     fun getDraftList(
-        @Query ("pageNum") pageNum: Int,
-//        @Query ("pageSize") pageSize: Int = 100
+        @Query ("pageNum") pageNum: Any,
+        @Query ("pageSize") pageSize: Int = 100
     ): Call<LogInBackData>
 
     @GET(value = "/draft/{contentId}")
     fun getDraftValue(
-        @Query ("contentId") contentId: Int,
+        @Path ("contentId") contentId: Any,
     ): Call<LogInBackData>
 
     @POST(value = "/draft/save")
@@ -152,7 +164,7 @@ class Network {
             chain.proceed(requestBuilder.build())
         }
 
-        //创建OKhttp
+        //创建OKHttp
         private val client: OkHttpClient.Builder = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .connectTimeout(10, TimeUnit.SECONDS)
@@ -470,7 +482,7 @@ data class LogInBackData(
 data class LogInBackDataString(
     val message: String,
     val code: Int,
-    val data: String
+    val data: Any
 )
 
 data class LogInBackDataArray(
@@ -544,10 +556,16 @@ data class PostAnonForm(
     val content: String,
     val contentId: Int = 0,
     val moodLevel: Int,
+    val parentId: Int = 0,
+    val title: String = "这是一封匿名信"
 )
 
 data class SaveDraftForm(
     val content: String ,
+    val contentId: Int? = null,
     val title: String,
-    val contentId: Nothing? = null,
+)
+
+data class FeedbackForm(
+    val msg: String
 )

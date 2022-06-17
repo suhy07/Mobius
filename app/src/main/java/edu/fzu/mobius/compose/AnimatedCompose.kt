@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.bluetext
+import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.mail.LineItem
 import java.util.*
@@ -209,7 +209,7 @@ fun AnimatedButton(
                                     top.linkTo(parent.top, margin = 165.dp)
                                 },
                             fontSize = 14.sp,
-                            color = bluetext,)
+                            color = BlueText,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
 

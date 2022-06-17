@@ -15,5 +15,9 @@ class GlobalMem {
         var MOOD = 1
         //昵称
         var NICK_NAME = "黄埔牛牛 "
+
+
+        //路由名称
+
     }
 }

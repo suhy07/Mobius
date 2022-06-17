@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.mailbox.item.Envelope
 import edu.fzu.mobius.entity.Letter
+import edu.fzu.mobius.navigation.navigateAndArgument
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.theme.BlueBackground
 
@@ -42,7 +43,11 @@ fun AnonMailBoxScreen(
                     type = it.type,
                     clickable = true,
                     onClick = {
-                        singleTaskNav(navController,"read_mail_screen/"+it.id)
+                        val args = listOf(Pair("id",it.id))
+                        navController.navigateAndArgument(
+                            route = "read_anon_mail_screen/{id}",
+                            args = args
+                        )
                     }
                 )
             }

@@ -75,10 +75,11 @@ fun BaseTitleTop(navController: NavController, router: String, title: String = "
 @Composable
 fun ButtonBottom(
     onClick: ()->Unit,
-    title: String
+    title: String,
+    modifier: Modifier = Modifier
 ){
     NoShadowBottomAppBar(
-        modifier = Modifier
+        modifier = modifier
             .padding(12.dp)
             .height(100.dp)
     ) {

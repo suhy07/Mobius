@@ -15,14 +15,18 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 
 @Composable
-fun NavFloatButton(onClick: () -> Unit,) {
+fun NavFloatButton(
+    onClick: () -> Unit,
+    resource: Int,
+    modifier: Modifier = Modifier
+) {
     FloatingActionButton(
         onClick = onClick,
         backgroundColor = Color.White,
-        modifier = Modifier.padding(20.dp)
+        modifier = modifier.padding(20.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.lnk),
+            painter = painterResource(id = resource),
             contentDescription = "background_image",
             modifier = Modifier
                 .height(70.dp)
@@ -36,8 +40,9 @@ fun NavFloatButton(onClick: () -> Unit,) {
 @Preview
 @Composable
 fun PreviewFloatButton() {
-    val navController = rememberNavController()
-    NavFloatButton{
-
-    }
+    NavFloatButton(
+        resource = R.drawable.lnk,
+        onClick = {
+        }
+    )
 }

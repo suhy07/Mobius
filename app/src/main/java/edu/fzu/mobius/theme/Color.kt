@@ -14,7 +14,6 @@ val Primary = Color.Unspecified
 val PrimaryVariant = Color(0xFF9DB7DA)
 val Secondary = Color(0xFFFFFFFF)
 val BlueBackground = Color(0xFFF2F1F6)
-val bluetext = Color(0xFF17418B)
 
 val BlueText = Color(0xFF17418B)
 val BlueButton = Color(0xFF34599F)

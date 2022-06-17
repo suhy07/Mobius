@@ -5,15 +5,20 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.os.bundleOf
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.NavType
+import androidx.navigation.Navigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.entity.Draft
 import edu.fzu.mobius.global.GlobalMem
+import edu.fzu.mobius.ui.anon.AnonSuccessScreen
+import edu.fzu.mobius.ui.anon.ReadAnonMailViewModel
 import edu.fzu.mobius.ui.capsule.CapsuleScreen
 import edu.fzu.mobius.ui.capsule.CapsuleSuccessScreen
 import edu.fzu.mobius.ui.draft.DraftEditScreen
@@ -50,11 +55,7 @@ fun NavigationScreen() {
     val writeCapsuleViewModel: WriteCapsuleViewModel = viewModel()
     val writePenPalViewModel: WritePenPalViewModel = viewModel()
     val writeMailViewModel: WriteMailViewModel = viewModel()
-    val readMailViewModel: ReadMailViewModel = viewModel()
-    val mineViewModel: MineViewModel = viewModel()
     val stampViewModel: StampViewModel = viewModel()
-    val draftViewModel: DraftViewModel = viewModel()
-    val feedbackViewModel: FeedbackViewModel = viewModel()
     val anonMailBoxViewModel: AnonMailBoxViewModel = viewModel()
     val returnWritePenPalViewModel: ReturnWritePenPalViewModel = viewModel()
     NavHost(
@@ -116,23 +117,26 @@ fun NavigationScreen() {
         composable("sent_mailbox_screen"){
             SentMailBoxScreen(navController = navController)
         }
-        composable("write_mail_screen"){
-            WriteMailScreen(
+        composable("write_anon_mail_screen"){
+            WriteAnonMailScreen(
                 navController = navController,
                 otherNickname = "陌生人"
             )
         }
-        composable("read_mail_screen/{id}"){
+        composable("read_anon_mail_screen/{id}"){
             navArgument("id"){
                 type = NavType.IntType
                 defaultValue = 0
             }
             it.arguments?.getInt("id")?.let { it1 ->
-                ReadMailScreen(
+                ReadAnonMailScreen(
                     id = it1,
                     navController = navController
                 )
             }
+        }
+        composable("anon_success_screen"){
+            AnonSuccessScreen(navController = navController)
         }
         composable("pen_pal_screen"){
             PenPalScreen(
@@ -298,21 +302,25 @@ fun NavigationScreen() {
         composable("feedback_screen"){
             FeedbackScreen(
                 navController = navController,
-                feedbackValue = feedbackViewModel.feedbackValue,
-                feedback = feedbackViewModel::feedback
             )
         }
         composable("drafts_screen"){
             DraftsScreen(
                 navController = navController,
-                drafts = draftViewModel.drafts
             )
         }
-        composable("draft_edit_screen"){
-            DraftEditScreen(
-                navController = navController,
-                draft = Draft(0,"")
-            )
+        composable("draft_edit_screen/{id}"
+        ){
+            navArgument("id"){
+                type = NavType.IntType
+                defaultValue = 0
+            }
+            it.arguments?.getInt("id")?.let { it1 ->
+                DraftEditScreen(
+                    navController = navController,
+                    id = it1
+                )
+            }
         }
     }
 
@@ -339,5 +347,26 @@ fun singleTaskNav(navController: NavController, router: String){
         "mailbox_screen"->{
             MineViewModel.getUserInfo()
         }
+    }
+}
+
+fun NavController.navigateAndArgument(
+    route: String,
+    args: List<Pair<String, Any>>? = null,
+    navOptions: NavOptions? = null,
+    navigatorExtras: Navigator.Extras? = null,
+
+    ) {
+    navigate(route = route, navOptions = navOptions, navigatorExtras = navigatorExtras)
+
+    if (args == null && args?.isEmpty() == true) {
+        return
+    }
+
+    val bundle = backQueue.lastOrNull()?.arguments
+    if (bundle != null) {
+        bundle.putAll(bundleOf(*args?.toTypedArray()!!))
+    } else {
+        println("The last argument of NavBackStackEntry is NULL")
     }
 }

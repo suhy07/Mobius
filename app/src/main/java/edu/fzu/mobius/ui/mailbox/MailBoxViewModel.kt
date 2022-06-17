@@ -11,4 +11,8 @@ class MailBoxViewModel: ViewModel() {
     var floatingVisible = mutableStateOf(true)
     var expanded = mutableStateOf(false)
 
+    fun getSentMailBox(){
+
+    }
+
 }

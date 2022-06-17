@@ -27,13 +27,15 @@ import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.ButtonBottom
 import edu.fzu.mobius.compose.MailEditor
+import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.theme.BlueButton
+import edu.fzu.mobius.ui.anon.WriteAnonViewModel
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
 
 @SuppressLint("RememberReturnType")
 @ExperimentalMaterialApi
 @Composable
-fun WriteMailScreen(
+fun WriteAnonMailScreen(
     navController: NavController,
     otherNickname: String
 ) {
@@ -41,6 +43,7 @@ fun WriteMailScreen(
     val cardVisible = remember { mutableStateOf(false) }
     val items = writeMailViewModel.LineItems
     val onEditItemChange = writeMailViewModel::onEditItemChange
+    val writeAnonViewModel: WriteAnonViewModel = viewModel()
     Scaffold(
         topBar = {
             BaseTitleTop(
@@ -49,7 +52,9 @@ fun WriteMailScreen(
             ) },
         bottomBar = {
             ButtonBottom(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    cardVisible.value = true
+                },
                 title = "发送信件"
             )
             AnimatedVisibility(
@@ -72,7 +77,7 @@ fun WriteMailScreen(
                         .height(200.dp)
                         .background(Color.Unspecified)
                 ) {
-                    ConstraintLayout() {
+                    ConstraintLayout {
                         val (cardText, slider, cardButton) = createRefs()
                         val progress = remember { mutableStateOf(0f) }
                         Text(
@@ -99,29 +104,21 @@ fun WriteMailScreen(
                                     top.linkTo(parent.top, margin = 55.dp)
                                 },
                         )
-                        TextButton(
+                        ButtonBottom(
                             onClick = {
-
+                                cardVisible.value = true
+                                writeAnonViewModel.sentAnon(
+                                    content = writeMailViewModel.letterValue.value,
+                                    mood = progress.value,
+                                    navController = navController
+                                )
                             },
-                            shape = RoundedCornerShape(20.dp),
-                            elevation = ButtonDefaults.elevation(10.dp, 10.dp, 10.dp),
-                            colors = ButtonDefaults.textButtonColors(
-                                backgroundColor = BlueButton,
-                                contentColor = Color.White
-                            ),
+                            title = "确定",
                             modifier = Modifier
-                                .height(60.dp)
-                                .width(365.dp)
-                                .constrainAs(cardButton) {
-                                    start.linkTo(parent.start, margin = 25.dp)
-                                    top.linkTo(parent.top, margin = 125.dp)
-                                },
-                        ) {
-                            Text(
-                                text = "确定",
-                                fontSize = 20.sp
-                            )
-                        }
+                                .constrainAs(cardButton){
+                                    bottom.linkTo(parent.bottom)
+                                }
+                        )
                     }
                 }
             }
@@ -157,7 +154,7 @@ fun WriteMailScreen(
 @Preview
 @Composable
 fun PreviewWriteMail(){
-    WriteMailScreen(
+    WriteAnonMailScreen(
         navController = rememberNavController(),
         otherNickname ="陌生人"
     )

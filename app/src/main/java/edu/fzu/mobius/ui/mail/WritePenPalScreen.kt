@@ -35,7 +35,7 @@ import edu.fzu.mobius.ui.common.UnspecifiedIcon
 import edu.fzu.mobius.compose.penpal.PenOtherUser2
 import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.bluetext
+import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.ui.common.NoShadowTopAppBar
 import edu.fzu.mobius.ui.penpal.PenPalViewModel
 
@@ -287,7 +287,7 @@ fun WritePenPalScreen(
                                     top.linkTo(parent.top, margin = 105.dp)
                                 },
                             fontSize = 14.sp,
-                            color = bluetext,)
+                            color = BlueText,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
                                 //跳转成功页面

@@ -38,7 +38,7 @@ import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.LineInput
 import edu.fzu.mobius.compose.penpal.PenOtherUser2
 import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.bluetext
+import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.penpal.Penpal
 import java.util.*
@@ -244,7 +244,7 @@ fun WriteCapsuleScreen(
                                     top.linkTo(parent.top, margin = 165.dp)
                                 },
                             fontSize = 14.sp,
-                            color = bluetext,)
+                            color = BlueText,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
                                 writeCapsuleViewModel.content.value = value.value
