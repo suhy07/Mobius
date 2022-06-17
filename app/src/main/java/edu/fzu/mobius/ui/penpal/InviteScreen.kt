@@ -31,11 +31,13 @@ import edu.fzu.mobius.ui.mail.WriteMailViewModel
 @Composable
 fun InviteScreen(
     navController: NavController,
-    id: Int
+    id: Int,
+    nickname: String
 ) {
     val inviteViewModel: InviteViewModel = viewModel()
+    inviteViewModel.nickname.value = nickname
     val writeMailViewModel: WriteMailViewModel = viewModel()
-    inviteViewModel.getInviteInfo(id)
+    writeMailViewModel.setLetterValue(nickname+"想要和你成为笔友")
     Scaffold(
         topBar = {
             BaseTitleTop(
@@ -46,12 +48,13 @@ fun InviteScreen(
             ConstraintLayout(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                val (nickname, icon) = createRefs()
+                val (nickname, icon, botton) = createRefs()
                 Text(
                     text = inviteViewModel.nickname.value,
                     modifier = Modifier
                         .constrainAs(nickname){
                             top.linkTo(parent.top, margin = 20.dp)
+                            bottom.linkTo(parent.bottom, margin = 50.dp)
                             end.linkTo(parent.end, margin = 30.dp)
                         }
                 )
@@ -61,6 +64,7 @@ fun InviteScreen(
                         .size(40.dp)
                         .constrainAs(icon) {
                             top.linkTo(parent.top, margin = 20.dp)
+                            bottom.linkTo(parent.bottom, margin = 50.dp)
                             end.linkTo(nickname.start, margin = 10.dp)
                         }
                 )
@@ -68,7 +72,10 @@ fun InviteScreen(
                     onClick = {
                         inviteViewModel.applyInvite(navController, id)
                     },
-                    title = "接受邀请"
+                    title = "接受邀请",
+                    modifier = Modifier.constrainAs(botton){
+                        top.linkTo(nickname.bottom)
+                    }
                 )
             }
         }
@@ -101,5 +108,5 @@ fun InviteScreen(
 @Preview
 @Composable
 fun PreviewPenInvite(){
-    InviteScreen(navController = rememberNavController(), id = 0)
+    InviteScreen(navController = rememberNavController(), id = 0, nickname = "")
 }

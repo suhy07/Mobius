@@ -93,7 +93,7 @@ class MailBoxViewModel: ViewModel() {
                         abstract = "这是一条好友申请",
                         otherNickname = item["nickname"] as String,
                         type = LetterType.INVITE,
-                        id = (item["id"] as Double).toInt(),
+                        id = (item["friendId"] as Double).toInt(),
                         time = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SS").parse(item["createTime"] as String)
                     )
                     letters.add(letter)

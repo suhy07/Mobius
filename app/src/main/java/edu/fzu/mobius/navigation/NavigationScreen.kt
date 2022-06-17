@@ -322,6 +322,33 @@ fun NavigationScreen() {
                 )
             }
         }
+        composable("invite_screen/{id}/{nickname}"
+        ){
+            navArgument("id"){
+                type = NavType.IntType
+                defaultValue = 0
+            }
+            navArgument("nickname"){
+                type = NavType.IntType
+                defaultValue = "陌生人"
+            }
+            var id = 0
+            it.arguments?.getInt("id")?.let { it1 ->
+                id =it1
+            }
+            var nickname = ""
+            it.arguments?.getString("nickname")?.let { it1 ->
+                nickname = it1
+            }
+            InviteScreen(
+                navController = navController,
+                id = id,
+                nickname = nickname
+            )
+        }
+        composable("receive_success_screen"){
+            ReceiveSuccessScreen(navController = navController)
+        }
     }
 
 }

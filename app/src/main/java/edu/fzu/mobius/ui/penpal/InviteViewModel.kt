@@ -10,16 +10,12 @@ class InviteViewModel: ViewModel() {
     val nickname = mutableStateOf("")
     val icon = mutableStateOf("")
 
-    fun getInviteInfo(id: Int){
-
-    }
-
     fun applyInvite(navController: NavController, id: Int){
         Network.networkThreadString(
             requestService = Network.service::applyFriend,
             body = id,
             router = {
-                singleTaskNav(navController, "invite_success_screen")
+                singleTaskNav(navController, "receive_success_screen")
             }
         )
     }
