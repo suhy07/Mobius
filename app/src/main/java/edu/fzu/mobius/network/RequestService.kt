@@ -1,8 +1,6 @@
 package edu.fzu.mobius.network
 
 import ToastMsg
-import androidx.compose.runtime.MutableState
-import edu.fzu.mobius.entity.TestData
 import edu.fzu.mobius.global.GlobalMem
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -13,23 +11,42 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KFunction1
 
 interface RequestService {
+
+    @GET(value = "/anon/{anonId}")
+    fun getAnonValue(
+        @Path ("anonId") anonId: Any
+    ):Call<LogInBackData>
+
+    @GET(value = "/anon/hasLike/{anonId}")
+    fun getHasLike(
+        @Path ("anonId") anonId: Any
+    ):Call<LogInBackDataString>
+
+    @GET(value = "/anon/addLike/{anonId}")
+    fun addLike(
+        @Path ("anonId") anonId: Any
+    ):Call<LogInBackDataString>
 
     @GET(value = "/anon/random/"+GlobalMem.ANON_NUM)
     fun randomAnonList(
         @Query ("") empty: Any
-    ):Call<LogInBackDataString>
+    ):Call<LogInBackDataArray>
 
     @GET(value = "/anon/getCurrentPossessAnons")
     fun getAnonList(
         @Query ("") empty: Any
-    ):Call<LogInBackData>
+    ):Call<LogInBackDataArray>
 
     @POST(value = "/anon/save")
     fun postAnonLetter(
         @Body postAnonForm: Any
+    ): Call<LogInBackDataString>
+
+    @GET(value = "/anon/sentList{nothing}")
+    fun getAnonSent(
+        @Path ("nothing") nothing: Any
     ): Call<LogInBackData>
 
     @POST(value = "/user/login")
@@ -41,6 +58,11 @@ interface RequestService {
     fun logInByCode(
         @Body loginCodeForm: Any
     ): Call<LogInBackData>
+
+    @POST(value = "/user/feedBack")
+    fun feedback(
+        @Body feedbackForm: Any
+    ): Call<LogInBackDataString>
 
     @POST(value = "/code/login")
     fun loginSendVerificationCode(
@@ -78,7 +100,6 @@ interface RequestService {
         @Body setNicknameForm: Any
     ): Call<LogInBackDataString>
 
-
     //获取好友列表
     @GET(value = "ums/friend/list")
     fun setFriendlist(
@@ -91,20 +112,40 @@ interface RequestService {
         @Query("applyUserId") applyUserId: Any,
     ): Call<LogInBackDataString>
     //删除好友
-    @GET(value = "ums/friend/delete")
+    @GET(value = "/ums/friend/delete")
     fun deleteFriend(
         @Body deletefriendForm: Any
     ): Call<LogInBackDataString>
+
+    @GET(value = "/ums/friend/listApply{nothing}")
+    fun getApplyList(
+        @Path("nothing") nothing: Any
+    ): Call<LogInBackData>
     //发送胶囊信
     @POST(value = "/capsule")
     fun sendCapsule(
         @Body sendCapsuleForm: Any
     ): Call<LogInBackDataString>
+
+    @GET(value = "/capsule/listSent{nothing}")
+    fun getCapsuleSent(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
+
+    @GET(value = "/capsule/receiveList{nothing}")
+    fun getCapsuleList(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
     //发送笔友信
     @POST(value = "/pen")
     fun sendPen(
         @Body sendPenForm: Any
     ): Call<LogInBackDataString>
+
+    @GET(value = "/pen/sendList{nothing}")
+    fun getPenSent(
+        @Path ("nothing") nothing: Any
+    ): Call<LogInBackData>
     //获取陌生人列表
     @GET(value = "/ums/friend/search")
     fun setStrangelist(
@@ -113,13 +154,13 @@ interface RequestService {
 
     @GET(value = "/draft/list")
     fun getDraftList(
-        @Query ("pageNum") pageNum: Int,
-//        @Query ("pageSize") pageSize: Int = 100
+        @Query ("pageNum") pageNum: Any,
+        @Query ("pageSize") pageSize: Int = 100
     ): Call<LogInBackData>
 
     @GET(value = "/draft/{contentId}")
     fun getDraftValue(
-        @Query ("contentId") contentId: Int,
+        @Path ("contentId") contentId: Any,
     ): Call<LogInBackData>
 
     @POST(value = "/draft/save")
@@ -134,7 +175,6 @@ class Network {
         @JvmStatic
         var token = ""
 
-        var friendlist = mutableListOf<TestData.Data.Project>()
         //创建拦截器
         private val interceptor = Interceptor { chain ->
             val request = chain.request()
@@ -148,7 +188,7 @@ class Network {
             chain.proceed(requestBuilder.build())
         }
 
-        //创建OKhttp
+        //创建OKHttp
         private val client: OkHttpClient.Builder = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .connectTimeout(10, TimeUnit.SECONDS)
@@ -276,6 +316,62 @@ class Network {
             }.start()
         }
 
+        fun networkThreadArray(
+            requestService: (Any)->Call<LogInBackDataArray>,
+            body: Any,
+            code200: (LogInBackDataArray)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString() + " " + it.message,
+                        type = ToastType.SUCCESS
+                    )
+                )
+            },
+            router: (LogInBackDataArray)->Unit = {},
+            codeElse: (LogInBackDataArray)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.code.toString()+" "+it.message,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            fail: (Throwable)->Unit = {
+                PopWindows.postValue(
+                    ToastMsg(
+                        value = it.localizedMessage,
+                        type = ToastType.ERROR
+                    )
+                )
+            },
+            other: (LogInBackDataArray)->Unit = {}
+        ){
+            Thread{
+                requestService(body).enqueue(object : Callback<LogInBackDataArray> {
+                    override fun onResponse(
+                        call: Call<LogInBackDataArray>,
+                        response: Response<LogInBackDataArray>
+                    ) {
+                        response.body()?.let { it ->
+                            other(it)
+                            when (it.code) {
+                                200 -> {
+                                    code200(it)
+                                    router(it)
+                                }
+                                else -> {
+                                    codeElse(it)
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<LogInBackDataArray>, t: Throwable) {
+                        fail(t)
+                    }
+                })
+            }.start()
+        }
+
         fun networkThreadGet(
             requestService: (Any)->Call<LogInBackData>,
             param: Any,
@@ -393,13 +489,6 @@ data class SendPenForm(
     val title:String
 )
 
-//发送胶囊信件
-data class SendCapsuleForm(
-    val arriveTime:String,
-    val content:String,
-    val receiverId:Int,
-    val title:String
-)
 //删除好友
 data class DeleteFriendFrom(
     val applyUserId: Int,
@@ -417,7 +506,40 @@ data class LogInBackData(
 data class LogInBackDataString(
     val message: String,
     val code: Int,
-    val data: String
+    val data: Any
+)
+
+data class LogInBackDataArray(
+    val message: String,
+    val code: Int,
+    val data: Array<Map<String, Any>>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as LogInBackDataArray
+
+        if (message != other.message) return false
+        if (code != other.code) return false
+        if (!data.contentEquals(other.data)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = message.hashCode()
+        result = 31 * result + code
+        result = 31 * result + data.contentHashCode()
+        return result
+    }
+}
+
+data class SendCapsuleForm(
+    val arriveTime:String,
+    val content:String,
+    val receiverId:Int,
+    val title:String
 )
 
 data class LoginPasswordForm(
@@ -454,10 +576,16 @@ data class PostAnonForm(
     val content: String,
     val contentId: Int = 0,
     val moodLevel: Int,
+    val parentId: Int = 0,
+    val title: String = "这是一封匿名信"
 )
 
 data class SaveDraftForm(
     val content: String ,
+    val contentId: Int? = null,
     val title: String,
-    val contentId: Nothing? = null,
+)
+
+data class FeedbackForm(
+    val msg: String
 )

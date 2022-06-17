@@ -41,7 +41,7 @@ class LoginViewModel:ViewModel() {
                 router = {
                     singleTaskNav(navController, "mailbox_screen")
                     Network.token = it.data["token"] as String
-                },
+                }
             )
         }
     }

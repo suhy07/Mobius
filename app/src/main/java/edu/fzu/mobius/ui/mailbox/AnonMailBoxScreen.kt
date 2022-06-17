@@ -13,6 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.mailbox.item.Envelope
 import edu.fzu.mobius.entity.Letter
+import edu.fzu.mobius.navigation.navigateAndArgument
+import edu.fzu.mobius.navigation.singleTaskNav
 import edu.fzu.mobius.theme.BlueBackground
 
 @ExperimentalFoundationApi
@@ -21,9 +23,7 @@ import edu.fzu.mobius.theme.BlueBackground
 fun AnonMailBoxScreen(
     navController: NavController,
     letters: List<Letter>,
-    getAnonList: ()->Unit
 ){
-    getAnonList()
     Scaffold(
         backgroundColor = BlueBackground,
         topBar = {
@@ -37,10 +37,12 @@ fun AnonMailBoxScreen(
         LazyColumn {
             items(letters){
                 Envelope(
+                    id = it.id,
                     userNickname = it.userNickname,
                     abstract = it.abstract,
                     otherNickname = it.otherNickname,
-                    type = it.type
+                    type = it.type,
+                    navController = navController
                 )
             }
         }
@@ -56,6 +58,5 @@ fun PreviewAnonMailBox() {
     AnonMailBoxScreen(
         navController = navController,
         letters = anonMailBoxViewModel.anonList,
-        getAnonList = anonMailBoxViewModel::getAnonList
     )
 }

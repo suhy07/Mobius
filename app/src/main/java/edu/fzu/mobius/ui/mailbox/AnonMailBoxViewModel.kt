@@ -1,36 +1,44 @@
 package edu.fzu.mobius.ui.mailbox
 
-import ToastMsg
 import androidx.lifecycle.ViewModel
 import edu.fzu.mobius.entity.Letter
+import edu.fzu.mobius.entity.LetterType
+import edu.fzu.mobius.global.GlobalMem
 import edu.fzu.mobius.network.Network
-import edu.fzu.mobius.network.VerificationCodeForm
+import java.text.SimpleDateFormat
+import kotlin.collections.ArrayList
 
 //class AnonMailBoxViewModel(application: Application) : AndroidViewModel(application) {
 class AnonMailBoxViewModel: ViewModel(){
-    var anonList: List<Letter> = listOf()
+    var anonList: List<Letter> = AnonMailBoxViewModel.anonList
     var isFirst = true
-    fun getAnonList() {
+    companion object{
+        var anonList: ArrayList<Letter> = arrayListOf()
+        fun getAnonList() {
 //        if(isFirst){
 //            Network.networkThreadString(
 //                requestService =  Network.service::randomAnonList,
 //                body = ""
 //            )
-//        }
-        Network.networkThread(
+//         }else
+            Network.networkThreadArray(
                 requestService =  Network.service::getAnonList,
                 body = "",
                 code200 = {
-//                    it.data.get()
-                    ToastMsg(it.data.toString(),ToastType.SUCCESS);
-                    ToastMsg(it.message,ToastType.SUCCESS);
+                    anonList.clear()
+                    for(item in it.data){
+                        val letter = Letter(
+                            userNickname = GlobalMem.NICK_NAME,
+                            abstract = item["contentBrief"] as String,
+                            otherNickname = "陌生人",
+                            type = LetterType.ANON,
+                            id = (item["id"] as Double).toInt(),
+                            time = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SS").parse(item["createTime"] as String)
+                        )
+                        anonList.add(letter)
+                    }
                 }
             )
+        }
     }
-
 }
-
-data class Anon(
-    val id: String,
-
-)

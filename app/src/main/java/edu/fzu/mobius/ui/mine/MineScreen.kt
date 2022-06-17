@@ -34,7 +34,6 @@ fun MineScreen(
     val nickname: MutableState<String> = mineViewModel.nickname
     val stamp: MutableState<Int> = mineViewModel.stamp
     val grow: MutableState<Int> = mineViewModel.grow
-    mineViewModel.getUserInfo()
     Scaffold(
         backgroundColor = BlueBackground,
         bottomBar = {

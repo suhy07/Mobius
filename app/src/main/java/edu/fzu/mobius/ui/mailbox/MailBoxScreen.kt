@@ -142,9 +142,12 @@ fun MailBoxScreen(navController: NavController){
                     animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                 ),
             ) {
-                NavFloatButton {
-                    navController.navigate("write_mail_screen")
-                }
+                NavFloatButton(
+                    resource = R.drawable.lnk,
+                    onClick = {
+                        navController.navigate("write_anon_mail_screen")
+                    }
+                )
             }
         }
     ) {

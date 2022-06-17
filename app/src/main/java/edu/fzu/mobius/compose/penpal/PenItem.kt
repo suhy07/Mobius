@@ -1,6 +1,5 @@
 package edu.fzu.mobius.compose.penpal
 
-import ToastMsg
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
@@ -12,10 +11,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
@@ -36,7 +33,7 @@ import edu.fzu.mobius.theme.CapsuleEnvelope
 import edu.fzu.mobius.theme.InviteEnvelope
 import edu.fzu.mobius.ui.penpal.PenPalViewModel
 import edu.fzu.mobius.ui.penpal.ReturnWritePenPalViewModel
-import edu.fzu.mobius.ui.write.WritePenPalViewModel
+import edu.fzu.mobius.ui.mail.WritePenPalViewModel
 
 @ExperimentalAnimationApi
 @Composable

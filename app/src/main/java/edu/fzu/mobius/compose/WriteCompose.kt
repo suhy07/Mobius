@@ -1,8 +1,8 @@
 package edu.fzu.mobius.compose
 
-import android.util.Log
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,9 +10,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -20,20 +26,26 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.rememberImagePainter
+import edu.fzu.mobius.R
 import edu.fzu.mobius.theme.PrimaryVariant
-import edu.fzu.mobius.ui.write.lineItem
+import edu.fzu.mobius.ui.common.UnspecifiedIcon
+import edu.fzu.mobius.ui.mail.LineItem
+import edu.fzu.mobius.util.BitmapUtil
 
 @Composable
 fun MailEditor(
     otherNickname:String,
-    items: List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
+    items: List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
     modifier: Modifier = Modifier,
+    isPanPal: Boolean = true,
+    readOnly: Boolean = false
 ){
     var selectList: MutableList<String> = mutableListOf("我自己","好友1","好友2","好友3","好友4")
-
-    val isClick = rememberSaveable{ mutableStateOf(false)}
-    val selectType = rememberSaveable{ mutableStateOf(selectList[0])}
+    val isClick = remember{ mutableStateOf(false)}
+    val selectType = remember{ mutableStateOf(selectList[0])}
     Box(
         modifier = modifier
             .padding(start = 25.dp , end = 25.dp , bottom = 100.dp)
@@ -42,8 +54,8 @@ fun MailEditor(
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            if (otherNickname.equals("")){
-                item() {
+            if (otherNickname.equals("") && isPanPal){
+                item {
                     Row {
 
                     Text(
@@ -91,7 +103,7 @@ fun MailEditor(
                 }
             }
             else {
-                item() {
+                item {
                     LineInput(
                         text = "To:$otherNickname",
                         onTextChange = {},
@@ -106,6 +118,7 @@ fun MailEditor(
                 val item = it
                 LineInput(
                     text = it.value,
+                    readOnly = readOnly,
                     onTextChange = { onEditItemChange(item.copy(value = it)) },
                 )
             }
@@ -149,10 +162,10 @@ fun LineInput(
 @Preview
 @Composable
 fun PreviewMailEditor(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     MailEditor(
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname = "陌生人",
     )
 }

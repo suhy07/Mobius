@@ -25,9 +25,8 @@ import edu.fzu.mobius.compose.EmptyTextField
 @Composable
 fun FeedbackScreen(
     navController: NavController,
-    feedbackValue: MutableState<String>,
-    feedback: ()->Unit,
 ) {
+    val feedbackViewModel: FeedbackViewModel = viewModel()
     Scaffold(
         topBar = {
             BaseTitleTop(
@@ -38,7 +37,9 @@ fun FeedbackScreen(
         },
         bottomBar = {
             ButtonBottom(
-                onClick = { feedback},
+                onClick = {
+                    feedbackViewModel.feedback(navController)
+                },
                 title = "确定"
             )
         }
@@ -51,8 +52,8 @@ fun FeedbackScreen(
             elevation = 5.dp
         ) {
             EmptyTextField(
-                value = feedbackValue.value,
-                onValueChange = feedbackValue.component2(),
+                value = feedbackViewModel.feedbackValue.value,
+                onValueChange = feedbackViewModel.feedbackValue.component2(),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Unspecified,
                     focusedIndicatorColor = Color.Unspecified,
@@ -74,10 +75,7 @@ fun FeedbackScreen(
 @Preview
 @Composable
 fun PreviewFeedback(){
-    val feedbackViewModel: FeedbackViewModel = viewModel()
     FeedbackScreen(
         navController = rememberNavController(),
-        feedbackValue = feedbackViewModel.feedbackValue,
-        feedback = feedbackViewModel::feedback
     )
 }

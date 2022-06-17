@@ -1,7 +1,6 @@
 package edu.fzu.mobius.compose
 
 import android.app.DatePickerDialog
-import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -9,12 +8,8 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -23,10 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,10 +26,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.R
 import edu.fzu.mobius.theme.BlueButton
-import edu.fzu.mobius.theme.PrimaryVariant
-import edu.fzu.mobius.theme.bluetext
+import edu.fzu.mobius.theme.BlueText
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
-import edu.fzu.mobius.ui.write.lineItem
+import edu.fzu.mobius.ui.mail.LineItem
 import java.util.*
 
 @Composable
@@ -219,7 +209,7 @@ fun AnimatedButton(
                                     top.linkTo(parent.top, margin = 165.dp)
                                 },
                             fontSize = 14.sp,
-                            color = bluetext,)
+                            color = BlueText,)
                         TextButton(
                             onClick = { /*TODO 发送成功*/
 
@@ -254,7 +244,7 @@ fun AnimatedButton(
 @Preview
 @Composable
 fun PreviewAnimat(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
     AnimatedButton(
         otherNickname = "陌生人",
         navController = rememberNavController(),

@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.fzu.mobius.compose.BaseTitleTop
@@ -28,8 +29,10 @@ import edu.fzu.mobius.theme.PrimaryVariant
 @Composable
 fun DraftEditScreen(
     navController: NavController,
-    draft: Draft
+    id: Int
 ) {
+    val draftViewModel: DraftViewModel = viewModel()
+    draftViewModel.getDraft(id)
     Scaffold(
         topBar = {
             BaseTitleTop(
@@ -40,24 +43,23 @@ fun DraftEditScreen(
         },
         bottomBar = {
             ButtonBottom(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    draftViewModel.saveDraft(id, draftViewModel.content.value, navController)
+                },
                 title = "提交"
             )
         }
     ) {
-        var _draft by remember { mutableStateOf(draft.value) }
         Card(
             modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 50.dp, start = 25.dp, end = 25.dp, bottom = 200.dp),
+                .fillMaxSize()
+                .padding(top = 50.dp, start = 25.dp, end = 25.dp, bottom = 200.dp),
             shape = RoundedCornerShape(20.dp),
             elevation = 5.dp
         ) {
             EmptyTextField(
-                value = _draft,
-                onValueChange = {
-                    _draft = it
-                },
+                value = draftViewModel.content.value,
+                onValueChange = draftViewModel.content.component2(),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Unspecified,
                     focusedIndicatorColor = Color.Unspecified,
@@ -81,6 +83,6 @@ fun DraftEditScreen(
 fun PreviewDraftEdit(){
     DraftEditScreen(
         navController = rememberNavController(),
-        draft = Draft(0,"")
+        id = 0
     )
 }

@@ -3,15 +3,11 @@ package edu.fzu.mobius.ui.capsule
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,23 +15,18 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import edu.fzu.mobius.R
 import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.compose.MailEditor
-import edu.fzu.mobius.compose.penpal.PenOtherUser
 import edu.fzu.mobius.compose.penpal.PenOtherUser2
-import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
-import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.ui.write.WritePenPalScreen
-import edu.fzu.mobius.ui.write.lineItem
+import edu.fzu.mobius.ui.mail.LineItem
 
 @ExperimentalFoundationApi
 @Composable
 fun ReturnWriteCapsuleScreen(
     navController: NavController,
-    items:List<lineItem>,
-    onEditItemChange: (lineItem) -> Unit,
+    items:List<LineItem>,
+    onEditItemChange: (LineItem) -> Unit,
     otherNickname: String
 ) {
     Scaffold(
@@ -101,12 +92,12 @@ fun ReturnWriteCapsuleScreen(
 @Preview
 @Composable
 fun CapsulePreviewReturn(){
-    val lists = listOf(lineItem(""), lineItem(""))
+    val lists = listOf(LineItem(""), LineItem(""))
 
     ReturnWriteCapsuleScreen(
         navController = rememberNavController(),
         items = lists,
-        onEditItemChange = {(lineItem)->{}},
+        onEditItemChange = {(LineItem)->{}},
         otherNickname ="好友1"
     )
 }

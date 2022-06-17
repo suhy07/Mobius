@@ -9,7 +9,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +23,7 @@ import edu.fzu.mobius.compose.BaseTitleTop
 import edu.fzu.mobius.theme.BlueButton
 import edu.fzu.mobius.ui.common.NoShadowBottomAppBar
 import edu.fzu.mobius.ui.common.UnspecifiedIcon
-import edu.fzu.mobius.ui.write.WriteCapsuleViewModel
+import edu.fzu.mobius.ui.mail.WriteCapsuleViewModel
 
 @Composable
 fun CapsuleSuccessScreen(
